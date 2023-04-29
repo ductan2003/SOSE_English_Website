@@ -57,6 +57,7 @@
 <style scoped>
 .footer {
     display: flex;
+    /* position: relative; */
     flex-direction: row;
     align-items: flex-start;
     padding: 64px 165px;

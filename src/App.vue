@@ -1,12 +1,12 @@
 <template>
   <Header />
   <router-view />
-  <Footer/>
+  <Footer />
 </template>
 
 <script setup>
-  import Header from './components/Header.vue';
-  import Footer from './components/Footer.vue';
+import Header from "./components/Header.vue";
+import Footer from "./components/Footer.vue";
 
 </script>
 
@@ -36,5 +36,4 @@ nav a.router-link-exact-active {
 nav a.router-link-exact-active:hover {
   color: #119f77;
 }
-
 </style>

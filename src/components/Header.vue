@@ -6,24 +6,24 @@
         <!-- Links -->
         <div class="linkname">
             <div class="linkdefault">
-                <a href="/" class="label1">Home</a>
+                <a  href="/" class="label1">Home</a>
             </div>
 
             <div class="linkdefault">
-                <a href="/" class="label1">About</a>
+                <a href="/about" class="label1">About</a>
             </div>
 
             <div class="linkdefault">
-                <a href="/" class="label1">Exam</a>
+                <a href="/exam" class="label1">Exam</a>
             </div>
 
             <div class="linkdefault">
-                <a href="/" class="label1">E-Tips</a>
+                <a href="/tips" class="label1">E-Tips</a>
             </div>
 
-            <div class="linkdefault">
+            <!-- <div class="linkdefault">
                 <a href="/" class="label1">E-Courses</a>
-            </div>
+            </div> -->
 
             <div class="linkdefault">
                 <a href="/" class="label1">Contact</a>
@@ -50,6 +50,7 @@
     padding: 0px 100px;
     /* width: 100%; */
     /* justify-content: space-between; */
+    justify-content: center;
     background: #F5F7FA;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
@@ -103,11 +104,15 @@
     color: #4CAF4F;
 }
 
+.lable1:hover{
+    color: #4CAF4F;
+}
+
 .account {
     align-items: center;
     display: flex;
     gap: 14px;
-    margin-left: 170px;
+    margin-left: 11%;
     position: relative;
     width: fit-content;
     font-weight: normal;
