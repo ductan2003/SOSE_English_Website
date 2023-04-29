@@ -4,7 +4,6 @@ import com.elearningweb.library.model.Admin;
 import com.elearningweb.library.repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,7 +20,7 @@ public class AdminServiceConfig implements UserDetailsService {
         if(admin == null) {
             throw new UsernameNotFoundException("Không thể tìm thấy username");
         }
-        return new User(admin.getUsername(),
+        return new org.springframework.security.core.userdetails.User(admin.getUsername(),
                 admin.getPassword(),
                 admin.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList()));
     }

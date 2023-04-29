@@ -1,12 +1,14 @@
 package com.elearningweb.library.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Setter
+@Getter
 @Table(name = "roles")
 public class Role {
     @Id
@@ -15,5 +17,4 @@ public class Role {
     private long id;
 
     private String name;
-
 }
