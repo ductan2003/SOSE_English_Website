@@ -1,5 +1,6 @@
 package com.elearningweb.admin.admin;
 
+import com.elearningweb.library.service.impl.ExamServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -13,5 +14,6 @@ public class AdminApplication {
     public static void main(String[] args) {
         SpringApplication.run(AdminApplication.class, args);
     }
+
 
 }

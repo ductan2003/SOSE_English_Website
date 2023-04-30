@@ -26,7 +26,7 @@ export default {
   methods: {
     getTips() {
       axios
-        .get("https://jsonplaceholder.typicode.com/posts")
+        .get("http://localhost:8019/admin/test/reading")
         .then((response) => {
           console.log(response.data);
           this.tips = response.data;

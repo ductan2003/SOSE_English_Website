@@ -8,7 +8,7 @@
         <router-link class="title-header" :to="{ name: 'tip', params: { id: tip.id } }">{{ tip.title }} </router-link>
       </div>
       <div class="description">
-        <p class="tip-description">{{ tip.body }}</p>
+        <p class="tip-description">{{ tip.title }}</p>
       </div>
     </div>
   </div>
