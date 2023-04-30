@@ -6,9 +6,10 @@ import com.elearningweb.library.repository.AdminRepository;
 import com.elearningweb.library.repository.RoleRepository;
 import com.elearningweb.library.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -18,6 +19,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public Admin findByUsername(String username) {
@@ -27,11 +30,11 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Admin save(AdminDto adminDto) {
         Admin admin = new Admin();
-        admin.setFirstName(adminDto.getFirstName());;
+        admin.setFirstName(adminDto.getFirstName());
         admin.setLastName(adminDto.getLastName());
-        admin.setUsername(admin.getUsername());
-        admin.setPassword(admin.getPassword());
-        admin.setRoles(Arrays.asList(roleRepository.findByName("ADMIN")));
+        admin.setUsername(adminDto.getUsername());
+        admin.setPassword(passwordEncoder.encode(adminDto.getPassword()));
+        admin.setRoles(Collections.singletonList(roleRepository.findByName("ADMIN")));
         return adminRepository.save(admin);
     }
 }
