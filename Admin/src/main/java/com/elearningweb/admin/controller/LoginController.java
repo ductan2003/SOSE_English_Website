@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller //@Controller
 //@RequestMapping("/api")
-//@CrossOrigin("http://localhost:8080/") //Cái này của VueJS
+@CrossOrigin("http://localhost:8080/") //Cái này của VueJS
 //@CrossOrigin
 @RequestMapping(
         method = {RequestMethod.POST, RequestMethod.GET}
