@@ -7,7 +7,7 @@
         <br>
 
         <form @submit.prevent="AddTip()">
-          <h1 class="loginHeader">Admin Tips</h1>
+          <h1 class="loginHeader">Admin Exams</h1>
 
           <br>
 
