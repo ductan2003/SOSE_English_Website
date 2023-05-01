@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Setter
 @Getter
@@ -15,6 +13,12 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
     private long id;
+
+    Role() {}
+
+    public Role(String name) {
+        this.name = name;
+    }
 
     private String name;
 }
