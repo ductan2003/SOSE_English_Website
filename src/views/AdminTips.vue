@@ -21,17 +21,15 @@
             <label for="floatingPass" class="form-lable">Category</label>
           </div>
 
-          <div class="form-floating mb-3">
-            <label>FileQuestion</label>
-            <input @change="handleFileQues()" ref="fileQues" type="file" class="form-control-file" />
+          <div class="form-group">
+            <label class="text-form">FileQuestion</label>
+            <input @change="handleFileQues()" ref="fileQues" type="file" class="form" />
           </div>
 
-          <div class="form-floating mb-3">
-            <label>FileAns</label>
-            <input @change="handleFileAns()" ref="file" type="file" class="form-control-file" />
+          <div class="form-group">
+            <label class="text-form">FileAns</label>
+            <input @change="handleFileAns()" ref="file" type="file" class="form" />
           </div>
-
-          <br>
 
           <div class="d-grid gap-2">
             <button type="submit" class="login1" >Add Tip</button>
@@ -145,5 +143,20 @@ export default {
   text-decoration: none;
   font-family: 'Inter';
   border-width: 0px;
+}
+.form{
+  /*margin-right: 10%;*/
+}
+.text-form{
+  font-family: 'Inter';
+  text-align: center;
+  align-items: center;
+  padding-right: 5%;
+}
+.form-group{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  padding-bottom: 20px;
 }
 </style>
