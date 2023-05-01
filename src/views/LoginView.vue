@@ -12,17 +12,17 @@
           <br>
           
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingUsername" placeholder="username">
+            <input class="form-control" id="floatingUsername" placeholder="username" name="username" v-model="username">
             <label for="floatingUsername">Tên đăng nhập</label>
           </div>
 
           <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="floatingPass" placeholder="password">
+            <input type="password" class="form-control" id="floatingPass" placeholder="password" name="password" v-model="password">
             <label for="floatingPass" class="form-lable">Mật khẩu</label>
           </div>
 
           <div class="d-grid gap-2">
-            <button type="submit" class="login1">Đăng nhập</button>
+            <button type="button" class="login1" v-on:click="Login()">Đăng nhập</button>
           </div>
 
           <hr>
@@ -43,7 +43,25 @@
 </template>
   
 <script>
-
+import axios from "axios";
+export default {
+  name: "Login",
+  data(){
+    return {
+      username: '',
+      password: '',
+    }
+  },
+  methods: {
+    async Login() {
+      let res = await axios.post("http://localhost:8019/admin/save", {
+        title: this.username,
+        category: this.password,
+      })
+      console.warn(res)
+    },
+  },
+}
 </script>
   
 <style scoped>

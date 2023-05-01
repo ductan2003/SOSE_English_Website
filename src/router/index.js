@@ -44,6 +44,11 @@ const routes = [
     name: 'tip',
     component: ()=>import('../views/TipView.vue')
   },
+  {
+    path: '/admin/tip',
+    name: 'adminTip',
+    component: ()=>import('../views/AdminTips.vue')
+  },
 ]
 
 const router = createRouter({
