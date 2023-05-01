@@ -12,7 +12,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @Entity
 @Table(name = "admins")
-public class Admin {
+public class Admin extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "admin_id")

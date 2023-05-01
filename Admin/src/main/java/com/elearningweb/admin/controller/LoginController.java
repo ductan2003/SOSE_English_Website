@@ -1,8 +1,13 @@
 package com.elearningweb.admin.controller;
 
 import com.elearningweb.library.dto.AdminDto;
+import com.elearningweb.library.dto.LoginDto;
 import com.elearningweb.library.model.Admin;
+import com.elearningweb.library.model.Role;
+import com.elearningweb.library.model.User;
+import com.elearningweb.library.repository.UserRepository;
 import com.elearningweb.library.service.impl.AdminServiceImpl;
+import com.elearningweb.library.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +20,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.regex.Pattern;
+
 @Controller //@Controller
 //@RequestMapping("/api")
 @CrossOrigin("http://localhost:8080/") //Cái này của VueJS
@@ -24,7 +32,7 @@ import org.springframework.web.bind.annotation.*;
 )
 public class LoginController {
     @Autowired
-    private AdminServiceImpl adminService;
+    private UserServiceImpl userService;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -46,73 +54,82 @@ public class LoginController {
         return "index";
     }
 
-    @GetMapping("/register")
-    public String register(Model model) {
-        model.addAttribute("title", "Register");
-        model.addAttribute("adminDto", new AdminDto());
-        return "register";
-    }
-
-//    @PostMapping("/save")
-//    public String saveUser(@RequestBody UserDto userDto){
-//        String id = String.valueOf(userService.save(userDto));
-//        return id;
-//    }
-
     @GetMapping("/forgot-password")
     public String forgotPassword(Model model) {
         model.addAttribute("title", "Forgot Password");
         return "forgot-password";
     }
 
+    @PostMapping("/register")
+    public String register(@RequestBody LoginDto loginDto) {
+        if(!loginDto.getPassword().equals(loginDto.getPasswordConfirmation()))
+            return "Error the two passwords do not match";
+        else if(loginDto.getUsername() != null)
+            return "Error this username already exists";
+        Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
+        if(pattern.matcher(loginDto.getUsername()).find())
+            return "No special characters are allowed in the username";
 
-    @PostMapping("/register-new")
-    public String addNewUser(@Valid @ModelAttribute("adminDto") AdminDto adminDto,
-                             BindingResult result,
-                             Model model,
-//                              RedirectAttributes redirectAttributes,
-                             HttpSession session) {
-
-        try {
-            session.removeAttribute("message");
-            if (result.hasErrors()) {
-                model.addAttribute("adminDto", adminDto);
-                result.toString();
-                return "register";
-            }
-            String username = adminDto.getUsername();
-            Admin admin = adminService.findByUsername(username);
-            if (admin != null) {
-                model.addAttribute("adminDto", adminDto);
-                System.out.println("user not null");
-                model.addAttribute("emailError", "Your email has been registered!");
-                session.setAttribute("message", "Your email has been registered!");
-                return "register";
-            }
-            if (adminDto.getPassword().equals(adminDto.getRepeatPassword())) {
-                System.out.println("success");
-                session.setAttribute("message", "Register successfully!");
-                model.addAttribute("success", "Register successfully!");
-                model.addAttribute("adminDto", adminDto);
-                adminService.save(adminDto);
-            } else {
-                model.addAttribute("adminDto", adminDto);
-                System.out.println("Password not same!");
-                model.addAttribute("passwordError", "Your password maybe wrong! Check again :>");
-                session.setAttribute("message", "Password not same!");
-                return "register";
-            }
-
-//            userService.save(userDto);
-//            model.addAttribute("userDto", userDto);
-//            redirectAttributes.addFlashAttribute("message", "Register sucessfully!");
-        } catch (Exception e) {
-            e.printStackTrace();
-            session.setAttribute("message", "The server has been wrong! Try again late!");
-            model.addAttribute("errors", "The server has been wrong!");
-        }
-        return "register";
-
+        userService.save(new User(loginDto.getUsername(), loginDto.getPassword(), Arrays.asList(new Role("USER"), new Role("ACTUATOR"))));
+        return "User created";
     }
+
+//    @GetMapping("/register")
+//    public String register(Model model) {
+//        model.addAttribute("title", "Register");
+//        model.addAttribute("adminDto", new AdminDto());
+//        return "register";
+//    }
+//
+
+
+//    @PostMapping("/register-new")
+//    public String addNewUser(@Valid @ModelAttribute("adminDto") AdminDto adminDto,
+//                             BindingResult result,
+//                             Model model,
+////                              RedirectAttributes redirectAttributes,
+//                             HttpSession session) {
+//
+//        try {
+//            session.removeAttribute("message");
+//            if (result.hasErrors()) {
+//                model.addAttribute("adminDto", adminDto);
+//                result.toString();
+//                return "register";
+//            }
+//            String username = adminDto.getUsername();
+//            Admin admin = adminService.findByUsername(username);
+//            if (admin != null) {
+//                model.addAttribute("adminDto", adminDto);
+//                System.out.println("user not null");
+//                model.addAttribute("emailError", "Your email has been registered!");
+//                session.setAttribute("message", "Your email has been registered!");
+//                return "register";
+//            }
+//            if (adminDto.getPassword().equals(adminDto.getRepeatPassword())) {
+//                System.out.println("success");
+//                session.setAttribute("message", "Register successfully!");
+//                model.addAttribute("success", "Register successfully!");
+//                model.addAttribute("adminDto", adminDto);
+//                adminService.save(adminDto);
+//            } else {
+//                model.addAttribute("adminDto", adminDto);
+//                System.out.println("Password not same!");
+//                model.addAttribute("passwordError", "Your password maybe wrong! Check again :>");
+//                session.setAttribute("message", "Password not same!");
+//                return "register";
+//            }
+//
+////            userService.save(userDto);
+////            model.addAttribute("userDto", userDto);
+////            redirectAttributes.addFlashAttribute("message", "Register sucessfully!");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            session.setAttribute("message", "The server has been wrong! Try again late!");
+//            model.addAttribute("errors", "The server has been wrong!");
+//        }
+//        return "register";
+//
+//    }
 
 }
