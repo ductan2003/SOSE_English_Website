@@ -1,8 +1,7 @@
 package com.elearningweb.admin.controller;
 
-import com.elearningweb.library.dto.AdminDto;
-import com.elearningweb.library.dto.LoginDto;
-import com.elearningweb.library.dto.UserDto;
+import com.elearningweb.library.dto.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import com.elearningweb.library.model.Admin;
 import com.elearningweb.library.model.Role;
@@ -21,7 +20,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -77,7 +78,7 @@ public class LoginController {
 
 
     @PostMapping("/register")
-    public String register(@RequestBody UserDto registerDto, Model model) {
+    public String register(@RequestParam UserDto registerDto, Model model) {
         if(!registerDto.getPassword().equals(registerDto.getPasswordConfirmation()))
             return "Error the two passwords do not match";
         else if(registerDto.getUsername() != null)
@@ -91,6 +92,7 @@ public class LoginController {
         model.addAttribute("adminDto", new AdminDto());
         return "register";
     }
+
 
 //    @GetMapping("/register")
 //    public String register(Model model) {

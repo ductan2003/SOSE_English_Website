@@ -42,7 +42,7 @@ export default {
   <div v-for="post in posts" :key="post.id">
     <h3>{{ post.id }}.{{ post.title }}</h3>
     <h2>{{ post.id }}</h2>
-    <router-link type="button" :to="{ name: 'test', params: { id: post.id } }"
+    <router-link type="button" :to="{ name: 'test', params: { id: post.title } }"
       >click here</router-link
     >
     <hr />

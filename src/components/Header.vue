@@ -14,7 +14,7 @@
             </div>
 
             <div class="linkdefault">
-                <a href="/exam" class="label1">Exam</a>
+                <a href="/exams" class="label1">Exam</a>
             </div>
 
             <div class="linkdefault">

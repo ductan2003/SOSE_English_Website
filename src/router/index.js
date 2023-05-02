@@ -30,7 +30,12 @@ const routes = [
     component: ()=>import('../views/TestView.vue')
   },
   {
-    path: '/exam',
+    path: '/exams',
+    name: 'exams',
+    component: () => import('../views/ExamList.vue')
+  },
+  {
+    path: '/exam/:id',
     name: 'exam',
     component: () => import('../views/ExamView.vue')
   },
@@ -45,9 +50,19 @@ const routes = [
     component: ()=>import('../views/TipView.vue')
   },
   {
-    path: '/admin/tip',
-    name: 'adminTip',
-    component: ()=>import('../views/AdminTips.vue')
+    path: '/admin/addtip',
+    name: 'adminaddTip',
+    component: ()=>import('../views/Backend/AddTips.vue')
+  },
+  {
+    path: '/admin/tipList',
+    name: 'adminTipList',
+    component: ()=>import('../views/Backend/AdminTipList.vue')
+  },
+  {
+    path: '/admin/editTips/:id',
+    name: 'editTip',
+    component: ()=>import('../views/Backend/EditTip.vue')
   },
 ]
 

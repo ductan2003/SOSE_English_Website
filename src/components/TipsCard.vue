@@ -5,7 +5,7 @@
     </div>
     <div class="tips-content">
       <div class="tips-title">
-        <router-link class="title-header" :to="{ name: 'tip', params: { id: tip.id } }">{{ tip.title }} </router-link>
+        <router-link class="title-header" :to="{ name: 'tip', params: { id: tip.title } }">{{ tip.title }} </router-link>
       </div>
       <div class="description">
         <p class="tip-description">{{ tip.title }}</p>
@@ -44,11 +44,6 @@ export default {
   height: 146px;
 }
 
-.tip-title {
-  position: absolute;
-  width: 775.52px;
-  height: 40px;
-}
 .title-header {
   text-align: left;
   font-family: "Inter";

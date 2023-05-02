@@ -54,11 +54,13 @@ export default {
   },
   methods: {
     async Login() {
+      this.$router.push({ path: '/' });
       let res = await axios.post("http://localhost:8019/admin/save", {
         title: this.username,
         category: this.password,
       })
       console.warn(res)
+
     },
   },
 }
