@@ -8,13 +8,12 @@ import lombok.*;
 @Setter
 @Getter
 @Table(name = "roles")
+@NoArgsConstructor @AllArgsConstructor
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
     private long id;
-
-    Role() {}
 
     public Role(String name) {
         this.name = name;

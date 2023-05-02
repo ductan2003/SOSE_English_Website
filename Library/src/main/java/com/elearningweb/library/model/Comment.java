@@ -3,6 +3,8 @@ package com.elearningweb.library.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Optional;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -17,4 +19,11 @@ public class Comment {
     private Post post;
     @ManyToOne
     private User creator;
+
+    public Comment(String text, Post post, User creator) {
+        this.text = text;
+        this.post = post;
+        this.creator = creator;
+    }
+
 }

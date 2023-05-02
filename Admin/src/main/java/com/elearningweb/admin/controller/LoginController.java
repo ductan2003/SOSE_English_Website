@@ -2,6 +2,8 @@ package com.elearningweb.admin.controller;
 
 import com.elearningweb.library.dto.AdminDto;
 import com.elearningweb.library.dto.LoginDto;
+import com.elearningweb.library.dto.UserDto;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import com.elearningweb.library.model.Admin;
 import com.elearningweb.library.model.Role;
 import com.elearningweb.library.model.User;
@@ -21,9 +23,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 
-@Controller //@Controller
+@RestController //@Controller
 //@RequestMapping("/api")
 @CrossOrigin("http://localhost:8080/") //Cái này của VueJS
 //@CrossOrigin
@@ -37,11 +40,19 @@ public class LoginController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+//    @Autowired
+    private TokenStore tokenStore;
+
     @GetMapping("/login")
     public String loginForm(Model model) {
         model.addAttribute("title", "Login");
         System.out.println("hihi");
         return "login";
+    }
+
+    @GetMapping("/logout")
+    public void logoutForm(@RequestParam("access_token") String accessToken) {
+        tokenStore.removeAccessToken(tokenStore.readAccessToken(accessToken));
     }
 
     @RequestMapping("/index")
@@ -59,19 +70,26 @@ public class LoginController {
         model.addAttribute("title", "Forgot Password");
         return "forgot-password";
     }
+    @GetMapping("/users")
+    public List<User> users(){
+        return userService.getAllUsers();
+    }
+
 
     @PostMapping("/register")
-    public String register(@RequestBody LoginDto loginDto) {
-        if(!loginDto.getPassword().equals(loginDto.getPasswordConfirmation()))
+    public String register(@RequestBody UserDto registerDto, Model model) {
+        if(!registerDto.getPassword().equals(registerDto.getPasswordConfirmation()))
             return "Error the two passwords do not match";
-        else if(loginDto.getUsername() != null)
+        else if(registerDto.getUsername() != null)
             return "Error this username already exists";
         Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
-        if(pattern.matcher(loginDto.getUsername()).find())
+        if(pattern.matcher(registerDto.getUsername()).find())
             return "No special characters are allowed in the username";
 
-        userService.save(new User(loginDto.getUsername(), loginDto.getPassword(), Arrays.asList(new Role("USER"), new Role("ACTUATOR"))));
-        return "User created";
+        userService.save(new User(registerDto.getFirstName(), registerDto.getLastName(), registerDto.getUsername(), registerDto.getPassword(), Arrays.asList(new Role("USER"), new Role("ACTUATOR"))));
+        model.addAttribute("title", "Register");
+        model.addAttribute("adminDto", new AdminDto());
+        return "register";
     }
 
 //    @GetMapping("/register")

@@ -1,7 +1,9 @@
 package com.elearningweb.admin.controller;
 
 import com.elearningweb.admin.config.CustomUserDetails;
+import com.elearningweb.library.model.Comment;
 import com.elearningweb.library.model.Post;
+import com.elearningweb.library.model.User;
 import com.elearningweb.library.service.PostService;
 import com.elearningweb.library.service.impl.CommentServiceImpl;
 import com.elearningweb.library.service.impl.UserServiceImpl;
@@ -34,7 +36,7 @@ public class TipsController {
     }
 
     @GetMapping("/posts/{id}")
-    public Optional<Post> getPostById(@PathVariable Long id) {
+    public Post getPostById(@PathVariable Long id) {
         return postService.getPost(id);
     }
 
@@ -62,5 +64,20 @@ public class TipsController {
     @DeleteMapping("/comment/{id}")
     public boolean deleteComment(@PathVariable Long id) {
         return commentService.deleteComment(id);
+    }
+
+    @GetMapping("/comments/{postId}")
+    public Optional<Comment> getComments (@PathVariable Long postId) {
+        return commentService.getComments(postId);
+    }
+
+    @PostMapping("/post/postComment")
+    public boolean postComment(@RequestBody Comment comment) {
+        Post post = postService.find(comment.getId());
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User creator = userService.getUser(userDetails.getUsername());
+        if(post == null || creator == null) return false;
+        commentService.saveComment(new Comment(comment.getText(), post, creator));
+        return true;
     }
 }

@@ -26,4 +26,12 @@ public class User {
     private String password;
     @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Role> roles;
+
+    public User(String firstName, String lastName, String username, String password, List<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
 }

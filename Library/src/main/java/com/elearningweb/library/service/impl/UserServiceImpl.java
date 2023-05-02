@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Admin getUser(String username) {
-        return userRepository.findByUsername(username);
+        return (Admin) userRepository.findByUsername(username);
     }
 
     @Override

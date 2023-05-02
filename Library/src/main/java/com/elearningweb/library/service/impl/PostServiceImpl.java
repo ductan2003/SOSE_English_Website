@@ -31,7 +31,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public boolean deletePost(Long postId) {
-        Optional<Post> thePost = postRepository.findById(postId);
+        Post thePost = postRepository.findAllById(postId);
         if(thePost == null)
             return false;
         postRepository.deleteById(postId);
@@ -39,12 +39,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Optional<Post> getPost(Long id) {
-        return postRepository.findById(id);
+    public Post getPost(Long id) {
+        return postRepository.findAllById(id);
     }
 
     @Override
-    public Optional<Post> find(Long id) {
-        return postRepository.findById(id);
+    public Post find(Long id) {
+        return postRepository.findAllById(id);
     }
 }
