@@ -1,5 +1,6 @@
 package com.elearningweb.library.service.impl;
 
+import com.elearningweb.library.dto.PostDto;
 import com.elearningweb.library.model.Post;
 import com.elearningweb.library.model.User;
 import com.elearningweb.library.repository.PostRepository;

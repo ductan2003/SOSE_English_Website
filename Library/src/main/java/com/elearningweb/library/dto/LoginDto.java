@@ -15,4 +15,11 @@ public class LoginDto {
     private String username;
     private String password;
     private String passwordConfirmation;
+
+    public LoginDto(String firstName, String lastName, String username, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+    }
 }

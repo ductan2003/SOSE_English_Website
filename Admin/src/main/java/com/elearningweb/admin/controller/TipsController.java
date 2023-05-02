@@ -1,13 +1,13 @@
 package com.elearningweb.admin.controller;
 
 import com.elearningweb.admin.config.CustomUserDetails;
-import com.elearningweb.library.model.Comment;
-import com.elearningweb.library.model.Post;
-import com.elearningweb.library.model.User;
+import com.elearningweb.library.dto.PostDto;
+import com.elearningweb.library.model.*;
 import com.elearningweb.library.service.PostService;
 import com.elearningweb.library.service.impl.CommentServiceImpl;
 import com.elearningweb.library.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -40,20 +40,24 @@ public class TipsController {
         return postService.getPost(id);
     }
 
-    @PostMapping("/post")
-    public String publishPost(@RequestBody Post post) {
-        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(post.getDateCreated() == null) {
-            post.setDateCreated(new Date());
-        }
-        post.setCreator(userService.getUser(userDetails.getUsername()));
-        postService.insert(post);
-        return "Post was publshed!!!";
+    @GetMapping("/posts/{username}")
+    public List<Post> getPostByUser(@PathVariable String username) {
+        return postService.findByUser(userService.getUser(username));
     }
 
-    @GetMapping("/posts/{username}")
-    public List<Post> postByUser(@PathVariable String username) {
-        return postService.findByUser(userService.getUser(username));
+    @PostMapping("/post")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void publishPost(@RequestPart String title,
+                               @RequestPart String body,
+                               @RequestPart Admin creator,
+                               @RequestPart Date dateCreated,
+                               @RequestPart String image,
+                               @RequestPart Category category) throws Exception {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        dateCreated = new Date();
+        creator = userService.getUser(userDetails.getUsername());
+        Post post = new Post(title, body, creator, dateCreated, image, category);
+        postService.insert(post);
     }
 
     @DeleteMapping("/post/{id}")

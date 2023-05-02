@@ -3,7 +3,9 @@ package com.elearningweb.admin.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,7 +23,7 @@ public class AdminConfiguration {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new AdminServiceConfig();
+        return new UserServiceConfig();
     }
 
     @Bean
@@ -39,36 +41,13 @@ public class AdminConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http.csrf().disable()
-//                .authorizeHttpRequests().requestMatchers("/*").permitAll()
-//                .requestMatchers("/admin/*")
-//                .hasAuthority("ADMIN")
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
-//                .loginProcessingUrl("/do-login")
-//                .defaultSuccessUrl("/index")
-////                .failureForwardUrl("/login?error")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .invalidateHttpSession(true)
-//                .clearAuthentication(true)
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                .logoutSuccessUrl("/login?logout")
-//                .permitAll();
 
         http
                 .csrf().disable()
                 .authorizeHttpRequests((authorize) ->
                                 authorize
-//                                .requestMatchers("/register").permitAll()
-//                                .requestMatchers("/register/**").permitAll()
-//                                .requestMatchers("/index/**").permitAll()
                                         .requestMatchers("/admin").hasAuthority("ADMIN")
                                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
-//                                .requestMatchers("/admin").permitAll()
-//                                .requestMatchers("/admin/**").permitAll()
                                         .anyRequest().permitAll()
                 ).formLogin(
                         form -> form
@@ -87,30 +66,6 @@ public class AdminConfiguration {
         return http.build();
     }
 
-
-//    protected void  configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(daoAuthenticationProvider());
-//    }
-
-//    protected void configure(HttpSecurity http) throws Exception{
-//        http.authorizeHttpRequests().requestMatchers("/*").permitAll()
-//                .requestMatchers("/admin/*")
-//                .hasAuthority("ADMIN")
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
-//                .loginProcessingUrl("/do-login")
-//                .defaultSuccessUrl("/admin/index")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .invalidateHttpSession(true)
-//                .clearAuthentication(true)
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                .logoutSuccessUrl("/login?logout")
-//                .permitAll();
-//
-//    }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() throws Exception {
