@@ -4,21 +4,20 @@
       <div class="col-md-4"></div>
       <div class="col-md-4">
         <br>
-        <br>
 
-        <form @submit.prevent="EditTip()">
-          <h1 class="loginHeader">Admin - Edit Tip</h1>
+        <form @submit.prevent="AddTip()">
+          <h1 class="loginHeader">Admin - Add Tips</h1>
 
           <br>
 
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingUsername" placeholder="username" name="username" v-model="title">
+            <input class="form-control" id="floatingUsername" placeholder="username" name="username" v-model="title" required>
             <label for="floatingUsername">Title</label>
           </div>
 
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingPass" placeholder="password" name="password" v-model="body">
-            <label for="floatingPass" class="form-lable">Body</label>
+            <input class="form-control" id="floatingUsername" placeholder="username" name="username" v-model="body" required>
+            <label for="floatingUsername">Content</label>
           </div>
 
           <div class="form-group">
@@ -27,7 +26,7 @@
           </div>
 
           <div class="d-grid gap-2">
-            <button type="submit" class="login1" >Edit tip</button>
+            <button type="submit" class="login1" >Add Tip</button>
           </div>
           <br>
 
@@ -42,26 +41,25 @@
 
 <script>
 import axios from "axios";
-
 export default {
-  data() {
+  name: "AddTip",
+  data(){
     return {
-      tip: [],
       title: null,
       body: null,
       image: null,
-    };
+    }
   },
   methods: {
     handleFileImg(){
       this.image = this.$refs.fileQues.files[0];
     },
-    async EditTip() {
-      await axios.put("http://localhost:8019/admin/save", {
+    async AddTip() {
+      //change tip link
+      await axios.post("http://localhost:8019/admin/save", {
             title: this.title,
             body: this.body,
             image: this.image,
-            id: parseInt(this.$route.params.id),
           },  {
             headers: {
               'Content-Type': 'multipart/form-data'
@@ -86,26 +84,29 @@ export default {
       });
 
     },
-    getTip() {
-      axios
-          .get("http://localhost:8019/admin/all?id=" + parseInt(this.$route.params.id))
-          .then((response) => {
-            console.log(response.data);
-            this.tip = response.data;
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-    },
-  },
-  beforeMount() {
-    this.getTip();
   },
 }
-
 </script>
 
 <style scoped>
+.signup {
+  color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  width: inherit;
+  height: 40px;
+
+  background: #4CAF4F;
+  border-radius: 6px;
+  text-align: center;
+
+  text-decoration: none;
+  font-family: 'Inter';
+}
+
 .loginHeader {
   font-family: 'Inter';
   font-style: normal;
@@ -113,6 +114,7 @@ export default {
   font-size: 35px;
   line-height: 28px;
   text-align: center;
+  color: #4caf4f;
 }
 .login1{
   color: white;

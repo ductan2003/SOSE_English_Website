@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="heading-page">
-      <p class="heading-page-content">Admin - Tip</p>
+      <p class="heading-page-content">Admin - Exam</p>
     </div>
     <br>
 
@@ -10,23 +10,23 @@
       <tr>
         <th scope="col">Id</th>
         <th scope="col">Title</th>
-        <th scope="col">Body</th>
+        <th scope="col">Category</th>
         <th scope="col">Update</th>
         <th scope="col">Delete</th>
       </tr>
       </thead>
-      <tbody v-for="tip in tips" :key="tip.id" :tip="tip">
+      <tbody v-for="exam in exams" :key="exam.id" :exam="exam">
       <tr>
         <th class="counterCell"></th>
-        <td>{{tip.title}}</td>
-        <td>{{tip.category.name}}</td>
+        <td>{{exam.title}}</td>
+        <td>{{exam.category.name}}</td>
         <td>
-          <router-link type="button" :to="{ name: 'editExam', params: { id: tip.id } }">
+          <router-link type="button" :to="{ name: 'editExam', params: { id: exam.id } }">
             <img src="@/assets/button/edit.png" alt="update" />
           </router-link>
         </td>
         <td>
-          <button v-on:click="deleteTip(tip.id)" class="deleteButton">
+          <button v-on:click="deleteExam(exam.id)" class="deleteButton">
             <img src="@/assets/button/trash.png" alt="update" />
           </button>
 
@@ -43,23 +43,22 @@ import axios from "axios";
 export default {
   data() {
     return {
-      tips: [],
+      exams: [],
     };
   },
   methods: {
-    getTips() {
+    getExams() {
       axios
           .get("http://localhost:8019/admin/all")
           .then((response) => {
             console.log(response.data);
-            this.tips = response.data;
+            this.exams = response.data;
           })
           .catch((error) => {
             console.log(error);
           });
     },
-
-    deleteTip(id){
+    deleteExam(id){
       axios.put("http://localhost:8019/admin/delete/" + id).then((response) => {
         console.log(response.data);
 
@@ -81,7 +80,7 @@ export default {
     }
   },
   beforeMount() {
-    this.getTips();
+    this.getExams();
   },
 
 };

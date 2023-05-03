@@ -66,9 +66,9 @@ public class UpdateExamApi {
         return examService.save(examDto);
     }
 
-    @DeleteMapping(value = "/delete")
-    public void deleteExam(@RequestBody long[] ids) {
-        examService.delete(ids);
+    @DeleteMapping(value = "/delete/{id}")
+    public void deleteExam(@PathVariable long id) {
+        examService.delete(id);
     }
 
 

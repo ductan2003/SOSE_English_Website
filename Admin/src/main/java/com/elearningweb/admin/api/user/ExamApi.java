@@ -26,6 +26,7 @@ public class ExamApi {
         return examService.findAllExamsByCategory(category);
     }
 
+
     @GetMapping("/{category}/{id}")
     public List<ExamDto> listExamsByCategoryAndId(@PathVariable String category, @PathVariable long id) {
         return examService.findAllExamsByCategoryAndId(category, id);

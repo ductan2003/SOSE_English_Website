@@ -75,10 +75,8 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public void delete(long[] ids) {
-        for (long item : ids) {
-            examRepository.deleteById(item);
-        }
+    public void delete(long id) {
+        examRepository.deleteById(id);
     }
 
     @Override
