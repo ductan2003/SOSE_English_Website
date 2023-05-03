@@ -6,8 +6,8 @@
         <br>
         <br>
 
-        <form @submit.prevent="EditTip()">
-          <h1 class="loginHeader">Admin - Edit Tip</h1>
+        <form @submit.prevent="EditExam()">
+          <h1 class="loginHeader">Admin - Edit Exam</h1>
 
           <br>
 
@@ -17,17 +17,22 @@
           </div>
 
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingPass" placeholder="password" name="password" v-model="body">
-            <label for="floatingPass" class="form-lable">Body</label>
+            <input class="form-control" id="floatingPass" placeholder="password" name="password" v-model="category">
+            <label for="floatingPass" class="form-lable">Category</label>
           </div>
 
           <div class="form-group">
-            <label class="text-form">Image</label>
-            <input @change="handleFileImg()" ref="fileImg" type="file" class="form" />
+            <label class="text-form">FileQuestion</label>
+            <input @change="handleFileQues()" ref="fileQues" type="file" class="form" />
+          </div>
+
+          <div class="form-group">
+            <label class="text-form">FileAns</label>
+            <input @change="handleFileAns()" ref="file" type="file" class="form" />
           </div>
 
           <div class="d-grid gap-2">
-            <button type="submit" class="login1" >Edit tip</button>
+            <button type="submit" class="login1" >Add Exam</button>
           </div>
           <br>
 
@@ -46,21 +51,26 @@ import axios from "axios";
 export default {
   data() {
     return {
-      tip: [],
-      title: null,
-      body: null,
-      image: null,
+      exam: [],
+      title: this.title,
+      category: this.category,
+      fileAnswer: null,
+      fileQuestion: null,
     };
   },
   methods: {
-    handleFileImg(){
-      this.image = this.$refs.fileQues.files[0];
+    handleFileQues(){
+      this.fileQues = this.$refs.fileQues.files[0];
     },
-    async EditTip() {
+    handleFileAns() {
+      this.file = this.$refs.file.files[0];
+    },
+    async EditExam() {
       await axios.put("http://localhost:8019/admin/save", {
             title: this.title,
-            body: this.body,
-            image: this.image,
+            category: this.category,
+            fileAnswer: this.file,
+            fileQuestion: this.fileQues,
             id: parseInt(this.$route.params.id),
           },  {
             headers: {
@@ -86,12 +96,12 @@ export default {
       });
 
     },
-    getTip() {
+    getExam() {
       axios
           .get("http://localhost:8019/admin/all?id=" + parseInt(this.$route.params.id))
           .then((response) => {
             console.log(response.data);
-            this.tip = response.data;
+            this.exam = response.data;
           })
           .catch((error) => {
             console.log(error);
@@ -99,7 +109,7 @@ export default {
     },
   },
   beforeMount() {
-    this.getTip();
+    this.getExam();
   },
 }
 

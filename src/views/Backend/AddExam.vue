@@ -4,35 +4,34 @@
       <div class="col-md-4"></div>
       <div class="col-md-4">
         <br>
-        <br>
 
-        <form @submit.prevent="AddTip()">
+        <form @submit.prevent="AddExam()">
           <h1 class="loginHeader">Admin Exams</h1>
 
           <br>
 
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingUsername" placeholder="username" name="username" v-model="title">
+            <input class="form-control" id="floatingUsername" placeholder="username" name="username" v-model="title" required>
             <label for="floatingUsername">Title</label>
           </div>
 
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingPass" placeholder="password" name="password" v-model="category">
+            <input class="form-control" id="floatingPass" placeholder="password" name="password" v-model="category" required>
             <label for="floatingPass" class="form-lable">Category</label>
           </div>
 
           <div class="form-group">
             <label class="text-form">FileQuestion</label>
-            <input @change="handleFileQues()" ref="fileQues" type="file" class="form" />
+            <input @change="handleFileQues()" ref="fileQues" type="file" class="form" required/>
           </div>
 
           <div class="form-group">
             <label class="text-form">FileAns</label>
-            <input @change="handleFileAns()" ref="file" type="file" class="form" />
+            <input @change="handleFileAns()" ref="file" type="file" class="form" required />
           </div>
 
           <div class="d-grid gap-2">
-            <button type="submit" class="login1" >Add Tip</button>
+            <button type="submit" class="login1" >Add Exam</button>
 <!--            v-on:click="AddTip()"-->
           </div>
           <br>
@@ -49,7 +48,6 @@
 <script>
 import axios from "axios";
 export default {
-  name: "AddTip",
   data(){
     return {
       title: null,
@@ -65,7 +63,7 @@ export default {
     handleFileAns() {
       this.file = this.$refs.file.files[0];
     },
-    async AddTip() {
+    async AddExam() {
       await axios.post("http://localhost:8019/admin/save", {
         title: this.title,
         category: this.category,
@@ -125,6 +123,7 @@ export default {
   font-size: 35px;
   line-height: 28px;
   text-align: center;
+  color: #4CAF4F;
 }
 .login1{
   color: white;

@@ -46,4 +46,23 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> getAllUsers() {
         return converter.listUserToDto(userRepository.findAll());
     }
+
+    public void updateResetPasswordToken(String token, String username) throws Exception {
+        User user = userRepository.findByUsername(username);
+        if(user != null) {
+            user.setResetPasswordToken(token);
+            userRepository.save(user);
+        } else {
+            throw new Exception("Could not find any use" + username);
+        }
+    }
+    public User getByResetPasswordToken(String token){
+        return userRepository.findByResetPasswordToken(token);
+    }
+    public void updatePassword(User user, String newPassword){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        user.setResetPasswordToken(null);
+        userRepository.save(user);
+    }
 }
