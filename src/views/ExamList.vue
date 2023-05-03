@@ -9,7 +9,7 @@
         <div class="filter-text">FILTERS</div>
         <div class="dropdown">
           <div class="dropdown-text">Type</div>
-          <select class="dropdown-box" v-model="selected" type="button">
+          <select class="dropdown-box" v-model="typeSelected" type="button" v-on:click="getExams()">
             <option class="dropdown-item">Reading</option>
             <option class="dropdown-item">Listening</option>
             <option class="dropdown-item">Writting</option>
@@ -19,9 +19,10 @@
             </div>
           </select>
         </div>
+
         <div class="dropdown">
           <div class="dropdown-text">Year</div>
-          <select class="dropdown-box" v-model="selected" type="button">
+          <select class="dropdown-box" v-model="yearSelected" type="button">
             <option class="dropdown-item">2023</option>
             <option class="dropdown-item">2022</option>
             <div class="dropdown-pic">
@@ -29,16 +30,9 @@
             </div>
           </select>
         </div>
-        <div class="dropdown">
-          <div class="dropdown-text">Sort</div>
-          <select class="dropdown-box" v-model="selected" type="button">
-            <option class="dropdown-item">Descending</option>
-            <option class="dropdown-item">Ascending</option>
-            <div class="dropdown-pic">
-              <img src="@/assets/button/Down.png" />
-            </div>
-          </select>
-        </div>
+
+        <p v-if="typeSelected" style="color:black">{{typeSelected}}</p>
+        <p v-if="yearSelected" style="color:black">{{yearSelected}}</p>
       </div>
 
       <div class="exam-list">
@@ -57,10 +51,23 @@ export default {
   data() {
     return {
       exams: [],
+      typeSelected: null,
+      yearSelected: null,
     };
   },
   methods: {
     getExams() {
+      if (this.typeSelected) {
+        axios
+            .get("http://localhost:8019/admin/test/" + this.typeSelected)
+            .then((response) => {
+              console.log(response.data);
+              this.exams = response.data;
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+      } else {
       axios
           .get("http://localhost:8019/admin/all")
           .then((response) => {
@@ -70,6 +77,7 @@ export default {
           .catch((error) => {
             console.log(error);
           });
+      }
     },
   },
   beforeMount() {

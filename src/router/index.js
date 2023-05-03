@@ -50,9 +50,24 @@ const routes = [
     component: ()=>import('../views/TipView.vue')
   },
   {
-    path: '/admin/addtip',
-    name: 'adminaddTip',
-    component: ()=>import('../views/Backend/AddTips.vue')
+    path: '/admin/addExam',
+    name: 'adminAddExam',
+    component: ()=>import('../views/Backend/AddExam.vue')
+  },
+  {
+    path: '/admin/examList',
+    name: 'adminExamList',
+    component: ()=>import('../views/Backend/AdminExamList.vue')
+  },
+  {
+    path: '/admin/editExam/:id',
+    name: 'editExam',
+    component: ()=>import('../views/Backend/EditExam.vue')
+  },
+  {
+    path: '/admin/addTip',
+    name: 'adminAddTip',
+    component: ()=>import('../views/Backend/AddTip.vue')
   },
   {
     path: '/admin/tipList',
@@ -60,7 +75,7 @@ const routes = [
     component: ()=>import('../views/Backend/AdminTipList.vue')
   },
   {
-    path: '/admin/editTips/:id',
+    path: '/admin/editTip/:id',
     name: 'editTip',
     component: ()=>import('../views/Backend/EditTip.vue')
   },

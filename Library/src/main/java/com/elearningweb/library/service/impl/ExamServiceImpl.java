@@ -75,8 +75,8 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public void delete(long ids) {
-            examRepository.deleteById(ids);
+    public void delete(long id) {
+        examRepository.deleteById(id);
     }
 
     @Override
