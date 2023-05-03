@@ -16,12 +16,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
-@CrossOrigin("http://localhost:8080/") //Cái này của VueJS
+@RestController
+//@CrossOrigin("http://localhost:8080/") //Cái này của VueJS
 
-@RequestMapping(
-        method = {RequestMethod.POST, RequestMethod.GET}
-)
+//@RequestMapping(
+//        method = {RequestMethod.POST, RequestMethod.GET}
+//)
+@RequestMapping("/tips")
 public class TipsController {
     @Autowired
     private PostService postService;
@@ -30,17 +31,17 @@ public class TipsController {
     @Autowired
     private CommentServiceImpl commentService;
 
-    @GetMapping("/tips")
+    @GetMapping("/all")
     public List<Post> posts() {
         return postService.getAllPosts();
     }
 
-    @GetMapping("/posts/{id}")
+    @GetMapping("/{id}")
     public Post getPostById(@PathVariable Long id) {
         return postService.getPost(id);
     }
 
-    @GetMapping("/posts/{username}")
+    @GetMapping("/{username}")
     public List<Post> getPostByUser(@PathVariable String username) {
         return postService.findByUser(userService.getUser(username));
     }
@@ -60,7 +61,7 @@ public class TipsController {
         postService.insert(post);
     }
 
-    @DeleteMapping("/post/{id}")
+    @DeleteMapping("/{id}")
     public  boolean deletePost(@PathVariable Long id) {
         return postService.deletePost(id);
     }
@@ -75,7 +76,7 @@ public class TipsController {
         return commentService.getComments(postId);
     }
 
-    @PostMapping("/post/postComment")
+    @PostMapping("/postComment")
     public boolean postComment(@RequestBody Comment comment) {
         Post post = postService.find(comment.getId());
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
