@@ -3,11 +3,14 @@ package com.elearningweb.library.converter;
 import com.elearningweb.library.dto.CategoryDto;
 import com.elearningweb.library.dto.ExamDto;
 import com.elearningweb.library.dto.QuestionDto;
+import com.elearningweb.library.dto.UserDto;
 import com.elearningweb.library.model.Category;
 import com.elearningweb.library.model.Exam;
 import com.elearningweb.library.model.Question;
+import com.elearningweb.library.model.User;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +31,8 @@ public class Converter {
 
         result.setId(exam.getId());
         result.setTitle(exam.getTitle());
+        result.setDescription(exam.getDescription());
+        result.setYear(exam.getYear());
         result.setFileQuestion(exam.getFileQuestion());
         result.setFileAnswer(exam.getFileAnswer());
         result.setCategory(categoryToDto(exam.getCategory()));
@@ -52,8 +57,29 @@ public class Converter {
         return list.stream().map(this::questionToDto).collect(Collectors.toList());
     }
 
+    public UserDto userToDto(User user) {
+        UserDto userDto = new UserDto();
+        userDto.setFirstName(user.getFirstName());
+        userDto.setLastName(user.getLastName());
+        userDto.setUsername(user.getUsername());
+        userDto.setPassword(user.getPassword());
+        return userDto;
+    }
+
+    public List<UserDto> listUserToDto(List<User> list) {
+        return list.stream().map(this::userToDto).collect(Collectors.toList());
+    }
+
     //Convert to Entity
 
+    public User userToEntity(UserDto userDto) {
+        User user = new User();
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setUsername(userDto.getUsername());
+        user.setPassword(userDto.getPassword());
+        return user;
+    }
     public Question questionToEntity(QuestionDto question) {
         Question result = new Question();
 

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -16,6 +17,9 @@ public class ExamDto {
     private long id;
 
     private String title;
+
+    private String description;
+    private int year;
     private String fileQuestion;
     private String fileAnswer;
 

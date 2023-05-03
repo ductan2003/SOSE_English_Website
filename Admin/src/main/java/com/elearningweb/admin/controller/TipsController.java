@@ -1,6 +1,7 @@
 package com.elearningweb.admin.controller;
 
 import com.elearningweb.admin.config.CustomUserDetails;
+import com.elearningweb.library.converter.Converter;
 import com.elearningweb.library.model.Comment;
 import com.elearningweb.library.model.Post;
 import com.elearningweb.library.model.User;
@@ -29,6 +30,8 @@ public class TipsController {
     private UserServiceImpl userService;
     @Autowired
     private CommentServiceImpl commentService;
+    @Autowired
+    Converter converter;
 
     @GetMapping("/tips")
     public List<Post> posts() {
@@ -46,14 +49,14 @@ public class TipsController {
         if(post.getDateCreated() == null) {
             post.setDateCreated(new Date());
         }
-        post.setCreator(userService.getUser(userDetails.getUsername()));
+        post.setCreator(converter.userToEntity(userService.getUser(userDetails.getUsername())));
         postService.insert(post);
         return "Post was publshed!!!";
     }
 
     @GetMapping("/posts/{username}")
     public List<Post> postByUser(@PathVariable String username) {
-        return postService.findByUser(userService.getUser(username));
+        return postService.findByUser(converter.userToEntity(userService.getUser(username)));
     }
 
     @DeleteMapping("/post/{id}")
@@ -75,7 +78,7 @@ public class TipsController {
     public boolean postComment(@RequestBody Comment comment) {
         Post post = postService.find(comment.getId());
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User creator = userService.getUser(userDetails.getUsername());
+        User creator = converter.userToEntity(userService.getUser(userDetails.getUsername()));
         if(post == null || creator == null) return false;
         commentService.saveComment(new Comment(comment.getText(), post, creator));
         return true;

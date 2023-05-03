@@ -16,6 +16,7 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String correctAnswer;
 
     @ManyToOne(cascade = CascadeType.ALL)

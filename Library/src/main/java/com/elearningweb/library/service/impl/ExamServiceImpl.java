@@ -66,6 +66,8 @@ public class ExamServiceImpl implements ExamService {
 
         exam.setCategory(category);
         exam.setTitle(examDto.getTitle());
+        exam.setDescription(examDto.getDescription());
+        exam.setYear(examDto.getYear());
         exam.setFileQuestion(examDto.getFileQuestion());
         exam.setFileAnswer(examDto.getFileAnswer());
 
@@ -75,10 +77,8 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public void delete(long[] ids) {
-        for (long item : ids) {
-            examRepository.deleteById(item);
-        }
+    public void delete(long id) {
+        examRepository.deleteById(id);
     }
 
     @Override
@@ -101,5 +101,19 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public ExamDto findById(long id) {
         return converter.examToDto(examRepository.findById(id));
+    }
+
+    @Override
+    public ExamDto findByYear(int year) {
+        return converter.examToDto(examRepository.findByYear(year));
+    }
+
+    @Override
+    public ExamDto findByYearAndCategory(int year, String category) {
+        return converter.examToDto(examRepository.findByYearAndCategory(year, category));
+    }
+    @Override
+    public ExamDto findByYearAndCategoryAndId(int year, String category, long id) {
+        return converter.examToDto(examRepository.findByYearAndCategoryAndId(year, category, id));
     }
 }

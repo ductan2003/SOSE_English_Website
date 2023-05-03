@@ -20,7 +20,7 @@ public class Post {
     private String title;
     private String body;
     @ManyToOne
-    private Admin creator;
+    private User creator;
     private Date dateCreated;
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")

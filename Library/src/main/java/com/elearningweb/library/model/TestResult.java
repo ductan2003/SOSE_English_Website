@@ -27,7 +27,7 @@ public class TestResult {
     @ManyToOne
     @JoinColumn(name="user_id",nullable= false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Admin admin;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name="exam_id",nullable= false)
