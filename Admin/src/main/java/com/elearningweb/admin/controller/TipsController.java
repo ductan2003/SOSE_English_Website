@@ -3,25 +3,29 @@ package com.elearningweb.admin.controller;
 import com.elearningweb.admin.config.CustomUserDetails;
 import com.elearningweb.library.dto.PostDto;
 import com.elearningweb.library.model.*;
+import com.elearningweb.library.service.FileService;
 import com.elearningweb.library.service.PostService;
 import com.elearningweb.library.service.impl.CommentServiceImpl;
 import com.elearningweb.library.service.impl.UserServiceImpl;
+import com.elearningweb.library.util.StreamUtils;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-//@CrossOrigin("http://localhost:8080/") //Cái này của VueJS
 
-//@RequestMapping(
-//        method = {RequestMethod.POST, RequestMethod.GET}
-//)
 @RequestMapping("/tips")
 public class TipsController {
     @Autowired
@@ -30,7 +34,12 @@ public class TipsController {
     private UserServiceImpl userService;
     @Autowired
     private CommentServiceImpl commentService;
+    @Autowired
+    private FileService fileService;
+    @Value("${project.image}")
+    private String path;
 
+    //Post tips
     @GetMapping("/all")
     public List<Post> posts() {
         return postService.getAllPosts();
@@ -46,26 +55,40 @@ public class TipsController {
         return postService.findByUser(userService.getUser(username));
     }
 
-    @PostMapping("/post")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void publishPost(@RequestPart String title,
-                               @RequestPart String body,
-                               @RequestPart Admin creator,
-                               @RequestPart Date dateCreated,
-                               @RequestPart String image,
-                               @RequestPart Category category) throws Exception {
-        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        dateCreated = new Date();
-        creator = userService.getUser(userDetails.getUsername());
-        Post post = new Post(title, body, creator, dateCreated, image, category);
-        postService.insert(post);
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<PostDto>> getPostByCategory(@PathVariable String categoryName) {
+        List<PostDto> postDtos = this.postService.getPostByCategory(categoryName);
+        return new ResponseEntity<List<PostDto>>(postDtos, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public  boolean deletePost(@PathVariable Long id) {
+    @PostMapping("/{categoryName}/{creatorName}/posts")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<PostDto> publishPost(@RequestBody PostDto postDto,
+                            @PathVariable String categoryName,
+                            @PathVariable String creatorName) throws Exception {
+        PostDto publishPost = postService.insert(postDto, categoryName, creatorName);
+        return new ResponseEntity<PostDto>(publishPost, HttpStatus.OK );
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto,
+                                              @PathVariable Long id) throws Exception{
+        PostDto updatePost = postService.updatePost(postDto, id);
+        return new ResponseEntity<>(updatePost, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public boolean deletePost(@PathVariable Long id) {
         return postService.deletePost(id);
     }
 
+    @GetMapping("/search/{title}")
+    public ResponseEntity<List<PostDto>> searchByTitle(@PathVariable("title") String title) {
+        List<PostDto> postDtos = postService.searchByTitle(title);
+        return new ResponseEntity<List<PostDto>>(postDtos, HttpStatus.OK);
+    }
+
+    //Comment
     @DeleteMapping("/comment/{id}")
     public boolean deleteComment(@PathVariable Long id) {
         return commentService.deleteComment(id);
@@ -84,5 +107,24 @@ public class TipsController {
         if(post == null || creator == null) return false;
         commentService.saveComment(new Comment(comment.getText(), post, creator));
         return true;
+    }
+
+    //Image upload
+    @PostMapping("/file/upload/{id}")
+    public ResponseEntity<PostDto> uploadFile(@RequestParam("file")MultipartFile file,
+                                              @PathVariable Long id) throws Exception {
+        PostDto postDto = postService.getPostById(id);
+        String fileName = fileService.updateFile(path, file);
+        postDto.setImage(fileName);
+        PostDto updatePost = postService.updatePost(postDto, id);
+        return new ResponseEntity<PostDto>(updatePost, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/file/{fileName}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public void downloadFile(@PathVariable("fileName") String fileName,
+                             HttpServletResponse response) throws Exception {
+        InputStream resource = this.fileService.getResource(path, fileName);
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        StreamUtils.copy(resource, response.getOutputStream());
     }
 }

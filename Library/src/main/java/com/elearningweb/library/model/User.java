@@ -24,6 +24,7 @@ public class User {
 
     @JsonIgnore
     private String password;
+    private String resetPasswordToken;
     @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Role> roles;
 
@@ -34,4 +35,5 @@ public class User {
         this.password = password;
         this.roles = roles;
     }
+
 }
