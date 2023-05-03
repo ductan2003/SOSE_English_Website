@@ -1,13 +1,13 @@
 package com.elearningweb.admin.controller;
 
 import com.elearningweb.admin.config.CustomUserDetails;
-import com.elearningweb.library.model.Comment;
-import com.elearningweb.library.model.Post;
-import com.elearningweb.library.model.User;
+import com.elearningweb.library.dto.PostDto;
+import com.elearningweb.library.model.*;
 import com.elearningweb.library.service.PostService;
 import com.elearningweb.library.service.impl.CommentServiceImpl;
 import com.elearningweb.library.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +16,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
-@CrossOrigin("http://localhost:8080/") //Cái này của VueJS
+@RestController
+//@CrossOrigin("http://localhost:8080/") //Cái này của VueJS
 
-@RequestMapping(
-        method = {RequestMethod.POST, RequestMethod.GET}
-)
+//@RequestMapping(
+//        method = {RequestMethod.POST, RequestMethod.GET}
+//)
+@RequestMapping("/tips")
 public class TipsController {
     @Autowired
     private PostService postService;
@@ -30,33 +31,37 @@ public class TipsController {
     @Autowired
     private CommentServiceImpl commentService;
 
-    @GetMapping("/tips")
+    @GetMapping("/all")
     public List<Post> posts() {
         return postService.getAllPosts();
     }
 
-    @GetMapping("/posts/{id}")
+    @GetMapping("/{id}")
     public Post getPostById(@PathVariable Long id) {
         return postService.getPost(id);
     }
 
-    @PostMapping("/post")
-    public String publishPost(@RequestBody Post post) {
-        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(post.getDateCreated() == null) {
-            post.setDateCreated(new Date());
-        }
-        post.setCreator(userService.getUser(userDetails.getUsername()));
-        postService.insert(post);
-        return "Post was publshed!!!";
-    }
-
-    @GetMapping("/posts/{username}")
-    public List<Post> postByUser(@PathVariable String username) {
+    @GetMapping("/{username}")
+    public List<Post> getPostByUser(@PathVariable String username) {
         return postService.findByUser(userService.getUser(username));
     }
 
-    @DeleteMapping("/post/{id}")
+    @PostMapping("/post")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void publishPost(@RequestPart String title,
+                               @RequestPart String body,
+                               @RequestPart Admin creator,
+                               @RequestPart Date dateCreated,
+                               @RequestPart String image,
+                               @RequestPart Category category) throws Exception {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        dateCreated = new Date();
+        creator = userService.getUser(userDetails.getUsername());
+        Post post = new Post(title, body, creator, dateCreated, image, category);
+        postService.insert(post);
+    }
+
+    @DeleteMapping("/{id}")
     public  boolean deletePost(@PathVariable Long id) {
         return postService.deletePost(id);
     }
@@ -71,7 +76,7 @@ public class TipsController {
         return commentService.getComments(postId);
     }
 
-    @PostMapping("/post/postComment")
+    @PostMapping("/postComment")
     public boolean postComment(@RequestBody Comment comment) {
         Post post = postService.find(comment.getId());
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

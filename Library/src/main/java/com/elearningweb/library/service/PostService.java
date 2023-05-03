@@ -1,8 +1,11 @@
 package com.elearningweb.library.service;
 
+import com.elearningweb.library.dto.ExamDto;
+import com.elearningweb.library.dto.PostDto;
 import com.elearningweb.library.model.Post;
 import com.elearningweb.library.model.User;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface PostService {

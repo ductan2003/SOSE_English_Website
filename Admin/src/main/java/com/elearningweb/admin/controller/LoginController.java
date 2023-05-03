@@ -2,6 +2,9 @@ package com.elearningweb.admin.controller;
 
 import com.elearningweb.library.dto.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import com.elearningweb.library.model.Admin;
 import com.elearningweb.library.model.Role;
@@ -43,12 +46,16 @@ public class LoginController {
 
 //    @Autowired
     private TokenStore tokenStore;
+    private AuthenticationManager authenticationManager;
 
     @GetMapping("/login")
-    public String loginForm(Model model) {
-        model.addAttribute("title", "Login");
-        System.out.println("hihi");
-        return "login";
+    public ResponseEntity<String> loginForm(@RequestPart String firstName,
+                                            @RequestPart String lastName,
+                                            @RequestPart String username,
+                                            @RequestPart String password) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return new ResponseEntity<>("User login successfully!", HttpStatus.OK);
     }
 
     @GetMapping("/logout")
