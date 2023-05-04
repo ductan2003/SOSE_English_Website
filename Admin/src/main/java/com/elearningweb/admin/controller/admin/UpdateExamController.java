@@ -48,7 +48,7 @@ public class UpdateExamController {
     public ExamDto getExamById(@PathVariable("id") long id) {
         return examService.findById(id);
     }
-    @GetMapping("exams/{year}/{category}/id={id}")
+    @GetMapping("/exams/{year}/{category}/id={id}")
     public ExamDto getExamByYearAndCategoryAndId(@PathVariable("category") String category,
                                                  @PathVariable("id") long id,
                                                  @PathVariable("year") int year) {
@@ -99,7 +99,7 @@ public class UpdateExamController {
     }
 
     @DeleteMapping(value = "/exams/delete/id={id}")
-    public void deleteExam(@PathVariable long id) {
+    public void deleteExam(@PathVariable("id") long id) {
         examService.delete(id);
     }
 

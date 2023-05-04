@@ -13,4 +13,5 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
     Exam findByYear(int year);
     Exam findByYearAndCategory(int year, String category);
     Exam findByYearAndCategoryAndId(int year, String category, long id);
+    void deleteById(long id);
 }

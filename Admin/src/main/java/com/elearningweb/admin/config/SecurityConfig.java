@@ -1,6 +1,7 @@
 package com.elearningweb.admin.config;
 
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,7 +21,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
-
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
     private UserDetailsService userDetailsService;
 
     public SecurityConfig(UserDetailsService userDetailsService){

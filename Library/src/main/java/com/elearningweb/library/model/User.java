@@ -29,6 +29,8 @@ public class User implements UserDetails {
 
     @JsonIgnore
     private String password;
+    private String resetPasswordToken;
+
 
     @ManyToMany (fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "users_roles",

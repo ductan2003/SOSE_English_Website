@@ -2,6 +2,8 @@ package com.elearningweb.admin.config;
 
 import com.elearningweb.library.model.User;
 import com.elearningweb.library.repository.UserRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

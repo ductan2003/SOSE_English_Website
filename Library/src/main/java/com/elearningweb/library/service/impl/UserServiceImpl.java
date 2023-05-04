@@ -1,20 +1,19 @@
 package com.elearningweb.library.service.impl;
 
+import com.elearningweb.library.service.UserService;
 import com.elearningweb.library.converter.Converter;
 import com.elearningweb.library.dto.UserDto;
 import com.elearningweb.library.model.User;
 import com.elearningweb.library.repository.RoleRepository;
 import com.elearningweb.library.repository.UserRepository;
-import com.elearningweb.library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -38,15 +37,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUser(String username) {
-        return converter.userToDto(userRepository.findByUsername(username));
-    }
-
-    @Override
-    public List<UserDto> getAllUsers() {
-        return converter.listUserToDto(userRepository.findAll());
-    }
-
     public void updateResetPasswordToken(String token, String username) throws Exception {
         User user = userRepository.findByUsername(username);
         if(user != null) {
@@ -56,13 +46,28 @@ public class UserServiceImpl implements UserService {
             throw new Exception("Could not find any use" + username);
         }
     }
-    public User getByResetPasswordToken(String token){
+
+    @Override
+    public User getByResetPasswordToken(String token) {
         return userRepository.findByResetPasswordToken(token);
     }
-    public void updatePassword(User user, String newPassword){
+
+    @Override
+    public void updatePassword(User user, String newPassword) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(newPassword);
         user.setResetPasswordToken(null);
         userRepository.save(user);
+    }
+
+
+    @Override
+    public UserDto getUser(String username) {
+        return converter.userToDto(userRepository.findByUsername(username));
+    }
+
+    @Override
+    public List<UserDto> getAllUsers() {
+        return converter.listUserToDto(userRepository.findAll());
     }
 }

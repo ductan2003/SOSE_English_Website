@@ -19,7 +19,7 @@ public class Question {
 
     private String correctAnswer;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne (cascade = CascadeType.ALL)
     @JoinColumn(name = "exam_id")
     private Exam exam;
 }

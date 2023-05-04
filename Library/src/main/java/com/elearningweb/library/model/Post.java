@@ -29,7 +29,7 @@ public class Post {
     @JoinColumn(name = "id", referencedColumnName = "id")
     private Category category;
 
-    public Post(String title, String body, Admin creator, Date dateCreated, String image, Category category) {
+    public Post(String title, String body, User creator, Date dateCreated, String image, Category category) {
         this.title = title;
         this.body = body;
         this.creator = creator;

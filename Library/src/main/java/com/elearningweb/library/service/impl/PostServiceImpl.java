@@ -3,9 +3,7 @@ package com.elearningweb.library.service.impl;
 import com.elearningweb.library.dto.PostDto;
 import com.elearningweb.library.model.Category;
 import com.elearningweb.library.model.Post;
-import com.elearningweb.library.model.Admin;
 import com.elearningweb.library.model.User;
-import com.elearningweb.library.repository.AdminRepository;
 import com.elearningweb.library.repository.CategoryRepository;
 import com.elearningweb.library.repository.PostRepository;
 import com.elearningweb.library.repository.UserRepository;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,12 +28,12 @@ public class PostServiceImpl implements PostService {
     public ModelMapper modelMapper;
 
     @Autowired
-    public AdminRepository adminRepository;
+    public UserRepository userRepository;
 
     @Override
     public PostDto insert(PostDto postDto, String categoryName, String creatorName) {
         Category category = categoryRepository.findByName(categoryName);
-        Admin user = adminRepository.findByUsername(creatorName);
+        User user = userRepository.findByUsername(creatorName);
         Post post = this.modelMapper.map(postDto, Post.class);
         post.setImage("default.png");
         post.setDateCreated(new Date());

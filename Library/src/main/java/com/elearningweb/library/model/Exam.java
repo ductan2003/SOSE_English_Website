@@ -36,11 +36,12 @@ public class Exam {
     private String description;
     private int year;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Category category;
 
-    @OneToMany(mappedBy = "exam")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "exam", orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Question> questionsList;
 }

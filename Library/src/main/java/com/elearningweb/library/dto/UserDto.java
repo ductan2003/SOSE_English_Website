@@ -4,15 +4,13 @@ import com.elearningweb.library.model.Role;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
 @Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
@@ -27,4 +25,9 @@ public class UserDto {
     @Size(min = 3, max = 10, message = "Invalid password!(3-10 characters)")
     private String password;
     private String confirmPassword;
+    @Nullable
+    private String resetPasswordToken;
+
+    public UserDto(String firstName, String lastName, String username, String password, String confirmPassword) {
+    }
 }
