@@ -6,13 +6,19 @@ import com.elearningweb.library.dto.UserDto;
 import com.elearningweb.library.model.User;
 import com.elearningweb.library.repository.RoleRepository;
 import com.elearningweb.library.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepository;
@@ -22,6 +28,7 @@ public class UserServiceImpl implements UserService{
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     Converter converter;
+    private static final long EXPIRE_TOKEN_AFTER_MINUTES = 30;
 
     @Override
     public UserDto save(UserDto userDto) {
@@ -35,35 +42,54 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
         return userDto;
     }
-
-    @Override
-    public void updateResetPasswordToken(String token, String username) throws Exception {
-        User user = userRepository.findByUsername(username);
-        if(user != null) {
-            user.setResetPasswordToken(token);
-            userRepository.save(user);
-        } else {
-            throw new Exception("Could not find any use" + username);
+    @Autowired
+    public String forgotPassword(String username) {
+        Optional<User> userOptional = Optional.ofNullable(userRepository.findByUserName(username));
+        if(!userOptional.isPresent()){
+            return "Invalid username";
         }
+        User user = userOptional.get();
+        user.setResetPasswordToken(generateToken());
+        user.setTokenCreationDate(LocalDateTime.now());
+        user = userRepository.save(user);
+        return user.getResetPasswordToken();
     }
 
     @Override
-    public User getByResetPasswordToken(String token) {
-        return userRepository.findByResetPasswordToken(token);
-    }
-
-    @Override
-    public void updatePassword(User user, String newPassword) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(newPassword);
+    public String updatePassword(String token, String password) {
+        Optional<User> userOptional = Optional.ofNullable(userRepository.findByResetPasswordToken(token));
+        if(!userOptional.isPresent()) {
+            return "Invalid token";
+        }
+        User user = userOptional.get();
+        LocalDateTime tokenCreationDate = user.getTokenCreationDate();
+        if(isTokenExpired(tokenCreationDate)) {
+            return "Token expried";
+        }
+        user.setPassword(password);
         user.setResetPasswordToken(null);
+        user.setTokenCreationDate(null);
         userRepository.save(user);
+        return "Your password sucessfully updated!";
+    }
+    @Override
+    public String generateToken() {
+        StringBuilder token = new StringBuilder();
+        return token.append(UUID.randomUUID().toString())
+                .append(UUID.randomUUID().toString()).toString();
+    }
+
+    @Override
+    public boolean isTokenExpired(final LocalDateTime tokenCreationDate) {
+        LocalDateTime now = LocalDateTime.now();
+        Duration diff = Duration.between(tokenCreationDate, now);
+        return diff.toMinutes() >= EXPIRE_TOKEN_AFTER_MINUTES;
     }
 
 
     @Override
     public UserDto getUser(String username) {
-        return converter.userToDto(userRepository.findByUsername(username));
+        return converter.userToDto(userRepository.findByUserName(username));
     }
 
     @Override

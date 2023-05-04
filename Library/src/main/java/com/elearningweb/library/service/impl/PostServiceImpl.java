@@ -1,6 +1,7 @@
 package com.elearningweb.library.service.impl;
 
 import com.elearningweb.library.dto.PostDto;
+import com.elearningweb.library.dto.UserDto;
 import com.elearningweb.library.model.Category;
 import com.elearningweb.library.model.Post;
 import com.elearningweb.library.model.User;
@@ -83,8 +84,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> findByUser(User user) {
-        return postRepository.findByCreator(user.getUsername());
+    public List<Post> findByUser(UserDto userDto) {
+        return postRepository.findByCreator(userDto.getUsername());
     }
     @Override
     public List<PostDto> getPostByCategory(String categoryName){

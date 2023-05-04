@@ -2,6 +2,7 @@ package com.elearningweb.admin.controller;
 
 import com.elearningweb.admin.config.CustomUserDetails;
 import com.elearningweb.library.dto.PostDto;
+import com.elearningweb.library.dto.UserDto;
 import com.elearningweb.library.model.*;
 import com.elearningweb.library.service.FileService;
 import com.elearningweb.library.service.PostService;
@@ -9,6 +10,7 @@ import com.elearningweb.library.service.impl.CommentServiceImpl;
 import com.elearningweb.library.service.impl.UserServiceImpl;
 import com.elearningweb.library.util.StreamUtils;
 import jakarta.servlet.http.HttpServletResponse;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -38,6 +40,8 @@ public class TipsController {
     private FileService fileService;
     @Value("${project.image}")
     private String path;
+    @Autowired
+    public ModelMapper modelMapper;
 
     //Post tips
     @GetMapping("/all")
@@ -103,7 +107,8 @@ public class TipsController {
     public boolean postComment(@RequestBody Comment comment) {
         Post post = postService.find(comment.getId());
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User creator = userService.getUser(userDetails.getUsername());
+        UserDto creatorDto = userService.getUser(userDetails.getUsername());
+        User creator = this.modelMapper.map(creatorDto, User.class);
         if(post == null || creator == null) return false;
         commentService.saveComment(new Comment(comment.getText(), post, creator));
         return true;
