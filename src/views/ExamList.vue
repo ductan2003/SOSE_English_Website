@@ -59,7 +59,7 @@ export default {
     getExams() {
       if (this.typeSelected) {
         axios
-            .get("http://localhost:8019/admin/test/" + this.typeSelected)
+            .get("http://localhost:8019/user/exams/" + this.typeSelected)
             .then((response) => {
               console.log(response.data);
               this.exams = response.data;
@@ -69,7 +69,7 @@ export default {
             });
       } else {
       axios
-          .get("http://localhost:8019/admin/all")
+          .get("http://localhost:8019/user/exams/all")
           .then((response) => {
             console.log(response.data);
             this.exams = response.data;

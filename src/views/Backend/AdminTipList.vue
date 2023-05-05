@@ -49,13 +49,25 @@ export default {
   methods: {
     getTips() {
       axios
-          .get("http://localhost:8019/admin/all")
+          .get("http://localhost:8019/user/exams/all")
           .then((response) => {
             console.log(response.data);
             this.tips = response.data;
           })
           .catch((error) => {
             console.log(error);
+            if (error.response) {
+              // The server responded with an error status code
+              console.log(error.response.data);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+            } else if (error.request) {
+              // The request was made but no response was received
+              console.log(error.request);
+            } else {
+              // Something happened in setting up the request that triggered an Error
+              console.log('Error', error.message);
+            }
           });
     },
 

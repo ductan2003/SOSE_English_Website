@@ -1,7 +1,8 @@
 <template>
   <div class="exam-container">
     <div class="exam-image">
-      <img src="@/assets/tips/Tips-image.png" alt="pic" />
+<!--      <img :src="'./static/fileImage/jennie.jpg'" alt="pic" />-->
+<!--      <img src={{exam.fileImg.description}} alt="pic" />-->
     </div>
 
     <div class="text">
