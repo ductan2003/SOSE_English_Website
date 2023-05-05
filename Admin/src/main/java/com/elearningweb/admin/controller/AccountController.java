@@ -26,7 +26,7 @@ public class AccountController {
     }
 
     @GetMapping("/{username}")
-    public List<User> getByUserName(@PathVariable String username) {
-        return userService.getUser(username);
+    public List<UserDto> getByUserName(@PathVariable String username) {
+        return (List<UserDto>) userService.getUser(username);
     }
 }
