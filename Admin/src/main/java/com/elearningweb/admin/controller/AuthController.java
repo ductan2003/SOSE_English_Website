@@ -16,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import java.lang.String;
 
 
 @RestController
@@ -59,5 +60,19 @@ public class AuthController {
             return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
         }
         return new ResponseEntity<>("Passwords do not match", HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/forgot-password")
+    public String forgotPassword(@RequestParam String username) {
+        String response = userService.forgotPassword(username);
+        if(!response.startsWith("Invalid")){
+            response = "http://localhost:8080/reset-password?token=" + response;
+        }
+        return response;
+    }
+
+    @PutMapping("/reset-password")
+    public String resetPassword(@RequestParam String token, @RequestParam String password) {
+        return userService.updatePassword(token, password);
     }
 }

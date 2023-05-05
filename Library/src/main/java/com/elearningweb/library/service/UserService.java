@@ -14,5 +14,5 @@ public interface UserService {
     String forgotPassword(String username);
     String updatePassword(String token, String password);
     String generateToken();
-    boolean isTokenExpired(final LocalDateTime tokenCreationDate);
+    boolean isTokenExpired(LocalDateTime tokenCreationDate);
 }

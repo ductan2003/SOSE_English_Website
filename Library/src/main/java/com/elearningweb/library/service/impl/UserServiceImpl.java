@@ -6,8 +6,13 @@ import com.elearningweb.library.dto.UserDto;
 import com.elearningweb.library.model.User;
 import com.elearningweb.library.repository.RoleRepository;
 import com.elearningweb.library.repository.UserRepository;
+import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +33,7 @@ public class UserServiceImpl implements UserService{
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     Converter converter;
-    private static final long EXPIRE_TOKEN_AFTER_MINUTES = 30;
+    private static long EXPIRE_TOKEN_AFTER_MINUTES = 30;
 
     @Override
     public UserDto save(UserDto userDto) {
@@ -42,7 +47,7 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
         return userDto;
     }
-    @Autowired
+    @Override
     public String forgotPassword(String username) {
         Optional<User> userOptional = Optional.ofNullable(userRepository.findByUserName(username));
         if(!userOptional.isPresent()){
@@ -80,7 +85,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean isTokenExpired(final LocalDateTime tokenCreationDate) {
+    public boolean isTokenExpired(LocalDateTime tokenCreationDate) {
         LocalDateTime now = LocalDateTime.now();
         Duration diff = Duration.between(tokenCreationDate, now);
         return diff.toMinutes() >= EXPIRE_TOKEN_AFTER_MINUTES;
@@ -92,8 +97,10 @@ public class UserServiceImpl implements UserService{
         return converter.userToDto(userRepository.findByUserName(username));
     }
 
+
     @Override
     public List<UserDto> getAllUsers() {
         return converter.listUserToDto(userRepository.findAll());
     }
+
 }

@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-
 @RequestMapping("/tips")
 public class TipsController {
     @Autowired
@@ -38,7 +37,7 @@ public class TipsController {
     private CommentServiceImpl commentService;
     @Autowired
     private FileService fileService;
-    @Value("${project.image}")
+//    @Value("${project.image}")
     private String path;
     @Autowired
     public ModelMapper modelMapper;
