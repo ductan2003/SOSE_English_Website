@@ -27,6 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUserName(username);
 
+
         Set<GrantedAuthority> authorities = user
                 .getRoles()
                 .stream()

@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-
 @RequestMapping("/tips")
 public class TipsController {
     @Autowired
