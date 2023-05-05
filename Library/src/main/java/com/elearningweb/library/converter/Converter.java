@@ -37,6 +37,7 @@ public class Converter {
         result.setFileAnswer(exam.getFileAnswer());
         result.setCategory(categoryToDto(exam.getCategory()));
         result.setQuestionsList(questionDtoList);
+        result.setFileImage(exam.getFileImage());
 
         return result;
     }

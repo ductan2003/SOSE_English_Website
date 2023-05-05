@@ -22,6 +22,7 @@ public class ExamDto {
     private String year;
     private String fileQuestion;
     private String fileAnswer;
+    private String fileImage;
 
     private CategoryDto category;
     private List<QuestionDto> questionsList = new ArrayList<>();

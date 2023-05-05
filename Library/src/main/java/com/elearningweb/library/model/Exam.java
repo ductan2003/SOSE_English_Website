@@ -30,6 +30,7 @@ public class Exam {
     private String fileQuestion;
     @Nullable
     private String fileAnswer;
+    private String fileImage;
 
     private String description;
     private String year;

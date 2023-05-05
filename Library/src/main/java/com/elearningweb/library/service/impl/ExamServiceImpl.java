@@ -70,9 +70,9 @@ public class ExamServiceImpl implements ExamService {
         exam.setYear(examDto.getYear());
         exam.setFileQuestion(examDto.getFileQuestion());
         exam.setFileAnswer(examDto.getFileAnswer());
+        exam.setFileImage(examDto.getFileImage());
 
         examRepository.save(exam);
-        System.out.println(exam.getFileAnswer() + "\n" + exam.getFileQuestion());
         return converter.examToDto(exam);
     }
 

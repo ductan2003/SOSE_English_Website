@@ -22,10 +22,11 @@ import java.util.Objects;
 @RequestMapping("/admin")
 public class UpdateExamController {
 
-    private static Path fileA, fileQ;
+    private static Path fileA, fileQ, fileI;
     private static final Path staticPath = Paths.get("static");
     private static final Path fileAnswerPath = Paths.get("fileAnswer");
     private static final Path fileQuestionPath = Paths.get("fileQuestion");
+    private static final Path fileImagePath = Paths.get("fileImage");
     private static final Path CURRENT_FOLDER = Paths.get(System.getProperty("user.dir"));
     @Autowired
     private ExamServiceImpl examService;
@@ -61,9 +62,10 @@ public class UpdateExamController {
                               @RequestPart String description,
                               @RequestPart String year,
                               @RequestPart MultipartFile fileQuestion,
-                              @RequestPart MultipartFile fileAnswer
+                              @RequestPart MultipartFile fileAnswer,
+                              @RequestPart MultipartFile fileImage
     ) throws IOException {
-        initFolder(fileAnswer, fileQuestion);
+        initFolder(fileAnswer, fileQuestion, fileImage);
         ExamDto examDto = new ExamDto();
         examDto.setTitle(title);
         examDto.setDescription(description);
@@ -71,6 +73,8 @@ public class UpdateExamController {
         examDto.setCategory(new CategoryDto(null, category));
         examDto.setFileQuestion(fileQ.toString());
         examDto.setFileAnswer(fileA.toString());
+        examDto.setFileImage(fileI.toString());
+
         return examService.save(examDto);
     }
 
@@ -81,18 +85,20 @@ public class UpdateExamController {
                               @RequestPart String year,
                               @Nullable @RequestPart MultipartFile fileQuestion,
                               @Nullable @RequestPart MultipartFile fileAnswer,
+                              @RequestPart MultipartFile fileImage,
                               @PathVariable("id") long id) throws IOException {
         ExamDto examDto = examService.findById(id);
         if (examDto == null) {
             return null;
         } else {
-            initFolder(fileAnswer, fileQuestion);
+            initFolder(fileAnswer, fileQuestion, fileImage);
             examDto.setTitle(title);
             examDto.setDescription(description);
             examDto.setYear(year);
             examDto.setCategory(new CategoryDto(null, category));
             examDto.setFileAnswer(fileA.toString());
             examDto.setFileQuestion(fileQ.toString());
+            examDto.setFileImage(fileI.toString());
         }
 
         return examService.save(examDto);
@@ -104,12 +110,15 @@ public class UpdateExamController {
     }
 
 
-    public void initFolder(MultipartFile fileAnswer, MultipartFile fileQuestion) throws IOException {
+    public void initFolder(MultipartFile fileAnswer, MultipartFile fileQuestion, MultipartFile fileImage) throws IOException {
         if (!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(fileAnswerPath))) {
             Files.createDirectories(CURRENT_FOLDER.resolve(staticPath).resolve(fileAnswerPath));
         }
         if (!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(fileQuestionPath))) {
             Files.createDirectories(CURRENT_FOLDER.resolve(staticPath).resolve(fileQuestionPath));
+        }
+        if (!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(fileImagePath))) {
+            Files.createDirectories(CURRENT_FOLDER.resolve(staticPath).resolve(fileImagePath));
         }
         fileA = CURRENT_FOLDER.resolve(staticPath)
                 .resolve(fileAnswerPath)
@@ -117,11 +126,17 @@ public class UpdateExamController {
         fileQ = CURRENT_FOLDER.resolve(staticPath)
                 .resolve(fileQuestionPath)
                 .resolve(Objects.requireNonNull(fileQuestion.getOriginalFilename()));
+        fileI = CURRENT_FOLDER.resolve(staticPath)
+                .resolve(fileImagePath)
+                .resolve(Objects.requireNonNull(fileImage.getOriginalFilename()));
         try (OutputStream os = Files.newOutputStream(fileA)) {
             os.write(fileAnswer.getBytes());
         }
         try (OutputStream os = Files.newOutputStream(fileQ)) {
             os.write(fileQuestion.getBytes());
+        }
+        try (OutputStream os = Files.newOutputStream(fileI)) {
+            os.write(fileImage.getBytes());
         }
     }
 }
