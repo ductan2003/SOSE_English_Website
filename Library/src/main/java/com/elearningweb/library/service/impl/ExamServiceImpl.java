@@ -71,8 +71,8 @@ public class ExamServiceImpl implements ExamService {
         exam.setFileQuestion(examDto.getFileQuestion());
         exam.setFileAnswer(examDto.getFileAnswer());
 
-
         examRepository.save(exam);
+        System.out.println(exam.getFileAnswer() + "\n" + exam.getFileQuestion());
         return converter.examToDto(exam);
     }
 

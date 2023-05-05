@@ -26,19 +26,17 @@ public class Exam {
     private long id;
     private String title;
 
-    @Transient
     @Nullable
     private String fileQuestion;
-    @Transient
     @Nullable
     private String fileAnswer;
 
     private String description;
     private int year;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+//    @OnDelete(action = OnDeleteAction.CASCADE)
     private Category category;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "exam", orphanRemoval = true)
