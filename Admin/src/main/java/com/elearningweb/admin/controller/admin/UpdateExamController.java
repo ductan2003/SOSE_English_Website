@@ -59,7 +59,7 @@ public class UpdateExamController {
     public ExamDto createExam(@RequestPart String title,
                               @RequestPart String category,
                               @RequestPart String description,
-                              @RequestPart int year,
+                              @RequestPart String year,
                               @RequestPart MultipartFile fileQuestion,
                               @RequestPart MultipartFile fileAnswer
     ) throws IOException {
@@ -78,7 +78,7 @@ public class UpdateExamController {
     public ExamDto updateExam(@RequestPart String title,
                               @RequestPart String category,
                               @RequestPart String description,
-                              @RequestPart int year,
+                              @RequestPart String year,
                               @Nullable @RequestPart MultipartFile fileQuestion,
                               @Nullable @RequestPart MultipartFile fileAnswer,
                               @PathVariable("id") long id) throws IOException {

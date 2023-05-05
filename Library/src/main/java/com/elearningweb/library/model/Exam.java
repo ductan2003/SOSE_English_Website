@@ -32,7 +32,7 @@ public class Exam {
     private String fileAnswer;
 
     private String description;
-    private int year;
+    private String year;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")

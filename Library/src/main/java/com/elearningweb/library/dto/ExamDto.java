@@ -19,7 +19,7 @@ public class ExamDto {
     private String title;
 
     private String description;
-    private int year;
+    private String year;
     private String fileQuestion;
     private String fileAnswer;
 
