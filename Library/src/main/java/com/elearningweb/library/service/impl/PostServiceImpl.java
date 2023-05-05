@@ -34,7 +34,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto insert(PostDto postDto, String categoryName, String creatorName) {
         Category category = categoryRepository.findByName(categoryName);
-        User user = userRepository.findByUsername(creatorName);
+        User user = userRepository.findByUserName(creatorName);
         Post post = this.modelMapper.map(postDto, Post.class);
         post.setImage("default.png");
         post.setDateCreated(new Date());

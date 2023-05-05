@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
         return userDto;
     }
-    @Autowired
+    @Override
     public String forgotPassword(String username) {
         Optional<User> userOptional = Optional.ofNullable(userRepository.findByUserName(username));
         if(!userOptional.isPresent()){

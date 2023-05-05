@@ -29,5 +29,10 @@ public class UserDto {
     private String resetPasswordToken;
 
     public UserDto(String firstName, String lastName, String username, String password, String confirmPassword) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.confirmPassword = confirmPassword;
     }
 }
