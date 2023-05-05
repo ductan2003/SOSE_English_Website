@@ -104,16 +104,16 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public ExamDto findByYear(int year) {
+    public ExamDto findByYear(String year) {
         return converter.examToDto(examRepository.findByYear(year));
     }
 
     @Override
-    public ExamDto findByYearAndCategory(int year, String category) {
+    public ExamDto findByYearAndCategory(String year, String category) {
         return converter.examToDto(examRepository.findByYearAndCategory(year, category));
     }
     @Override
-    public ExamDto findByYearAndCategoryAndId(int year, String category, long id) {
+    public ExamDto findByYearAndCategoryAndId(String year, String category, long id) {
         return converter.examToDto(examRepository.findByYearAndCategoryAndId(year, category, id));
     }
 }

@@ -29,12 +29,12 @@ public class ExamController {
     public List<ExamDto> listExamsByCategory(@PathVariable("category") String category) {
         return examService.findAllExamsByCategory(category);
     }
-    @GetMapping("/exams/{year}")
-    public ExamDto getExamByYear(@PathVariable("year") int year) {
+    @GetMapping("/exams/year={year}")
+    public ExamDto getExamByYear(@PathVariable("year") String year) {
         return examService.findByYear(year);
     }
-    @GetMapping("/exams/{year}/{category}")
-    public ExamDto getExamByYear(@PathVariable("year") int year,
+    @GetMapping("/exams/year={year}/{category}")
+    public ExamDto getExamByYear(@PathVariable("year") String year,
                                  @PathVariable("category") String category) {
         return examService.findByYearAndCategory(year, category);
     }
@@ -45,10 +45,10 @@ public class ExamController {
         return examService.findAllExamsByCategoryAndId(category, id);
     }
 
-    @GetMapping("exams/{year}/{category}/id={id}")
+    @GetMapping("exams/year={year}/{category}/id={id}")
     public ExamDto getExamByYearAndCategoryAndId(@PathVariable("category") String category,
                                                  @PathVariable("id") long id,
-                                                 @PathVariable("year") int year) {
+                                                 @PathVariable("year") String year) {
         return examService.findByYearAndCategoryAndId(year, category, id);
     }
 }

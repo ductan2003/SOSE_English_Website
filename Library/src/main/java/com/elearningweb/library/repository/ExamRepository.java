@@ -10,8 +10,8 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
     List<Exam> findAllByCategory_Name(String category_name);
     List<Exam> findAllByCategory_NameAndId(String category_name, long id);
     Exam findById(long id);
-    Exam findByYear(int year);
-    Exam findByYearAndCategory(int year, String category);
-    Exam findByYearAndCategoryAndId(int year, String category, long id);
+    Exam findByYear(String year);
+    Exam findByYearAndCategory(String  year, String category);
+    Exam findByYearAndCategoryAndId(String year, String category, long id);
     void deleteById(long id);
 }
