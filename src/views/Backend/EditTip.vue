@@ -4,7 +4,6 @@
       <div class="col-md-4"></div>
       <div class="col-md-4">
         <br>
-        <br>
 
         <form @submit.prevent="EditTip()">
           <h1 class="loginHeader">Admin - Edit Tip</h1>
@@ -29,7 +28,10 @@
           <div class="d-grid gap-2">
             <button type="submit" class="login1" >Edit tip</button>
           </div>
-          <br>
+          <hr>
+          <div class="buttonList">
+            <router-link class="signup" style="background: #0d6efd" type="button" to="/admin/tipList">Back</router-link>
+          </div>
 
         </form>
         <br>
@@ -42,13 +44,16 @@
 
 <script>
 import axios from "axios";
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
+
 
 export default {
   data() {
     return {
       tip: [],
-      title: null,
-      body: null,
+      title: "",
+      body: "",
       image: null,
     };
   },
@@ -57,7 +62,8 @@ export default {
       this.image = this.$refs.fileQues.files[0];
     },
     async EditTip() {
-      await axios.put("http://localhost:8019/admin/save", {
+      let url = "http://localhost:8019/tips/update/" + parseInt(this.$route.params.id);
+      await axios.put(url, {
             title: this.title,
             body: this.body,
             image: this.image,
@@ -69,8 +75,14 @@ export default {
           }
       ).then((response) => {
         console.log(response.data);
+        toast.success("Saved successfully", { position: toast.POSITION.BOTTOM_RIGHT }), {
+          autoClose: 1000,
+        }
       }).catch((error) => {
         console.log(error);
+        toast.error("Saved failed", { position: toast.POSITION.BOTTOM_RIGHT }), {
+          autoClose: 1000,
+        }
         if (error.response) {
           // The server responded with an error status code
           console.log(error.response.data);
@@ -87,8 +99,10 @@ export default {
 
     },
     getTip() {
+      //get url by id
+      let url = "http://localhost:8019/tips/" + parseInt(this.$route.params.id);
       axios
-          .get("http://localhost:8019/admin/all?id=" + parseInt(this.$route.params.id))
+          .get(url)
           .then((response) => {
             console.log(response.data);
             this.tip = response.data;
@@ -113,6 +127,7 @@ export default {
   font-size: 35px;
   line-height: 28px;
   text-align: center;
+  color: #4CAF4F;
 }
 .login1{
   color: white;
@@ -124,7 +139,7 @@ export default {
   width: inherit;
   height: 40px;
 
-  background: #0d6efd;
+  background: #4CAF4F;
   border-radius: 6px;
   text-align: center;
 
@@ -146,5 +161,23 @@ export default {
   align-items: center;
   flex-direction: row;
   padding-bottom: 20px;
+}
+
+.signup {
+  color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  width: inherit;
+  height: 40px;
+
+  background: #0d6efd;
+  border-radius: 6px;
+  text-align: center;
+
+  text-decoration: none;
+  font-family: 'Inter';
 }
 </style>

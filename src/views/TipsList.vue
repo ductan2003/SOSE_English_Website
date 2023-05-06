@@ -25,8 +25,9 @@ export default {
   },
   methods: {
     getTips() {
+      let url = "http://localhost:8019/tips/all";
       axios
-        .get("http://localhost:8019/admin/all")
+        .get(url)
         .then((response) => {
           console.log(response.data);
           this.tips = response.data;

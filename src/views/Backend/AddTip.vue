@@ -28,7 +28,10 @@
           <div class="d-grid gap-2">
             <button type="submit" class="login1" >Add Tip</button>
           </div>
-          <br>
+          <hr>
+          <div class="buttonList">
+            <router-link class="signup" style="background: #0d6efd" type="button" to="/admin/tipList">Back</router-link>
+          </div>
 
         </form>
         <br>
@@ -41,6 +44,9 @@
 
 <script>
 import axios from "axios";
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
+
 export default {
   name: "AddTip",
   data(){
@@ -55,8 +61,9 @@ export default {
       this.image = this.$refs.fileQues.files[0];
     },
     async AddTip() {
-      //change tip link
-      await axios.post("http://localhost:8019/admin/save", {
+      //insert url here
+      let url = "";
+      await axios.post(url, {
             title: this.title,
             body: this.body,
             image: this.image,
@@ -67,8 +74,14 @@ export default {
           }
       ).then((response) => {
         console.log(response.data);
+        toast.success("Saved successfully", { position: toast.POSITION.BOTTOM_RIGHT }), {
+          autoClose: 1000,
+        }
       }).catch((error) => {
         console.log(error);
+        toast.error("Saved failed", { position: toast.POSITION.BOTTOM_RIGHT }), {
+          autoClose: 1000,
+      }
         if (error.response) {
           // The server responded with an error status code
           console.log(error.response.data);
@@ -82,7 +95,6 @@ export default {
           console.log('Error', error.message);
         }
       });
-
     },
   },
 }
@@ -100,6 +112,7 @@ export default {
   height: 40px;
 
   background: #4CAF4F;
+
   border-radius: 6px;
   text-align: center;
 
@@ -126,7 +139,8 @@ export default {
   width: inherit;
   height: 40px;
 
-  background: #0d6efd;
+  background: #4CAF4F;
+
   border-radius: 6px;
   text-align: center;
 
@@ -149,4 +163,5 @@ export default {
   flex-direction: row;
   padding-bottom: 20px;
 }
+
 </style>
