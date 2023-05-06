@@ -56,20 +56,9 @@ export default {
     };
   },
   methods: {
-    getExams() {
-      if (this.typeSelected) {
-        axios
-            .get("http://localhost:8019/user/exams/" + this.typeSelected)
-            .then((response) => {
-              console.log(response.data);
-              this.exams = response.data;
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-      } else {
+    getList(url) {
       axios
-          .get("http://localhost:8019/user/exams/all")
+          .get(url)
           .then((response) => {
             console.log(response.data);
             this.exams = response.data;
@@ -77,6 +66,18 @@ export default {
           .catch((error) => {
             console.log(error);
           });
+    },
+    getExams() {
+      if (this.typeSelected && !this.yearSelected) {
+        let url = "http://localhost:8019/user/exams/" + this.typeSelected;
+        this.getList(url);
+      }
+      else if (!this.typeSelected && this.yearSelected) {
+        let url = "http://localhost:8019/user/exams/year-" + this.yearSelected;
+        this.getList(url);
+      } else {
+        let url = "http://localhost:8019/user/exams/all";
+        this.getList(url);
       }
     },
   },

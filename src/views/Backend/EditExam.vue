@@ -4,7 +4,6 @@
       <div class="col-md-4"></div>
       <div class="col-md-4">
         <br>
-        <br>
 
         <form @submit.prevent="EditExam()">
           <h1 class="loginHeader">Admin - Edit Exam</h1>
@@ -44,7 +43,11 @@
           <div class="d-grid gap-2">
             <button type="submit" class="login1" >Save Exam</button>
           </div>
-          <br>
+
+          <hr>
+          <div class="buttonList">
+            <router-link class="signup" style="background: #0d6efd" type="button" to="/admin/examList">Back</router-link>
+          </div>
 
         </form>
         <br>
@@ -155,6 +158,7 @@ export default {
   font-size: 35px;
   line-height: 28px;
   text-align: center;
+  color: #4CAF4F;
 }
 .login1{
   color: white;
@@ -166,7 +170,7 @@ export default {
   width: inherit;
   height: 40px;
 
-  background: #0d6efd;
+  background: #4CAF4F;
   border-radius: 6px;
   text-align: center;
 
@@ -188,5 +192,23 @@ export default {
   align-items: center;
   flex-direction: row;
   padding-bottom: 20px;
+}
+
+.signup {
+  color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  width: inherit;
+  height: 40px;
+
+  background: #0d6efd;
+  border-radius: 6px;
+  text-align: center;
+
+  text-decoration: none;
+  font-family: 'Inter';
 }
 </style>

@@ -110,15 +110,9 @@ export default {
         toast.success("Saved successfully", { position: toast.POSITION.BOTTOM_RIGHT }), {
           autoClose: 1000,
         }
-        // this.title = "",
-        //     this.category = "",
-        //     this.description = "",
-        //     this.year = "",
-        //     this.file = null,
-        //     this.fileQues = null
       }).catch((error) => {
-            console.log(error);
-        toast.error("Saved failed", { position: toast.POSITION.BOTTOM_RIGHT }), {
+          console.log(error);
+          toast.error("Saved failed", { position: toast.POSITION.BOTTOM_RIGHT }), {
           autoClose: 1000,
         }
         if (error.response) {
