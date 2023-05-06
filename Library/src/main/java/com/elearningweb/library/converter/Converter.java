@@ -64,7 +64,6 @@ public class Converter {
         userDto.setLastName(user.getLastName());
         userDto.setUsername(user.getUsername());
         userDto.setPassword(user.getPassword());
-        userDto.setResetPasswordToken(user.getResetPasswordToken());
         return userDto;
     }
 
@@ -80,7 +79,6 @@ public class Converter {
         user.setLastName(userDto.getLastName());
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
-        user.setResetPasswordToken(userDto.getResetPasswordToken());
         return user;
     }
     public Question questionToEntity(QuestionDto question) {

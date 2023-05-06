@@ -8,6 +8,7 @@ import com.elearningweb.library.service.FileService;
 import com.elearningweb.library.service.PostService;
 import com.elearningweb.library.service.impl.CommentServiceImpl;
 import com.elearningweb.library.service.impl.UserServiceImpl;
+import com.elearningweb.library.util.FileUploadUtils;
 import com.elearningweb.library.util.StreamUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import org.modelmapper.ModelMapper;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -136,6 +138,7 @@ public class TipsController {
         PostDto updatePost = postService.updatePost(postDto, id);
         return new ResponseEntity<PostDto>(updatePost, HttpStatus.OK);
     }
+
 
     @GetMapping(value = "/file/{fileName}", produces = MediaType.IMAGE_JPEG_VALUE)
     public void downloadFile(@PathVariable("fileName") String fileName,

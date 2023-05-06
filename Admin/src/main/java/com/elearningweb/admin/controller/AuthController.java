@@ -1,8 +1,11 @@
 package com.elearningweb.admin.controller;
 
 import com.elearningweb.library.dto.UserDto;
+import com.elearningweb.library.model.User;
 import com.elearningweb.library.repository.UserRepository;
+import com.elearningweb.library.service.impl.PasswordResetServiceImpl;
 import com.elearningweb.library.service.impl.UserServiceImpl;
+import com.google.api.Http;
 import lombok.EqualsAndHashCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +15,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.mail.MessagingException;
 import java.lang.String;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -26,6 +33,9 @@ public class AuthController {
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private PasswordResetServiceImpl passwordResetService;
 
 
     @PostMapping("/signin")
@@ -58,17 +68,33 @@ public class AuthController {
         return new ResponseEntity<>("Passwords do not match", HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/forgot-password")
-    public String forgotPassword(@RequestParam String username) {
-        String response = userService.forgotPassword(username);
-        if(!response.startsWith("Invalid")){
-            response = "http://localhost:8080/reset-password?token=" + response;
-        }
-        return response;
+    @GetMapping("/check-username/{username}")
+    public ResponseEntity<User> checkUserName(@PathVariable("username") String username) {
+        boolean usernameExists = userService.checkUserName(username);
+        if(usernameExists) return new ResponseEntity<>(HttpStatus.CONFLICT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/reset-password")
-    public String resetPassword(@RequestParam String token, @RequestParam String password) {
-        return userService.updatePassword(token, password);
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Map<String, String>> forgotPassword(@RequestParam("username") String username) throws MessagingException {
+        passwordResetService.sendPasswordResetEmail(username);
+        Map<String, String> responseBody = new HashMap<>();
+        responseBody.put("message", "Password change request sent successfully.");
+        return ResponseEntity.ok(responseBody);
+    }
+
+    //Yêu cầu đặt lại mật khẩu dựa trên mã token thông báo được gửi qua email (username)
+    @PostMapping("/reset/{token}")
+    public ResponseEntity<Map<String, String>> resetPassword(@PathVariable String token, @RequestPart String username, @RequestPart String password) throws MessagingException {
+        try {
+            passwordResetService.changePassword(token, password, username);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Password changed successfully.");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (MessagingException e){
+            Map<String, String> response = new HashMap<>();
+            response.put("error", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
     }
 }

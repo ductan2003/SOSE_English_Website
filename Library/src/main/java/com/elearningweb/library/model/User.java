@@ -30,10 +30,6 @@ public class User implements UserDetails {
 
     @JsonIgnore
     private String password;
-    private String resetPasswordToken;
-    @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime tokenCreationDate;
-
 
     @ManyToMany (fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "users_roles",
