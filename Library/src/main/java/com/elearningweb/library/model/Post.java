@@ -28,6 +28,7 @@ public class Post {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id", referencedColumnName = "id")
     private Category category;
+    private String description;
 
     public Post(String title, String body, User creator, Date dateCreated, String image, Category category) {
         this.title = title;

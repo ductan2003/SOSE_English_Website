@@ -1,10 +1,6 @@
 package com.elearningweb.admin.controller;
 
-import com.elearningweb.library.dto.LoginDto;
 import com.elearningweb.library.dto.UserDto;
-import com.elearningweb.library.model.Role;
-import com.elearningweb.library.model.User;
-import com.elearningweb.library.repository.RoleRepository;
 import com.elearningweb.library.repository.UserRepository;
 import com.elearningweb.library.service.impl.UserServiceImpl;
 import lombok.EqualsAndHashCode;
