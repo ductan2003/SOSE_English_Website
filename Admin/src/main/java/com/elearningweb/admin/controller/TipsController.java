@@ -39,7 +39,7 @@ public class TipsController {
     private CommentServiceImpl commentService;
     @Autowired
     private FileService fileService;
-//    @Value("${project.image}")
+    @Value("${project.image}")
     private String path;
     @Autowired
     public ModelMapper modelMapper;
