@@ -4,13 +4,17 @@ import com.elearningweb.library.dto.CategoryDto;
 import com.elearningweb.library.dto.ExamDto;
 import com.elearningweb.library.service.impl.ExamServiceImpl;
 import com.elearningweb.library.service.impl.FileServiceImpl;
+import com.elearningweb.library.util.StreamUtils;
 import jakarta.annotation.Nullable;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
 import java.util.List;
 
 @RestController
@@ -62,6 +66,13 @@ public class UpdateExamController {
                                                  @PathVariable("id") long id,
                                                  @PathVariable("year") String year) {
         return examService.findByYearAndCategoryAndId(year, category, id);
+    }
+    @GetMapping(value = "/exams/file/{fileName}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public void downloadFile(@PathVariable("fileName") String fileName,
+                             HttpServletResponse response) throws Exception {
+        InputStream resource = this.fileService.getResource(path, fileName);
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        StreamUtils.copy(resource, response.getOutputStream());
     }
 
     @PostMapping(value = "/exams/save")
