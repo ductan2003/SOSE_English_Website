@@ -127,9 +127,7 @@ public class UpdateExamController {
         fileService.save(fileQuestion, FileServiceImpl.fileQuestionPath);
         examDto.setFileQuestion(FileServiceImpl.path.toString());
 
-        if(examDto.getFileAnswer() == null) {
-            String fileName = fileService.updateFile(path, fileImage);
-            examDto.setFileImage(fileName);
-        }
+        String fileName = fileService.updateFile(path, fileImage);
+        examDto.setFileImage(fileName);
     }
 }
