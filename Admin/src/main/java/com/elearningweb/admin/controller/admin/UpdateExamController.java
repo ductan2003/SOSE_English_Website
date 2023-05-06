@@ -3,6 +3,7 @@ package com.elearningweb.admin.controller.admin;
 import com.elearningweb.library.dto.CategoryDto;
 import com.elearningweb.library.dto.ExamDto;
 import com.elearningweb.library.service.impl.ExamServiceImpl;
+import com.elearningweb.library.service.impl.FileServiceImpl;
 import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,26 +11,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/admin")
 public class UpdateExamController {
 
-    private static Path fileA, fileQ, fileI;
-    private static final Path staticPath = Paths.get("static");
-    private static final Path fileAnswerPath = Paths.get("fileAnswer");
-    private static final Path fileQuestionPath = Paths.get("fileQuestion");
-    private static final Path fileImagePath = Paths.get("fileImage");
-    private static final Path CURRENT_FOLDER = Paths.get(System.getProperty("user.dir"));
     @Autowired
     private ExamServiceImpl examService;
+    @Autowired
+    private FileServiceImpl fileService;
 
     @GetMapping("/exams/all")
     public List<ExamDto> listExams() {
@@ -40,21 +31,25 @@ public class UpdateExamController {
     public ExamDto getExamByYear(@PathVariable("year") String year) {
         return examService.findByYear(year);
     }
+
     @GetMapping("/exams/year={year}/{category}")
     public ExamDto getExamByYear(@PathVariable("year") String year,
                                  @PathVariable("category") String category) {
         return examService.findByYearAndCategory(year, category);
     }
+
     @GetMapping("/exams/id={id}")
     public ExamDto getExamById(@PathVariable("id") long id) {
         return examService.findById(id);
     }
+
     @GetMapping("/exams/year={year}/{category}/id={id}")
     public ExamDto getExamByYearAndCategoryAndId(@PathVariable("category") String category,
                                                  @PathVariable("id") long id,
                                                  @PathVariable("year") String year) {
         return examService.findByYearAndCategoryAndId(year, category, id);
     }
+
     @PostMapping(value = "/exams/save")
     @ResponseStatus(HttpStatus.CREATED)
     public ExamDto createExam(@RequestPart String title,
@@ -65,15 +60,15 @@ public class UpdateExamController {
                               @RequestPart MultipartFile fileAnswer,
                               @RequestPart MultipartFile fileImage
     ) throws IOException {
-        initFolder(fileAnswer, fileQuestion, fileImage);
         ExamDto examDto = new ExamDto();
+
+        saveExam(fileAnswer, fileQuestion, fileImage, examDto);
+
         examDto.setTitle(title);
         examDto.setDescription(description);
         examDto.setYear(year);
         examDto.setCategory(new CategoryDto(null, category));
-        examDto.setFileQuestion(fileQ.toString());
-        examDto.setFileAnswer(fileA.toString());
-        examDto.setFileImage(fileI.toString());
+
 
         return examService.save(examDto);
     }
@@ -91,14 +86,12 @@ public class UpdateExamController {
         if (examDto == null) {
             return null;
         } else {
-            initFolder(fileAnswer, fileQuestion, fileImage);
+            saveExam(fileAnswer, fileQuestion, fileImage, examDto);
+
             examDto.setTitle(title);
             examDto.setDescription(description);
             examDto.setYear(year);
             examDto.setCategory(new CategoryDto(null, category));
-            examDto.setFileAnswer(fileA.toString());
-            examDto.setFileQuestion(fileQ.toString());
-            examDto.setFileImage(fileI.toString());
         }
 
         return examService.save(examDto);
@@ -109,34 +102,17 @@ public class UpdateExamController {
         examService.delete(id);
     }
 
+    private void saveExam(MultipartFile fileAnswer,
+                          MultipartFile fileQuestion,
+                          MultipartFile fileImage,
+                          ExamDto examDto) {
+        fileService.save(fileAnswer, FileServiceImpl.fileAnswerPath);
+        examDto.setFileAnswer(FileServiceImpl.path.toString());
 
-    public void initFolder(MultipartFile fileAnswer, MultipartFile fileQuestion, MultipartFile fileImage) throws IOException {
-        if (!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(fileAnswerPath))) {
-            Files.createDirectories(CURRENT_FOLDER.resolve(staticPath).resolve(fileAnswerPath));
-        }
-        if (!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(fileQuestionPath))) {
-            Files.createDirectories(CURRENT_FOLDER.resolve(staticPath).resolve(fileQuestionPath));
-        }
-        if (!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(fileImagePath))) {
-            Files.createDirectories(CURRENT_FOLDER.resolve(staticPath).resolve(fileImagePath));
-        }
-        fileA = CURRENT_FOLDER.resolve(staticPath)
-                .resolve(fileAnswerPath)
-                .resolve(Objects.requireNonNull(fileAnswer.getOriginalFilename()));
-        fileQ = CURRENT_FOLDER.resolve(staticPath)
-                .resolve(fileQuestionPath)
-                .resolve(Objects.requireNonNull(fileQuestion.getOriginalFilename()));
-        fileI = CURRENT_FOLDER.resolve(staticPath)
-                .resolve(fileImagePath)
-                .resolve(Objects.requireNonNull(fileImage.getOriginalFilename()));
-        try (OutputStream os = Files.newOutputStream(fileA)) {
-            os.write(fileAnswer.getBytes());
-        }
-        try (OutputStream os = Files.newOutputStream(fileQ)) {
-            os.write(fileQuestion.getBytes());
-        }
-        try (OutputStream os = Files.newOutputStream(fileI)) {
-            os.write(fileImage.getBytes());
-        }
+        fileService.save(fileQuestion, FileServiceImpl.fileQuestionPath);
+        examDto.setFileQuestion(FileServiceImpl.path.toString());
+
+        fileService.save(fileImage, FileServiceImpl.fileImagePath);
+        examDto.setFileImage(FileServiceImpl.path.toString());
     }
 }

@@ -22,6 +22,8 @@ public class DbInit implements InitializingBean {
     UserRepository userRepository;
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    FileServiceImpl fileService;
 
     List<Role> roles = new ArrayList<>();
 
@@ -43,5 +45,6 @@ public class DbInit implements InitializingBean {
             admin.setRoles(roles);
             userRepository.save(admin);
         }
+        fileService.init();
     }
 }
