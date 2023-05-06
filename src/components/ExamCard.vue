@@ -1,8 +1,8 @@
 <template>
   <div class="exam-container">
+
     <div class="exam-image">
-<!--      <img :src="'./static/fileImage/jennie.jpg'" alt="pic" />-->
-<!--      <img src={{exam.fileImg.description}} alt="pic" />-->
+      <img :src='"/src/images/" + exam.fileImage'   alt="pic" />
     </div>
 
     <div class="text">
