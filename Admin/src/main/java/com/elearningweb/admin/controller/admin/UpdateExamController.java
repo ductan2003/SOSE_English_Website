@@ -2,11 +2,14 @@ package com.elearningweb.admin.controller.admin;
 
 import com.elearningweb.library.dto.CategoryDto;
 import com.elearningweb.library.dto.ExamDto;
+import com.elearningweb.library.dto.PostDto;
 import com.elearningweb.library.service.impl.ExamServiceImpl;
 import com.elearningweb.library.service.impl.FileServiceImpl;
 import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +24,8 @@ public class UpdateExamController {
     private ExamServiceImpl examService;
     @Autowired
     private FileServiceImpl fileService;
+    @Value("${project.image}")
+    private String path;
 
     //1.Get all exams
     @GetMapping("/exams/all")
@@ -71,10 +76,11 @@ public class UpdateExamController {
                               @RequestPart MultipartFile fileQuestion,
                               @RequestPart MultipartFile fileAnswer,
                               @RequestPart MultipartFile fileImage
-    ) throws IOException {
+    ) throws Exception {
         ExamDto examDto = new ExamDto();
 
         saveExam(fileAnswer, fileQuestion, fileImage, examDto);
+
 
         examDto.setTitle(title);
         examDto.setDescription(description);
@@ -93,7 +99,7 @@ public class UpdateExamController {
                               @Nullable @RequestPart MultipartFile fileQuestion,
                               @Nullable @RequestPart MultipartFile fileAnswer,
                               @RequestPart MultipartFile fileImage,
-                              @PathVariable("id") long id) throws IOException {
+                              @PathVariable("id") long id) throws Exception {
         ExamDto examDto = examService.findById(id);
         if (examDto == null) {
             return null;
@@ -117,14 +123,14 @@ public class UpdateExamController {
     private void saveExam(MultipartFile fileAnswer,
                           MultipartFile fileQuestion,
                           MultipartFile fileImage,
-                          ExamDto examDto) {
+                          ExamDto examDto) throws Exception {
         fileService.save(fileAnswer, FileServiceImpl.fileAnswerPath);
         examDto.setFileAnswer(FileServiceImpl.path.toString());
 
         fileService.save(fileQuestion, FileServiceImpl.fileQuestionPath);
         examDto.setFileQuestion(FileServiceImpl.path.toString());
 
-        fileService.save(fileImage, FileServiceImpl.fileImagePath);
-        examDto.setFileImage(FileServiceImpl.path.toString());
+        String fileName = fileService.updateFile(path, fileImage);
+        examDto.setFileImage(fileName);
     }
 }
