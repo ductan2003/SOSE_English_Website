@@ -9,7 +9,7 @@
         <div class="filter-text">FILTERS</div>
         <div class="dropdown">
           <div class="dropdown-text">Type</div>
-          <select class="dropdown-box" v-model="typeSelected" type="button" v-on:click="getExams()">
+          <select class="dropdown-box" v-model="typeSelected" type="button" v-on:click="getExams">
             <option class="dropdown-item">Reading</option>
             <option class="dropdown-item">Listening</option>
             <option class="dropdown-item">Writting</option>
@@ -22,7 +22,7 @@
 
         <div class="dropdown">
           <div class="dropdown-text">Year</div>
-          <select class="dropdown-box" v-model="yearSelected" type="button">
+          <select class="dropdown-box" v-model="yearSelected" type="button" v-on:click="getExams">
             <option class="dropdown-item">2023</option>
             <option class="dropdown-item">2022</option>
             <div class="dropdown-pic">
@@ -31,8 +31,8 @@
           </select>
         </div>
 
-        <p v-if="typeSelected" style="color:black">{{typeSelected}}</p>
-        <p v-if="yearSelected" style="color:black">{{yearSelected}}</p>
+<!--        <p v-if="typeSelected" style="color:black">{{typeSelected}}</p>-->
+<!--        <p v-if="yearSelected" style="color:black">{{yearSelected}}</p>-->
       </div>
 
       <div class="exam-list">
@@ -68,12 +68,19 @@ export default {
           });
     },
     getExams() {
-      if (this.typeSelected && !this.yearSelected) {
+      console.log("type", this.typeSelected);
+      console.log("year", this.yearSelected);
+      if (!this.yearSelected && this.typeSelected) {
         let url = "http://localhost:8019/user/exams/" + this.typeSelected;
         this.getList(url);
       }
-      else if (!this.typeSelected && this.yearSelected) {
-        let url = "http://localhost:8019/user/exams/year-" + this.yearSelected;
+       else if (this.yearSelected && !this.typeSelected) {
+        let url = "http://localhost:8019/admin/exams/year=" + this.yearSelected;
+        this.getList(url);
+        console.log("year")
+      }
+      else if (this.yearSelected && this.typeSelected) {
+        let url = "http://localhost:8019/user/exams/year=" + this.yearSelected + "/" + this.typeSelected;
         this.getList(url);
       } else {
         let url = "http://localhost:8019/user/exams/all";
