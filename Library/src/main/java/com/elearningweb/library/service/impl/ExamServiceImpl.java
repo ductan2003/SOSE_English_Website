@@ -94,8 +94,8 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public List<ExamDto> findAllExamsByCategoryAndId(String category, long id) {
-        return converter.listExamToDto(examRepository.findAllByCategory_NameAndId(category, id));
+    public ExamDto findByCategoryAndId(String category, long id) {
+        return converter.examToDto(examRepository.findByCategory_NameAndId(category, id));
     }
 
     @Override

@@ -11,7 +11,7 @@ public interface ExamService {
     void delete(long id);
     List<ExamDto> findAllExams();
     List<ExamDto> findAllExamsByCategory(String category);
-    List<ExamDto> findAllExamsByCategoryAndId(String category, long id);
+    ExamDto findByCategoryAndId(String category, long id);
     ExamDto findById(long id);
     List<ExamDto> findAllByYear(String year);
     List<ExamDto> findAllByYearAndCategory(String year, String category);
