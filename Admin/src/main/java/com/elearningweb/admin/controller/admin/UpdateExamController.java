@@ -2,18 +2,15 @@ package com.elearningweb.admin.controller.admin;
 
 import com.elearningweb.library.dto.CategoryDto;
 import com.elearningweb.library.dto.ExamDto;
-import com.elearningweb.library.dto.PostDto;
 import com.elearningweb.library.service.impl.ExamServiceImpl;
 import com.elearningweb.library.service.impl.FileServiceImpl;
 import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -130,7 +127,9 @@ public class UpdateExamController {
         fileService.save(fileQuestion, FileServiceImpl.fileQuestionPath);
         examDto.setFileQuestion(FileServiceImpl.path.toString());
 
-        String fileName = fileService.updateFile(path, fileImage);
-        examDto.setFileImage(fileName);
+        if(examDto.getFileAnswer() == null) {
+            String fileName = fileService.updateFile(path, fileImage);
+            examDto.setFileImage(fileName);
+        }
     }
 }
