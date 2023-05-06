@@ -26,4 +26,7 @@ public class Comment {
         this.creator = creator;
     }
 
+    public Comment(String text) {
+        this.text = text;
+    }
 }

@@ -64,18 +64,30 @@ public class TipsController {
         return new ResponseEntity<List<PostDto>>(postDtos, HttpStatus.OK);
     }
 
-    @PostMapping("/{categoryName}/{creatorName}/posts")
+    @PostMapping("/publishTips")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<PostDto> publishPost(@RequestBody PostDto postDto,
+    public ResponseEntity<PostDto> publishPost(@RequestPart String title,
+                                               @RequestPart String body,
+                                               @RequestPart User creator,
+                                               @RequestPart String image,
+                                               @RequestPart Category category,
+                            @RequestPart String description,
                             @PathVariable String categoryName,
                             @PathVariable String creatorName) throws Exception {
+        PostDto postDto = new PostDto(title, body, creator, image, category, description);
         PostDto publishPost = postService.insert(postDto, categoryName, creatorName);
         return new ResponseEntity<PostDto>(publishPost, HttpStatus.OK );
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto,
+    public ResponseEntity<PostDto> updatePost(@RequestPart String title,
+                                              @RequestPart String body,
+                                              @RequestPart User creator,
+                                              @RequestPart String image,
+                                              @RequestPart Category category,
+                                              @RequestPart String description,
                                               @PathVariable Long id) throws Exception{
+        PostDto postDto = new PostDto(title, body, creator, image, category, description);
         PostDto updatePost = postService.updatePost(postDto, id);
         return new ResponseEntity<>(updatePost, HttpStatus.OK);
     }
@@ -103,7 +115,8 @@ public class TipsController {
     }
 
     @PostMapping("/postComment")
-    public boolean postComment(@RequestBody Comment comment) {
+    public boolean postComment(@RequestPart String text) {
+        Comment comment = new Comment(text);
         Post post = postService.find(comment.getId());
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDto creatorDto = userService.getUser(userDetails.getUsername());
