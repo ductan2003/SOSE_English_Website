@@ -33,7 +33,7 @@ public class UpdateExamController {
     }
 
     @GetMapping("/exams/year={year}/{category}")
-    public ExamDto getExamByYear(@PathVariable("year") String year,
+    public ExamDto getExamByYearAndCategory(@PathVariable("year") String year,
                                  @PathVariable("category") String category) {
         return examService.findByYearAndCategory(year, category);
     }

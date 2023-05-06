@@ -37,7 +37,6 @@ public class Exam {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
-//    @OnDelete(action = OnDeleteAction.CASCADE)
     private Category category;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "exam", orphanRemoval = true)
