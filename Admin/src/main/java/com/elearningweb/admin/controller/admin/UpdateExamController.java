@@ -28,14 +28,14 @@ public class UpdateExamController {
     }
 
     @GetMapping("/exams/year={year}")
-    public ExamDto getExamByYear(@PathVariable("year") String year) {
-        return examService.findByYear(year);
+    public List<ExamDto> getExamByYear(@PathVariable("year") String year) {
+        return examService.findAllByYear(year);
     }
 
     @GetMapping("/exams/year={year}/{category}")
-    public ExamDto getExamByYearAndCategory(@PathVariable("year") String year,
+    public List<ExamDto> getExamByYearAndCategory(@PathVariable("year") String year,
                                  @PathVariable("category") String category) {
-        return examService.findByYearAndCategory(year, category);
+        return examService.findAllByYearAndCategory(year, category);
     }
 
     @GetMapping("/exams/id={id}")

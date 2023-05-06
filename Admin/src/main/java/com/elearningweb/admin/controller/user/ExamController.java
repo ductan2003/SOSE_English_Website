@@ -30,13 +30,13 @@ public class ExamController {
         return examService.findAllExamsByCategory(category);
     }
     @GetMapping("/exams/year={year}")
-    public ExamDto getExamByYear(@PathVariable("year") String year) {
-        return examService.findByYear(year);
+    public List<ExamDto> getExamByYear(@PathVariable("year") String year) {
+        return examService.findAllByYear(year);
     }
     @GetMapping("/exams/year={year}/{category}")
-    public ExamDto getExamByYear(@PathVariable("year") String year,
+    public List<ExamDto> getExamByYear(@PathVariable("year") String year,
                                  @PathVariable("category") String category) {
-        return examService.findByYearAndCategory(year, category);
+        return examService.findAllByYearAndCategory(year, category);
     }
 
     @GetMapping("exams/{category}/id={id}")

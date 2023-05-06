@@ -13,8 +13,8 @@ public interface ExamService {
     List<ExamDto> findAllExamsByCategory(String category);
     List<ExamDto> findAllExamsByCategoryAndId(String category, long id);
     ExamDto findById(long id);
-    ExamDto findByYear(String year);
-    ExamDto findByYearAndCategory(String year, String category);
+    List<ExamDto> findAllByYear(String year);
+    List<ExamDto> findAllByYearAndCategory(String year, String category);
     ExamDto findByYearAndCategoryAndId(String year, String category, long id);
 
 }
