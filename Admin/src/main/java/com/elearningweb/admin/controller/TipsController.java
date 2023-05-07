@@ -64,10 +64,10 @@ public class TipsController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<PostDto> publishPost(@RequestPart String title,
                                                @RequestPart String body,
-                                               @RequestPart User creator,
                                                @RequestPart String image,
                                                @RequestPart String description,
                                                @PathVariable String creatorName) throws Exception {
+        User creator = (User) userService.loadUserByUsername(creatorName);
         PostDto postDto = new PostDto(title, body, creator, image, description);
         PostDto publishPost = postService.insert(postDto, creatorName);
         return new ResponseEntity<PostDto>(publishPost, HttpStatus.OK );
@@ -76,10 +76,10 @@ public class TipsController {
     @PutMapping("/update/{id}")
     public ResponseEntity<PostDto> updatePost(@RequestPart String title,
                                               @RequestPart String body,
-                                              @RequestPart User creator,
                                               @RequestPart String image,
                                               @RequestPart String description,
                                               @PathVariable Long id) throws Exception{
+        User creator = postService.getPost(id).getCreator();
         PostDto postDto = new PostDto(title, body, creator, image, description);
         PostDto updatePost = postService.updatePost(postDto, id);
         return new ResponseEntity<>(updatePost, HttpStatus.OK);
