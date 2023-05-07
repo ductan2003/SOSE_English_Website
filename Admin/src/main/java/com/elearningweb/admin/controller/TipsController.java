@@ -65,9 +65,9 @@ public class TipsController {
     public ResponseEntity<PostDto> publishPost(@RequestPart String title,
                                                @RequestPart String body,
                                                @RequestPart String image,
-                                               @RequestPart String description,
-                                               @PathVariable String creatorName) throws Exception {
+                                               @RequestPart String description) throws Exception {
         PostDto postDto = new PostDto(title, body, image, description);
+        String creatorName = postDto.getCreator().getUsername();
         PostDto publishPost = postService.insert(postDto, creatorName);
         return new ResponseEntity<PostDto>(publishPost, HttpStatus.OK );
     }
