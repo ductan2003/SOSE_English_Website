@@ -29,10 +29,9 @@ public class PostDto {
         this.image = image;
     }
 
-    public PostDto(String title, String body, User creator, String image, String description) {
+    public PostDto(String title, String body, String image, String description) {
         this.title = title;
         this.body = body;
-        this.creator = creator;
         this.image = image;
         this.description = description;
     }
