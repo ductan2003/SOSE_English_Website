@@ -25,8 +25,6 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private List<Exam> exams = new ArrayList<>();
 
-    @OneToMany(mappedBy = "category")
-    private List<Post> posts = new ArrayList<>();
     public Category(String name){
         this.name = name;
     }

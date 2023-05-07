@@ -25,17 +25,13 @@ public class Post {
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
     private String image;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id", referencedColumnName = "id")
-    private Category category;
     private String description;
 
-    public Post(String title, String body, User creator, Date dateCreated, String image, Category category) {
+    public Post(String title, String body, User creator, Date dateCreated, String image) {
         this.title = title;
         this.body = body;
         this.creator = creator;
         this.dateCreated = dateCreated;
         this.image = image;
-        this.category = category;
     }
 }

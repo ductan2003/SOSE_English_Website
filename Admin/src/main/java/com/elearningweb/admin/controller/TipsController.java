@@ -60,24 +60,16 @@ public class TipsController {
         return postService.findByUser(userService.getUser(username));
     }
 
-    @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<PostDto>> getPostByCategory(@PathVariable String categoryName) {
-        List<PostDto> postDtos = this.postService.getPostByCategory(categoryName);
-        return new ResponseEntity<List<PostDto>>(postDtos, HttpStatus.OK);
-    }
-
     @PostMapping("/publishTips")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<PostDto> publishPost(@RequestPart String title,
                                                @RequestPart String body,
                                                @RequestPart User creator,
                                                @RequestPart String image,
-                                               @RequestPart Category category,
-                            @RequestPart String description,
-                            @PathVariable String categoryName,
-                            @PathVariable String creatorName) throws Exception {
-        PostDto postDto = new PostDto(title, body, creator, image, category, description);
-        PostDto publishPost = postService.insert(postDto, categoryName, creatorName);
+                                               @RequestPart String description,
+                                               @PathVariable String creatorName) throws Exception {
+        PostDto postDto = new PostDto(title, body, creator, image, description);
+        PostDto publishPost = postService.insert(postDto, creatorName);
         return new ResponseEntity<PostDto>(publishPost, HttpStatus.OK );
     }
 
@@ -86,10 +78,9 @@ public class TipsController {
                                               @RequestPart String body,
                                               @RequestPart User creator,
                                               @RequestPart String image,
-                                              @RequestPart Category category,
                                               @RequestPart String description,
                                               @PathVariable Long id) throws Exception{
-        PostDto postDto = new PostDto(title, body, creator, image, category, description);
+        PostDto postDto = new PostDto(title, body, creator, image, description);
         PostDto updatePost = postService.updatePost(postDto, id);
         return new ResponseEntity<>(updatePost, HttpStatus.OK);
     }

@@ -23,22 +23,17 @@ public class PostServiceImpl implements PostService {
     private PostRepository postRepository;
 
     @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
     public ModelMapper modelMapper;
 
     @Autowired
     public UserRepository userRepository;
 
     @Override
-    public PostDto insert(PostDto postDto, String categoryName, String creatorName) {
-        Category category = categoryRepository.findByName(categoryName);
+    public PostDto insert(PostDto postDto, String creatorName) {
         User user = userRepository.findByUserName(creatorName);
         Post post = this.modelMapper.map(postDto, Post.class);
         post.setImage("default.png");
         post.setDateCreated(new Date());
-        post.setCategory(category);
         post.setCreator(user);
         Post newPost = postRepository.save(post);
         return this.modelMapper.map(newPost, PostDto.class);
@@ -86,15 +81,6 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> findByUser(UserDto userDto) {
         return postRepository.findByCreator(userDto.getUsername());
-    }
-    @Override
-    public List<PostDto> getPostByCategory(String categoryName){
-        Category category = categoryRepository.findByName(categoryName);
-        List<Post> posts = postRepository.findAllByCategory(category);
-        List<PostDto> postDtos = posts.stream().map((post) ->
-            this.modelMapper.map(post, PostDto.class))
-                .collect(Collectors.toList());
-        return postDtos;
     }
 
     @Override

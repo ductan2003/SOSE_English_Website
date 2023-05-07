@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface PostService {
-    PostDto insert(PostDto postDto, String categoryName, String creatorName);
+    PostDto insert(PostDto postDto, String creatorName);
     PostDto updatePost(PostDto postDto, Long postId);
     boolean deletePost(Long postId);
     List<PostDto> searchByTitle (String title);
@@ -19,5 +19,4 @@ public interface PostService {
     Post getPost(Long id);
     PostDto getPostById (Long id);
     Post find(Long id);
-    List<PostDto> getPostByCategory(String categoryName);
 }

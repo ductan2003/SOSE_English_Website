@@ -14,7 +14,6 @@ import java.util.Optional;
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByCreator(String username);
     Post findAllById(Long id);
-    List<Post> findAllByCategory(Category category);
     @Query("select p from Post p where p.title like :key")
     List<Post> searchByTitle(@Param("key") String title);
 }
