@@ -128,7 +128,7 @@ export default {
 .filter-box {
   position: relative;
   width: 251.6px;
-  height: 382px;
+  height: 200px;
   /*left: 200px;*/
   /*margin-top: 2%;*/
   /* bottom: auto; */
