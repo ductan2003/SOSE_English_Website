@@ -20,6 +20,11 @@
             <label for="floatingPass" class="form-lable">Body</label>
           </div>
 
+          <div class="form-floating mb-3">
+            <input class="form-control" id="floatingPass" placeholder="password" name="password" v-model="description">
+            <label for="floatingPass" class="form-lable">Description</label>
+          </div>
+
           <div class="form-group">
             <label class="text-form">Image</label>
             <input @change="handleFileImg()" ref="fileImg" type="file" class="form" />
@@ -47,25 +52,26 @@ import axios from "axios";
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 
-
 export default {
   data() {
     return {
       tip: [],
       title: "",
       body: "",
+      description: "",
       image: null,
     };
   },
   methods: {
     handleFileImg(){
-      this.image = this.$refs.fileQues.files[0];
+      this.image = this.$refs.fileImg.files[0];
     },
     async EditTip() {
       let url = "http://localhost:8019/tips/update/" + parseInt(this.$route.params.id);
       await axios.put(url, {
             title: this.title,
             body: this.body,
+            description: this.description,
             image: this.image,
             id: parseInt(this.$route.params.id),
           },  {

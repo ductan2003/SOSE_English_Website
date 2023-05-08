@@ -70,23 +70,23 @@ export default {
   methods: {
     async Login() {
       let url = "http://localhost:8019/api/auth/signin";
-      const res = await axios
+      await axios
         .post(
           url,
           {
             username: this.username,
             password: this.password,
-          },
-          {
+          }, {
             headers: {
               "Content-Type": "multipart/form-data",
-            },
-          }
+            }
+            }
         )
         .then((response) => {
           console.log(response.data);
         })
         .catch((error) => {
+          console.log(this.username, this.password);
           console.log(error);
           if (error.response) {
             // The server responded with an error status code
@@ -102,7 +102,7 @@ export default {
           }
         },
     );
-      localStorage.setItem('token', res.data.token)
+      // localStorage.setItem('token', res.data.token)
     },
   },
 };
