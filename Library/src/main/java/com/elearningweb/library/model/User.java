@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Table(name = "users")
-public class User implements UserDetails {
+public class User{
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,30 +43,5 @@ public class User implements UserDetails {
         this.username = username;
         this.password = password;
         this.roles = roles;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
     }
 }

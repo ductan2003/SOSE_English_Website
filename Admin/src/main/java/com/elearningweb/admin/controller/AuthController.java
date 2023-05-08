@@ -5,7 +5,6 @@ import com.elearningweb.library.model.User;
 import com.elearningweb.library.repository.UserRepository;
 import com.elearningweb.library.service.impl.PasswordResetServiceImpl;
 import com.elearningweb.library.service.impl.UserServiceImpl;
-import com.google.api.Http;
 import lombok.EqualsAndHashCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -33,17 +33,20 @@ public class AuthController {
 
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     private PasswordResetServiceImpl passwordResetService;
 
 
     @PostMapping("/signin")
-    public ResponseEntity<String> authenticateUser(@RequestPart String username,
-                                                   @RequestPart String password){
+    public ResponseEntity<String> authenticateUser(@RequestParam String username,
+                                                   @RequestParam String password){
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                username, password));
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(
+                username,password));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);

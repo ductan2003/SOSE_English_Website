@@ -14,9 +14,9 @@ import java.util.List;
 
 
 public class CustomUserDetails implements UserDetails {
-    private Collection<? extends GrantedAuthority> authorities;
-    private String password;
-    private String username;
+    private final Collection<? extends GrantedAuthority> authorities;
+    private final String password;
+    private final String username;
     public CustomUserDetails(User user) {
         this.username = user.getUsername();
         this.password = user.getPassword();
