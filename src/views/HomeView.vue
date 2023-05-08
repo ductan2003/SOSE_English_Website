@@ -110,7 +110,7 @@
           </div>
         </div>
         <div class="exambutton">
-          <router-link class="signup" type="button" to="/about">test now</router-link>
+          <router-link class="signup" type="button" to="/exams">test now</router-link>
         </div>
       </div>
     </div>
@@ -131,7 +131,7 @@
           </div>
         </div>
         <div class="exambutton">
-          <router-link class="signup" type="button" to="/">get tip here</router-link>
+          <router-link class="signup" type="button" to="/tips">get tip here</router-link>
         </div>
       </div>
     </div>

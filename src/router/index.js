@@ -79,6 +79,11 @@ const routes = [
     name: 'editTip',
     component: ()=>import('../views/Backend/EditTip.vue')
   },
+  {
+    path: '/contact',
+    name: 'contact',
+    component: () => import('../views/ContactView.vue')
+  },
 ]
 
 const router = createRouter({

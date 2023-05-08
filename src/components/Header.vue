@@ -1,7 +1,7 @@
 <template>
     <div class="frame">
         <!-- Logo -->
-        <img class="logo" src="@/assets/logo.png" alt="logo" />
+        <img class="logo" src="@/assets/logo.png" alt="logo"/>
 
         <!-- Links -->
         <div class="linkname">
@@ -21,12 +21,8 @@
                 <a href="/tips" class="label1">E-Tips</a>
             </div>
 
-            <!-- <div class="linkdefault">
-                <a href="/" class="label1">E-Courses</a>
-            </div> -->
-
             <div class="linkdefault">
-                <a href="/" class="label1">Contact</a>
+                <a href="/contact" class="label1">Contact</a>
             </div>
         </div>
 
@@ -56,8 +52,8 @@
 }
 
 .logo {
-    height: 24px;
-    width: 154px;
+    height: 60px;
+    width: auto;
 }
 
 .linkname {

@@ -2,7 +2,7 @@
     <div class="footer">
         <!-- Logo and Info -->
         <div class="info">
-            <img class="logo" src="@/assets/logo.png" alt="logo" />
+            <img class="logo" src="@/assets/footerLogo.png" alt="logo" />
             <div class="company-info">
                 <p class="info-content">Copyright @UET</p>
                 <p class="info-content">All rights reversed.</p>
@@ -61,10 +61,11 @@
     flex-direction: row;
     align-items: flex-start;
     padding: 64px 165px;
+    /*padding-bottom: 3%;*/
     gap: 125px;
 
     width: auto;
-    height: 328px;
+    height: auto;
 
     background: #263238;
 
@@ -146,8 +147,8 @@
     padding: 0px;
     gap: 9.89px;
 
-    width: 191px;
-    height: 29.67px;
+    width: auto;
+    height: 60px;
 
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 
