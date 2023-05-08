@@ -32,8 +32,8 @@ public class DbInit implements InitializingBean {
 
         if (roleRepository.findByName("ADMIN") == null
                 && roleRepository.findByName("USER") == null) {
-            roles.add(new Role("ADMIN"));
-            roles.add(new Role("USER"));
+            roles.add(new Role("ROLE_ADMIN"));
+            roles.add(new Role("ROLE_USER"));
             roleRepository.saveAll(roles);
         }
         if (userRepository.findByUserName("admin") == null) {

@@ -1,5 +1,7 @@
 package com.elearningweb.admin.controller;
 
+import com.elearningweb.admin.jwt.AuthenticationResponse;
+import com.elearningweb.admin.jwt.JwtService;
 import com.elearningweb.library.dto.UserDto;
 import com.elearningweb.library.model.User;
 import com.elearningweb.library.repository.UserRepository;
@@ -12,12 +14,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.lang.String;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +31,8 @@ import java.util.Map;
 @RequestMapping("/api/auth")
 public class AuthController {
     @Autowired
-    @EqualsAndHashCode.Exclude private AuthenticationManager authenticationManager;
+    @EqualsAndHashCode.Exclude
+    private AuthenticationManager authenticationManager;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -35,24 +41,34 @@ public class AuthController {
     private PasswordResetServiceImpl passwordResetService;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtService jwtService;
 
     @PostMapping("/signin")
-    public ResponseEntity<String> authenticateUser(@RequestPart String username,
-                                              @RequestPart String password){
+    public ResponseEntity<?> authenticateUser(@RequestPart String username,
+                                              @RequestPart String password) {
         User user = userRepository.findByUserName(username);
-        if(user == null) {
+        if (user == null) {
             return new ResponseEntity<>("Username not found!", HttpStatus.BAD_REQUEST);
         } else {
-            if(!passwordEncoder.matches(password, user.getPassword())) {
+            if (!passwordEncoder.matches(password, user.getPassword())) {
                 return new ResponseEntity<>("Wrong password!", HttpStatus.BAD_REQUEST);
             }
         }
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        user.getRoles().forEach(i -> authorities.add(new SimpleGrantedAuthority(i.getName())));
+
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(
-                username, password));
+                        username, password));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("Login successfully!", HttpStatus.OK);
+
+        var token = jwtService.generateToken(user, authorities);
+        var refreshToken = jwtService.generateRefreshToken(user, authorities);
+        return new ResponseEntity<>(AuthenticationResponse.builder().token(token).refreshToken(refreshToken).build(),
+                HttpStatus.OK);
+
     }
 
     @PostMapping("/signup")
@@ -60,14 +76,14 @@ public class AuthController {
                                           @RequestPart String lastName,
                                           @RequestPart String username,
                                           @RequestPart String password,
-                                          @RequestPart String confirmPassword){
+                                          @RequestPart String confirmPassword) {
         UserDto userDto = new UserDto(firstName, lastName, username, password, confirmPassword);
         // add check for username exists in a DB
-        if(userRepository.findByUserName(userDto.getUsername()) != null){
+        if (userRepository.findByUserName(userDto.getUsername()) != null) {
             return new ResponseEntity<>("Username is already taken!", HttpStatus.BAD_REQUEST);
         }
 
-        if(userDto.getPassword().equals(userDto.getConfirmPassword())) {
+        if (userDto.getPassword().equals(userDto.getConfirmPassword())) {
             userService.save(userDto);
             return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
         }
@@ -77,7 +93,7 @@ public class AuthController {
     @GetMapping("/check-username/{username}")
     public ResponseEntity<User> checkUserName(@PathVariable("username") String username) {
         boolean usernameExists = userService.checkUserName(username);
-        if(usernameExists) return new ResponseEntity<>(HttpStatus.CONFLICT);
+        if (usernameExists) return new ResponseEntity<>(HttpStatus.CONFLICT);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -97,7 +113,7 @@ public class AuthController {
             Map<String, String> response = new HashMap<>();
             response.put("message", "Password changed successfully.");
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (MessagingException e){
+        } catch (MessagingException e) {
             Map<String, String> response = new HashMap<>();
             response.put("error", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
