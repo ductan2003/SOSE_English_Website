@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="person">
-      <img src="@/assets/person1.png" alt="avatar" class="avatar"/>
+      <img src="@/assets/person3.jpg" alt="avatar" class="avatar"/>
       <div class="name">
         <p class="name-text">Tân Đức</p>
         <p class="email-text">21020392@vnu.edu.vn</p>
