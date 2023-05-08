@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -26,28 +27,32 @@ import java.util.Map;
 public class AuthController {
     @Autowired
     @EqualsAndHashCode.Exclude private AuthenticationManager authenticationManager;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private UserServiceImpl userService;
     @Autowired
     private PasswordResetServiceImpl passwordResetService;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @PostMapping("/signin")
-    public ResponseEntity<String> authenticateUser(@RequestParam String username,
-                                                   @RequestParam String password){
-        if(userRepository.findByUserName(username) == null) {
+    public ResponseEntity<String> authenticateUser(@RequestPart String username,
+                                              @RequestPart String password){
+        User user = userRepository.findByUserName(username);
+        if(user == null) {
             return new ResponseEntity<>("Username not found!", HttpStatus.BAD_REQUEST);
+        } else {
+            if(!passwordEncoder.matches(password, user.getPassword())) {
+                return new ResponseEntity<>("Wrong password!", HttpStatus.BAD_REQUEST);
+            }
         }
-
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(
-                username,password));
+                username, password));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
+        return new ResponseEntity<>("Login successfully!", HttpStatus.OK);
     }
 
     @PostMapping("/signup")
