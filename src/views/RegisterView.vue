@@ -111,7 +111,8 @@
 
 <script>
 import axios from "axios";
-// import {toast} from "vue3-toastify";
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 export default {
   data() {
     return {
@@ -147,10 +148,13 @@ export default {
             )
             .then((response) => {
               console.log(response.data);
-              this.$router.push({ path: "/login" });
+              // this.$router.push({ path: "/login" });
             })
             .catch((error) => {
               console.log(error);
+              toast.error(error.response.data, { position: toast.POSITION.BOTTOM_RIGHT }), {
+                autoClose: 1000,
+              }
               if (error.response) {
                 // The server responded with an error status code
                 console.log(error.response.data);
@@ -164,6 +168,10 @@ export default {
                 console.log("Error", error.message);
               }
             });
+      } else {
+        toast.error("Please accept our terms", { position: toast.POSITION.BOTTOM_RIGHT }), {
+          autoClose: 1000,
+        }
       }
     },
   },
