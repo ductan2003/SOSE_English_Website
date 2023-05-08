@@ -1,4 +1,8 @@
 <template>
+  <div class="heading-page">
+    <p class="heading-page-content">Meet our SOSE Team</p>
+  </div>
+
   <div class="container">
     <div class="person">
       <img src="@/assets/person3.jpg" alt="avatar" class="avatar"/>
@@ -33,13 +37,30 @@ export default {
 </script>
 
 <style scoped>
+
+.heading-page {
+  position: relative;
+  top: 15px;
+  height: 120px;
+  align-items: center;
+  justify-content: center;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 64px;
+  line-height: 75px;
+  /* identical to box height, or 119% */
+
+  color: #4caf4f;
+}
 .container{
   display: flex;
   flex-direction: row;
   gap: 90px;
   align-content: center;
   justify-content: center;
-  padding-top: 5%;
+  /*padding-top: 3%;*/
 }
 .avatar{
   border-radius: 100%;

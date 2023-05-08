@@ -6,7 +6,7 @@
         <br />
         <br />
 
-        <form @submit.prevent="Login">
+        <form @submit.prevent="Login()">
           <h1 class="loginHeader">Đăng nhập</h1>
 
           <br />
@@ -18,6 +18,7 @@
               placeholder="username"
               name="username"
               v-model="username"
+              required
             />
             <label for="floatingUsername">Tên đăng nhập</label>
           </div>
@@ -30,6 +31,7 @@
               placeholder="password"
               name="password"
               v-model="password"
+              required
             />
             <label for="floatingPass" class="form-lable">Mật khẩu</label>
           </div>
@@ -87,10 +89,13 @@ export default {
         )
         .then((response) => {
           console.log(response.data);
+          toast.success(response.data, { position: toast.POSITION.BOTTOM_RIGHT }), {
+            autoClose: 1000,
+          }
         })
         .catch((error) => {
           console.log(error);
-          toast.error(error.response.data, { position: toast.POSITION.BOTTOM_RIGHT }), {
+          toast.error("Wrong user", { position: toast.POSITION.BOTTOM_RIGHT }), {
             autoClose: 1000,
           }
           if (error.response) {

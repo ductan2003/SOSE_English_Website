@@ -1,7 +1,9 @@
 <template>
     <div class="frame">
         <!-- Logo -->
+      <router-link to="/">
         <img class="logo" src="@/assets/logo.png" alt="logo"/>
+      </router-link>
 
         <!-- Links -->
         <div class="linkname">
