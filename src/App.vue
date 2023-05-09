@@ -1,12 +1,19 @@
 <template>
-  <Header />
+  <Header/>
   <router-view />
   <Footer />
 </template>
 
-<script setup>
+<script>
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
+// import axios from "axios";
+export default {
+  components: {
+    Header, Footer
+  },
+
+}
 
 </script>
 

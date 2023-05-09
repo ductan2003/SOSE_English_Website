@@ -30,13 +30,53 @@
 
         <!-- Login/Regis -->
         <div class="account">
-            <router-link class="login" to="/login">Login</router-link>
-            <router-link class="signup" type="button" to="/register">Sign up</router-link>
+            <router-link v-if="!user" class="login" to="/login">Login</router-link>
+            <router-link v-if="!user" class="signup" type="button" to="/register">Sign up</router-link>
+            <router-link v-if="user" class="signup" @click="logout()" to="/">Log out</router-link>
+          <p v-if="user">Hi, {{user.firstName}}</p>
         </div>
     </div>
 </template>
 
-<script setup>
+<script>
+import axios from "axios";
+
+export  default {
+
+  data() {
+    return {
+      user: null,
+      auth: false
+    }
+  },
+  async created() {
+    if (localStorage.getItem("username")) {
+        const response = await axios.get("http://localhost:8019/account/" + localStorage.getItem("username"));
+        this.user = response.data;
+    }
+    },
+  methods: {
+    logout() {
+      localStorage.clear();
+      this.user = null;
+    },
+
+  },
+  beforeMount() {
+    this.auth = this.$store.state.auth;
+    console.log(this.auth)
+  }
+
+  // watch: {
+  //   async user(newValue) {
+  //     if (newValue) {
+  //       const response = await axios.get("http://localhost:8019/account/" + localStorage.getItem("username"));
+  //       this.user = response.data;
+  //     }
+  //   }
+  // }
+
+}
 </script>
 
 <style scroped>

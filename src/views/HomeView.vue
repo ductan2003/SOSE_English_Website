@@ -1,7 +1,5 @@
 <template>
   <div class="home">
-    <h3 v-if="user">Hi, {{user.firstName}}</h3>
-    <h3 v-if="!user">Not log in</h3>
     <!-- banner -->
     <div class="banner">
       <!-- left banner with text, button -->
@@ -139,18 +137,8 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "Home",
-  data() {
-    return {
-      user: null,
-    }
-  },
-  async created() {
-    const response = await axios.get("http://localhost:8019/account/{usename}");
-    console.log(response);
-  }
 }
 </script>
 

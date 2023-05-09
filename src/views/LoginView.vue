@@ -61,8 +61,8 @@
 
 <script>
 import axios from "axios";
-import { toast } from 'vue3-toastify';
-import 'vue3-toastify/dist/index.css';
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 export default {
   name: "Login",
@@ -70,6 +70,7 @@ export default {
     return {
       username: "",
       password: "",
+      user: null,
     };
   },
   methods: {
@@ -77,27 +78,26 @@ export default {
       let url = "http://localhost:8019/api/auth/signin";
       await axios
         .post(
-          url,
-          {
-            username: this.username,
-            password: this.password,
-          }, {
+          url, { username: this.username, password: this.password,}, {
             headers: {
               "Content-Type": "multipart/form-data",
-            }
-            }
+            },
+          }
         )
         .then((response) => {
           console.log(response.data);
-          toast.success(response.data, { position: toast.POSITION.BOTTOM_RIGHT }), {
-            autoClose: 1000,
-          }
+          localStorage.setItem('token', response.data.token)
+          localStorage.setItem('username', response.data.username)
+          // axios.defaults.headers.common[ "Authorization"] = `Bearer ${response.data.token}`;
+          this.getUser();
+          this.$router.push({ path: "/" });
         })
         .catch((error) => {
           console.log(error);
-          toast.error("Wrong user", { position: toast.POSITION.BOTTOM_RIGHT }), {
-            autoClose: 1000,
-          }
+          toast.error("Wrong user", { position: toast.POSITION.BOTTOM_RIGHT }),
+            {
+              autoClose: 1000,
+            };
           if (error.response) {
             // The server responded with an error status code
             console.log(error.response.data);
@@ -110,10 +110,13 @@ export default {
             // Something happened in setting up the request that triggered an Error
             console.log("Error", error.message);
           }
-        },
-    );
-      // localStorage.setItem('token', res.data.token)
+        });
     },
+    async getUser() {
+      const response = await axios.get("http://localhost:8019/account/" + localStorage.getItem("username"));
+      this.user = response.data;
+      localStorage.setItem("user", JSON.stringify(response.data));
+    }
   },
 };
 </script>
