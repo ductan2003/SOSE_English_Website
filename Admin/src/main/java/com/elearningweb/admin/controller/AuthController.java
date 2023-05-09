@@ -66,7 +66,7 @@ public class AuthController {
 
         var token = jwtService.generateToken(user, authorities);
         var refreshToken = jwtService.generateRefreshToken(user, authorities);
-        return new ResponseEntity<>(AuthenticationResponse.builder().token(token).refreshToken(refreshToken).build(),
+        return new ResponseEntity<>(AuthenticationResponse.builder().username(username).token(token).refreshToken(refreshToken).build(),
                 HttpStatus.OK);
 
     }
