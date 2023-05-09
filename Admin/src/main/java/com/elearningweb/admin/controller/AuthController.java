@@ -3,6 +3,7 @@ package com.elearningweb.admin.controller;
 import com.elearningweb.library.dto.UserDto;
 import com.elearningweb.library.model.User;
 import com.elearningweb.library.repository.UserRepository;
+import com.elearningweb.library.service.impl.EmailServiceImpl;
 import com.elearningweb.library.service.impl.PasswordResetServiceImpl;
 import com.elearningweb.library.service.impl.UserServiceImpl;
 import com.google.api.Http;
@@ -20,6 +21,7 @@ import javax.mail.MessagingException;
 import java.lang.String;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 
 @RestController
@@ -36,6 +38,9 @@ public class AuthController {
 
     @Autowired
     private PasswordResetServiceImpl passwordResetService;
+
+    @Autowired
+    private EmailServiceImpl emailService;
 
 
     @PostMapping("/signin")
@@ -75,15 +80,17 @@ public class AuthController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/forgot-password")
-    public ResponseEntity<Map<String, String>> forgotPassword(@RequestParam("username") String username) throws MessagingException {
+//    @PostMapping("/forgot-password")
+//    @RequestMapping(value = "/forgot-password", method = RequestMethod.GET)
+    @RequestMapping(value = "/forgot-password", method = { RequestMethod.GET, RequestMethod.POST })
+    public ResponseEntity<Map<String, String>> forgotPassword(@RequestPart String username) throws MessagingException {
         passwordResetService.sendPasswordResetEmail(username);
         Map<String, String> responseBody = new HashMap<>();
         responseBody.put("message", "Password change request sent successfully.");
         return ResponseEntity.ok(responseBody);
     }
 
-    //Yêu cầu đặt lại mật khẩu dựa trên mã token thông báo được gửi qua email (username)
+    //Yêu cầu đặt lại mật khẩu dựa trên mã token thông báo được gửi qua email (username). Mail xác nhận có chứa button để xác nhận
     @PostMapping("/reset/{token}")
     public ResponseEntity<Map<String, String>> resetPassword(@PathVariable String token, @RequestPart String username, @RequestPart String password) throws MessagingException {
         try {
