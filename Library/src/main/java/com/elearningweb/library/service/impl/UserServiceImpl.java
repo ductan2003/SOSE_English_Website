@@ -43,6 +43,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void deleteById(long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
     public UserDto getUser(String username) {
         return converter.userToDto(userRepository.findByUserName(username));
     }
