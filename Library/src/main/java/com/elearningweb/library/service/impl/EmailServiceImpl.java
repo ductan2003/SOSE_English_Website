@@ -25,7 +25,7 @@ public class EmailServiceImpl implements EmailService {
                     +
                     "<h1>Reset password</h1>"
                     +
-                    "<p>Hello hehe</p>"
+                    "<p>Hello,</p>"
                     +
                     "<p>You requested to reset the password of the email registered in our system. Click on the link below to proceed:</p>"
                     +
