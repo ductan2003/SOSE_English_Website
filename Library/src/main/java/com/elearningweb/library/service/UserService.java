@@ -11,5 +11,6 @@ public interface UserService extends UserDetailsService {
     UserDto getUser(String username);
     List<UserDto> getAllUsers();
     UserDto save(UserDto userDto);
+    void deleteById(long id);
     boolean checkUserName(String username);
 }

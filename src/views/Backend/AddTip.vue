@@ -20,6 +20,11 @@
             <label for="floatingUsername">Content</label>
           </div>
 
+          <div class="form-floating mb-3">
+            <input class="form-control" id="floatingUsername" placeholder="username" name="username" v-model="description" required>
+            <label for="floatingUsername">Description</label>
+          </div>
+
           <div class="form-group">
             <label class="text-form">Image</label>
             <input @change="handleFileImg()" ref="fileImg" type="file" class="form" />
@@ -51,22 +56,24 @@ export default {
   name: "AddTip",
   data(){
     return {
-      title: null,
-      body: null,
+      title: "",
+      body: "",
       image: null,
+      description: ""
     }
   },
   methods: {
     handleFileImg(){
-      this.image = this.$refs.fileQues.files[0];
+      this.image = this.$refs.fileImg.files[0];
     },
     async AddTip() {
       //insert url here
-      let url = "";
+      let url = "http://localhost:8019/tips/publishTips";
       await axios.post(url, {
             title: this.title,
             body: this.body,
             image: this.image,
+            description: this.description
           },  {
             headers: {
               'Content-Type': 'multipart/form-data'

@@ -36,10 +36,15 @@ public class UserServiceImpl implements UserService{
         user.setLastName(userDto.getLastName());
         user.setUsername(userDto.getUsername());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setRoles(List.of(roleRepository.findByName("USER")));
+        user.setRoles(List.of(roleRepository.findByName("ROLE_USER")));
 
         userRepository.save(user);
         return userDto;
+    }
+
+    @Override
+    public void deleteById(long id) {
+        userRepository.deleteById(id);
     }
 
     @Override
@@ -61,7 +66,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUserName(username);
+        return (UserDetails) userRepository.findByUserName(username);
     }
-
 }

@@ -6,7 +6,7 @@
         <br />
         <br />
 
-        <form @submit.prevent="Login">
+        <form @submit.prevent="Login()">
           <h1 class="loginHeader">Đăng nhập</h1>
 
           <br />
@@ -18,6 +18,7 @@
               placeholder="username"
               name="username"
               v-model="username"
+              required
             />
             <label for="floatingUsername">Tên đăng nhập</label>
           </div>
@@ -30,6 +31,7 @@
               placeholder="password"
               name="password"
               v-model="password"
+              required
             />
             <label for="floatingPass" class="form-lable">Mật khẩu</label>
           </div>
@@ -59,6 +61,9 @@
 
 <script>
 import axios from "axios";
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
+
 export default {
   name: "Login",
   data() {
@@ -70,24 +75,29 @@ export default {
   methods: {
     async Login() {
       let url = "http://localhost:8019/api/auth/signin";
-      const res = await axios
+      await axios
         .post(
           url,
           {
             username: this.username,
             password: this.password,
-          },
-          {
+          }, {
             headers: {
               "Content-Type": "multipart/form-data",
-            },
-          }
+            }
+            }
         )
         .then((response) => {
           console.log(response.data);
+          toast.success(response.data, { position: toast.POSITION.BOTTOM_RIGHT }), {
+            autoClose: 1000,
+          }
         })
         .catch((error) => {
           console.log(error);
+          toast.error("Wrong user", { position: toast.POSITION.BOTTOM_RIGHT }), {
+            autoClose: 1000,
+          }
           if (error.response) {
             // The server responded with an error status code
             console.log(error.response.data);
@@ -102,7 +112,7 @@ export default {
           }
         },
     );
-      localStorage.setItem('token', res.data.token)
+      // localStorage.setItem('token', res.data.token)
     },
   },
 };

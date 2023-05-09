@@ -14,9 +14,9 @@ import java.util.List;
 
 
 public class CustomUserDetails implements UserDetails {
-    private Collection<? extends GrantedAuthority> authorities;
-    private String password;
-    private String username;
+    private  Collection<? extends GrantedAuthority> authorities;
+    private  String password;
+    private  String username;
     public CustomUserDetails(User user) {
         this.username = user.getUsername();
         this.password = user.getPassword();
@@ -38,6 +38,18 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
+    }
+
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
@@ -69,4 +81,4 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-}
+    }
