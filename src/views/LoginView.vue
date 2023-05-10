@@ -37,9 +37,16 @@
           </div>
 
           <div class="d-grid gap-2">
+            <router-link to="/" v-if="auth">
             <button type="button" class="login1" v-on:click="Login()">
               Đăng nhập
             </button>
+            </router-link>
+
+            <button v-if="!auth" type="button" class="login1" v-on:click="Login()">
+              Đăng nhập
+            </button>
+
           </div>
 
           <div class="forgotPass">
@@ -78,6 +85,7 @@ export default {
       username: "",
       password: "",
       user: null,
+      auth: false,
     };
   },
   methods: {
@@ -96,8 +104,10 @@ export default {
           localStorage.setItem('token', response.data.token)
           localStorage.setItem('username', response.data.username)
           // axios.defaults.headers.common[ "Authorization"] = `Bearer ${response.data.token}`;
-          this.getUser();
+          // this.auth = true;
           this.$router.push({ path: "/" });
+
+
         })
         .catch((error) => {
           console.log(error);

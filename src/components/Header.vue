@@ -46,9 +46,9 @@ export  default {
   data() {
     return {
       user: null,
-      auth: false
     }
   },
+
   async created() {
     if (localStorage.getItem("username")) {
         const response = await axios.get("http://localhost:8019/account/" + localStorage.getItem("username"));
@@ -60,21 +60,18 @@ export  default {
       localStorage.clear();
       this.user = null;
     },
+    async getUser() {
+      if (localStorage.getItem("username")) {
+        const response = await axios.get("http://localhost:8019/account/" + localStorage.getItem("username"));
+        this.user = response.data;
+      }
+    }
 
   },
-  beforeMount() {
-    this.auth = this.$store.state.auth;
-    console.log(this.auth)
+  async beforeMount() {
+    // this.$forceUpdate();
+    // await this.getUser();
   }
-
-  // watch: {
-  //   async user(newValue) {
-  //     if (newValue) {
-  //       const response = await axios.get("http://localhost:8019/account/" + localStorage.getItem("username"));
-  //       this.user = response.data;
-  //     }
-  //   }
-  // }
 
 }
 </script>
