@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -42,7 +44,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         }
         String token = UUID.randomUUID().toString();
         createPasswordResetTokenForUser(user, token);
-        emailService.sendPasswordResetEmail(user.getUsername(), token);
+        emailService.sendPasswordResetEmail(username, token);
     }
 
     @Override

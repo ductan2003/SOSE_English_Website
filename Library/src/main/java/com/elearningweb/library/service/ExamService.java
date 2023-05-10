@@ -1,7 +1,6 @@
 package com.elearningweb.library.service;
 
 import com.elearningweb.library.dto.ExamDto;
-import com.elearningweb.library.model.Exam;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,5 +15,6 @@ public interface ExamService {
     List<ExamDto> findAllByYear(String year);
     List<ExamDto> findAllByYearAndCategory(String year, String category);
     ExamDto findByYearAndCategoryAndId(String year, String category, long id);
+
 
 }

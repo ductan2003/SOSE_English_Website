@@ -37,9 +37,23 @@
           </div>
 
           <div class="d-grid gap-2">
+            <router-link to="/" v-if="auth">
             <button type="button" class="login1" v-on:click="Login()">
               Đăng nhập
             </button>
+            </router-link>
+
+            <button v-if="!auth" type="button" class="login1" v-on:click="Login()">
+              Đăng nhập
+            </button>
+
+          </div>
+
+          <div class="forgotPass">
+            <p class="forgotPass-p">Quên mật khẩu?</p>
+            <router-link to="/forgotPassword" class="forgot">
+              Click here
+            </router-link>
           </div>
 
           <hr />
@@ -61,8 +75,8 @@
 
 <script>
 import axios from "axios";
-import { toast } from 'vue3-toastify';
-import 'vue3-toastify/dist/index.css';
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 export default {
   name: "Login",
@@ -70,6 +84,8 @@ export default {
     return {
       username: "",
       password: "",
+      user: null,
+      auth: false,
     };
   },
   methods: {
@@ -77,27 +93,28 @@ export default {
       let url = "http://localhost:8019/api/auth/signin";
       await axios
         .post(
-          url,
-          {
-            username: this.username,
-            password: this.password,
-          }, {
+          url, { username: this.username, password: this.password,}, {
             headers: {
               "Content-Type": "multipart/form-data",
-            }
-            }
+            },
+          }
         )
         .then((response) => {
           console.log(response.data);
-          toast.success(response.data, { position: toast.POSITION.BOTTOM_RIGHT }), {
-            autoClose: 1000,
-          }
+          localStorage.setItem('token', response.data.token)
+          localStorage.setItem('username', response.data.username)
+          // axios.defaults.headers.common[ "Authorization"] = `Bearer ${response.data.token}`;
+          // this.auth = true;
+          this.$router.push({ path: "/" });
+
+
         })
         .catch((error) => {
           console.log(error);
-          toast.error("Wrong user", { position: toast.POSITION.BOTTOM_RIGHT }), {
-            autoClose: 1000,
-          }
+          toast.error("Wrong user", { position: toast.POSITION.BOTTOM_RIGHT }),
+            {
+              autoClose: 1000,
+            };
           if (error.response) {
             // The server responded with an error status code
             console.log(error.response.data);
@@ -110,10 +127,13 @@ export default {
             // Something happened in setting up the request that triggered an Error
             console.log("Error", error.message);
           }
-        },
-    );
-      // localStorage.setItem('token', res.data.token)
+        });
     },
+    async getUser() {
+      const response = await axios.get("http://localhost:8019/account/" + localStorage.getItem("username"));
+      this.user = response.data;
+      localStorage.setItem("user", JSON.stringify(response.data));
+    }
   },
 };
 </script>
@@ -156,6 +176,35 @@ export default {
   height: 40px;
 
   background: #0d6efd;
+  border-radius: 6px;
+  text-align: center;
+
+  text-decoration: none;
+  font-family: "Inter";
+  border-width: 0px;
+}
+.forgotPass{
+  padding-top: 4%;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4%;
+}
+.forgotPass-p{
+  margin-bottom: 0%;
+}
+.forgot{
+  color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  width: 90px;
+  height: 40px;
+
+  background: #ABBED1;
   border-radius: 6px;
   text-align: center;
 

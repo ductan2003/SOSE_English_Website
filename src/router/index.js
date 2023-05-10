@@ -20,6 +20,11 @@ const routes = [
     component: LoginView
   },
   {
+    path: '/forgotPassword',
+    name: 'forgotPassword',
+    component: ()=>import('../views/ForgotPasswordView.vue')
+  },
+  {
     path: '/register',
     name: 'resgister',
     component: RegisterView
@@ -83,6 +88,16 @@ const routes = [
     path: '/contact',
     name: 'contact',
     component: () => import('../views/ContactView.vue')
+  },
+  {
+    path: '/profile/:id',
+    name: 'profile',
+    component: () => import('../views/ProfileView.vue')
+  },
+  {
+    path: '/admin/summary',
+    name: 'summary',
+    component: () => import('../views/Backend/SummaryView.vue')
   },
 ]
 

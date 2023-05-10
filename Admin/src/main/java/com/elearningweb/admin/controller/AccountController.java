@@ -7,7 +7,10 @@ import com.elearningweb.library.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,18 +20,17 @@ import java.util.List;
 public class AccountController {
     @Autowired
     UserService userService;
+
     @GetMapping("/all")
     public List<UserDto> getUserList() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/{username}")
+//    public List<UserDto> getByUserName(@PathVariable String username) {
+//        return (List<UserDto>) userService.getUser(username);
+//    }
     public UserDto getByUserName(@PathVariable String username) {
         return userService.getUser(username);
-    }
-
-    @DeleteMapping("/delete/id={id}")
-    public void deleteUserById(@PathVariable("id") long id) {
-        userService.deleteById(id);
     }
 }

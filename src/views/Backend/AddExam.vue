@@ -67,6 +67,7 @@
 import axios from "axios";
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+axios.defaults.headers.common[ "Authorization"] = `Bearer ` + localStorage.getItem("token");
 
 export default {
   data(){

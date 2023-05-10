@@ -129,7 +129,7 @@ export default {
       // console.log(this.$data);
       let url = "http://localhost:8019/api/auth/signup";
       if (this.check) {
-        console.log(this.check),
+        // console.log(this.check),
           await axios
             .post(
               url,
@@ -148,11 +148,11 @@ export default {
             )
             .then((response) => {
               console.log(response.data);
-              // this.$router.push({ path: "/login" });
+              this.$router.push({ path: "/login" });
             })
             .catch((error) => {
               console.log(error);
-              toast.error(error.response.data, { position: toast.POSITION.BOTTOM_RIGHT }), {
+              toast.error("Can't not sign up", { position: toast.POSITION.BOTTOM_RIGHT }), {
                 autoClose: 1000,
               }
               if (error.response) {

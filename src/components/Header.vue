@@ -30,13 +30,55 @@
 
         <!-- Login/Regis -->
         <div class="account">
-            <router-link class="login" to="/login">Login</router-link>
-            <router-link class="signup" type="button" to="/register">Sign up</router-link>
+            <router-link v-if="!user" class="login" to="/login">Login</router-link>
+            <router-link v-if="!user" class="signup" type="button" to="/register">Sign up</router-link>
+            <router-link v-if="user" class="signup" @click="logout()" to="/">Log out</router-link>
+            <p v-if="user"><i>Welcome, {{user.firstName}}</i></p>
+          <div v-if="user">
+            <router-link type="button" :to="{ name: 'profile', params: { id: this.user.firstName } }">
+              <img src="@/assets/person3.jpg" alt="ava" />
+            </router-link>
+          </div>
         </div>
     </div>
 </template>
 
-<script setup>
+<script>
+import axios from "axios";
+
+export  default {
+
+  data() {
+    return {
+      user: null,
+    }
+  },
+
+  async created() {
+    if (localStorage.getItem("username")) {
+        const response = await axios.get("http://localhost:8019/account/" + localStorage.getItem("username"));
+        this.user = response.data;
+    }
+    },
+  methods: {
+    logout() {
+      localStorage.clear();
+      this.user = null;
+    },
+    async getUser() {
+      if (localStorage.getItem("username")) {
+        const response = await axios.get("http://localhost:8019/account/" + localStorage.getItem("username"));
+        this.user = response.data;
+      }
+    },
+
+  },
+  async beforeMount() {
+    // this.$forceUpdate();
+    // await this.getUser();
+  }
+
+}
 </script>
 
 <style scroped>
@@ -102,8 +144,15 @@
     color: #4CAF4F;
 }
 
-.lable1:hover{
-    color: #4CAF4F;
+.account p {
+  margin-top: 0;
+  margin-bottom: 0%;
+}
+
+.account img {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
 }
 
 .account {
