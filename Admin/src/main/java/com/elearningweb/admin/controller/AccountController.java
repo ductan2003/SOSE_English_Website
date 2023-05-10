@@ -20,13 +20,17 @@ import java.util.List;
 public class AccountController {
     @Autowired
     UserService userService;
+
     @GetMapping("/all")
     public List<UserDto> getUserList() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/{username}")
-    public List<UserDto> getByUserName(@PathVariable String username) {
-        return (List<UserDto>) userService.getUser(username);
+//    public List<UserDto> getByUserName(@PathVariable String username) {
+//        return (List<UserDto>) userService.getUser(username);
+//    }
+    public UserDto getByUserName(@PathVariable String username) {
+        return userService.getUser(username);
     }
 }
