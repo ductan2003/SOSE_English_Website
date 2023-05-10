@@ -42,6 +42,13 @@
             </button>
           </div>
 
+          <div class="forgotPass">
+            <p class="forgotPass-p">Quên mật khẩu?</p>
+            <router-link to="/forgotPassword" class="forgot">
+              Click here
+            </router-link>
+          </div>
+
           <hr />
 
           <div>
@@ -159,6 +166,35 @@ export default {
   height: 40px;
 
   background: #0d6efd;
+  border-radius: 6px;
+  text-align: center;
+
+  text-decoration: none;
+  font-family: "Inter";
+  border-width: 0px;
+}
+.forgotPass{
+  padding-top: 4%;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4%;
+}
+.forgotPass-p{
+  margin-bottom: 0%;
+}
+.forgot{
+  color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  width: 90px;
+  height: 40px;
+
+  background: #ABBED1;
   border-radius: 6px;
   text-align: center;
 
