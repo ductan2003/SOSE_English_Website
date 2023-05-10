@@ -81,12 +81,11 @@ public class UpdateExamController {
                               @RequestPart String description,
                               @RequestPart String year,
                               @RequestPart MultipartFile fileQuestion,
-                              @RequestPart MultipartFile fileAnswer,
                               @RequestPart MultipartFile fileImage
     ) throws Exception {
         ExamDto examDto = new ExamDto();
 
-        saveExam(fileAnswer, fileQuestion, fileImage, examDto);
+        saveExam(fileQuestion, fileImage, examDto);
 
         examDto.setTitle(title);
         examDto.setDescription(description);
@@ -102,14 +101,13 @@ public class UpdateExamController {
                               @RequestPart String description,
                               @RequestPart String year,
                               @RequestPart MultipartFile fileQuestion,
-                              @RequestPart MultipartFile fileAnswer,
                               @RequestPart MultipartFile fileImage,
                               @PathVariable("id") long id) throws Exception {
         ExamDto examDto = examService.findById(id);
         if (examDto == null) {
             return null;
         } else {
-            saveExam(fileAnswer, fileQuestion, fileImage, examDto);
+            saveExam(fileQuestion, fileImage, examDto);
 
             examDto.setTitle(title);
             examDto.setDescription(description);
@@ -125,12 +123,10 @@ public class UpdateExamController {
         examService.delete(id);
     }
 
-    private void saveExam(MultipartFile fileAnswer,
+    private void saveExam(
                           MultipartFile fileQuestion,
                           MultipartFile fileImage,
                           ExamDto examDto) throws Exception {
-        fileService.save(fileAnswer, FileServiceImpl.fileAnswerPath);
-        examDto.setFileAnswer(FileServiceImpl.path.toString());
 
         fileService.save(fileQuestion, FileServiceImpl.fileQuestionPath);
         examDto.setFileQuestion(FileServiceImpl.path.toString());

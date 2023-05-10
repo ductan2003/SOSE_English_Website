@@ -34,7 +34,7 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public ExamDto save(ExamDto examDto) throws IOException {
-        List<Question> questionList = excelReadingUtil.getQuestionListFromExcel(examDto.getFileAnswer());
+        List<Question> questionList = excelReadingUtil.getQuestionListFromExcel(examDto.getFileQuestion());
 
         Category category = categoryRepository.findByName(examDto.getCategory().getName());
         if (category == null) {
@@ -69,7 +69,6 @@ public class ExamServiceImpl implements ExamService {
         exam.setDescription(examDto.getDescription());
         exam.setYear(examDto.getYear());
         exam.setFileQuestion(examDto.getFileQuestion());
-        exam.setFileAnswer(examDto.getFileAnswer());
         exam.setFileImage(examDto.getFileImage());
 
         examRepository.save(exam);

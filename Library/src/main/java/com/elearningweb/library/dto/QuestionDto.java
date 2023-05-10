@@ -11,5 +11,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class QuestionDto {
     private long id;
+
+    private String section;
+    private long questionId;
+    private String question;
+    private String paragraph;
     private String correctAnswer;
 }

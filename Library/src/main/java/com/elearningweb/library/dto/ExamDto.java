@@ -21,7 +21,6 @@ public class ExamDto {
     private String description;
     private String year;
     private String fileQuestion;
-    private String fileAnswer;
     private String fileImage;
 
     private CategoryDto category;

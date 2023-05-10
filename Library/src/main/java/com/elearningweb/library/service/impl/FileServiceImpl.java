@@ -19,7 +19,6 @@ import java.util.UUID;
 public class FileServiceImpl implements FileService {
     public static Path path;
     private static final Path staticPath = Paths.get("static");
-    public static final Path fileAnswerPath = Paths.get("fileAnswer");
     public static final Path fileQuestionPath = Paths.get("fileQuestion");
     public static final Path fileImagePath = Paths.get("fileImage");
     private static final Path CURRENT_FOLDER = Paths.get(System.getProperty("user.dir"));
@@ -50,9 +49,6 @@ public class FileServiceImpl implements FileService {
     @Override
     public void init() {
         try {
-            if (!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(fileAnswerPath))) {
-                Files.createDirectories(CURRENT_FOLDER.resolve(staticPath).resolve(fileAnswerPath));
-            }
             if (!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(fileQuestionPath))) {
                 Files.createDirectories(CURRENT_FOLDER.resolve(staticPath).resolve(fileQuestionPath));
             }
@@ -68,11 +64,6 @@ public class FileServiceImpl implements FileService {
     public void save(MultipartFile file, Path filePath) {
         try {
             if(filePath.equals(fileQuestionPath)) {
-                path = CURRENT_FOLDER.resolve(staticPath)
-                        .resolve(filePath)
-                        .resolve(Objects.requireNonNull(file.getOriginalFilename()));
-            }
-            else if(filePath.equals(fileAnswerPath)) {
                 path = CURRENT_FOLDER.resolve(staticPath)
                         .resolve(filePath)
                         .resolve(Objects.requireNonNull(file.getOriginalFilename()));

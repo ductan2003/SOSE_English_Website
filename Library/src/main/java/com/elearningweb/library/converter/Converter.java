@@ -21,6 +21,10 @@ public class Converter {
         QuestionDto result = new QuestionDto();
 
         result.setId(question.getId());
+        result.setQuestionId(question.getQuestionId());
+        result.setSection(question.getSection());
+        result.setParagraph(question.getParagraph());
+        result.setQuestion(question.getQuestion());
         result.setCorrectAnswer(question.getCorrectAnswer());
         return result;
     }
@@ -34,7 +38,6 @@ public class Converter {
         result.setDescription(exam.getDescription());
         result.setYear(exam.getYear());
         result.setFileQuestion(exam.getFileQuestion());
-        result.setFileAnswer(exam.getFileAnswer());
         result.setCategory(categoryToDto(exam.getCategory()));
         result.setQuestionsList(questionDtoList);
         result.setFileImage(exam.getFileImage());
@@ -85,6 +88,10 @@ public class Converter {
         Question result = new Question();
 
         result.setId(question.getId());
+        result.setQuestionId(question.getQuestionId());
+        result.setSection(question.getSection());
+        result.setParagraph(question.getParagraph());
+        result.setQuestion(question.getQuestion());
         result.setCorrectAnswer(question.getCorrectAnswer());
         return result;
     }

@@ -17,6 +17,10 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    private String section;
+    private long questionId;
+    private String question;
+    private String paragraph;
     private String correctAnswer;
 
     @ManyToOne (cascade = CascadeType.ALL)
