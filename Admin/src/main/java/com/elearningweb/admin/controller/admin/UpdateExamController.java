@@ -77,7 +77,6 @@ public class UpdateExamController {
     }
 
     @PostMapping(value = "/exams/save")
-    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public ExamDto createExam(@RequestPart String title,
                               @RequestPart String category,
@@ -91,12 +90,10 @@ public class UpdateExamController {
 
         saveExam(fileAnswer, fileQuestion, fileImage, examDto);
 
-
         examDto.setTitle(title);
         examDto.setDescription(description);
         examDto.setYear(year);
         examDto.setCategory(new CategoryDto(null, category));
-
 
         return examService.save(examDto);
     }
@@ -106,8 +103,8 @@ public class UpdateExamController {
                               @RequestPart String category,
                               @RequestPart String description,
                               @RequestPart String year,
-                              @Nullable @RequestPart MultipartFile fileQuestion,
-                              @Nullable @RequestPart MultipartFile fileAnswer,
+                              @RequestPart MultipartFile fileQuestion,
+                              @RequestPart MultipartFile fileAnswer,
                               @RequestPart MultipartFile fileImage,
                               @PathVariable("id") long id) throws Exception {
         ExamDto examDto = examService.findById(id);

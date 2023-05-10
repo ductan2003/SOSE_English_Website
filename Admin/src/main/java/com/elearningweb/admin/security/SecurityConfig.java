@@ -42,11 +42,13 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(STATELESS);
         http
                 .authorizeHttpRequests((authorize) ->
-                        //authorize.anyRequest().authenticated()
                         authorize
-                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                                .requestMatchers(HttpMethod.OPTIONS,"/admin/exams/*").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.OPTIONS,"/account/*").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.OPTIONS,"/tips/*").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET,"/user/exams/*").hasAnyAuthority("ROLE_USER")
+                                .requestMatchers(HttpMethod.GET, "/tips/*").permitAll()
                                 .requestMatchers("/api/auth/*").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/admin/exams/*").hasAnyAuthority("ROLE_ADMIN")
                                 .anyRequest().permitAll()
                                 .and()
                                 .authenticationProvider(authenticationProvider)
