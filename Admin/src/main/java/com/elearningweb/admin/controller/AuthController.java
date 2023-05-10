@@ -21,10 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.lang.String;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 @RestController
@@ -66,9 +63,14 @@ public class AuthController {
 
         var token = jwtService.generateToken(user, authorities);
         var refreshToken = jwtService.generateRefreshToken(user, authorities);
-        return new ResponseEntity<>(AuthenticationResponse.builder().username(username).token(token).refreshToken(refreshToken).build(),
+        return new ResponseEntity<>(AuthenticationResponse.builder().token(token).refreshToken(refreshToken).build(),
                 HttpStatus.OK);
+    }
+    @GetMapping("/profile")
+    public ResponseEntity<?> getUserInfo(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.substring("Bearer ".length());
 
+        return ResponseEntity.ok(jwtService.getUsernameFromToken(token));
     }
 
     @PostMapping("/signup")
@@ -78,8 +80,8 @@ public class AuthController {
                                           @RequestPart String password,
                                           @RequestPart String confirmPassword) {
         UserDto userDto = new UserDto(firstName, lastName, username, password, confirmPassword);
-        // add check for username exists in a DB
-        if (userRepository.findByUsername(userDto.getUsername()) != null) {
+//         add check for username exists in a DB
+        if (userRepository.findByUsername(username) != null) {
             return new ResponseEntity<>("Username is already taken!", HttpStatus.BAD_REQUEST);
         }
 

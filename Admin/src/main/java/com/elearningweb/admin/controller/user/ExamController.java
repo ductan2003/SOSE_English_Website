@@ -1,7 +1,6 @@
 package com.elearningweb.admin.controller.user;
 
 import com.elearningweb.library.dto.ExamDto;
-import com.elearningweb.library.dto.UserDto;
 import com.elearningweb.library.service.impl.ExamServiceImpl;
 import com.elearningweb.library.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

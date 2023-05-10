@@ -30,8 +30,8 @@ public class DbInit implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
 
-        if (roleRepository.findByName("ADMIN") == null
-                && roleRepository.findByName("USER") == null) {
+        if (roleRepository.findByName("ROLE_ADMIN") == null
+                && roleRepository.findByName("ROLE_USER") == null) {
             roles.add(new Role("ROLE_ADMIN"));
             roles.add(new Role("ROLE_USER"));
             roleRepository.saveAll(roles);
