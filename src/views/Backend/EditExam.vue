@@ -40,6 +40,11 @@
             <input @change="handleFileAns()" ref="file" type="file" class="form" />
           </div>
 
+          <div class="form-group">
+            <label class="text-form">File Image</label>
+            <input @change="handleFileImg()" ref="fileImg" type="file" class="form" required />
+          </div>
+
           <div class="d-grid gap-2">
             <button type="submit" class="login1" >Save Exam</button>
           </div>
@@ -72,11 +77,15 @@ export default {
       category: "",
       fileAnswer: null,
       fileQuestion: null,
+      fileImg: null,
       description: "",
       year: ""
     };
   },
   methods: {
+    handleFileImg(){
+      this.fileImg = this.$refs.fileImg.files[0];
+    },
     handleFileQues(){
       this.fileQues = this.fileQuestion,
       this.fileQues = this.$refs.fileQues.files[0];
@@ -90,6 +99,7 @@ export default {
             title: this.title,
             category: this.category,
             fileAnswer: this.file,
+            fileImage: this.fileImg,
             fileQuestion: this.fileQues,
             description: this.description,
             year: this.year,
