@@ -9,8 +9,9 @@
 
     <div class="question-container">
       <div class="right-side">
-        <div class="exam-header">
-          <p>Exam {{this.exam.title}}</p>
+        <div class="exam-header">Exam {{this.exam.title}}</div>
+        <div v-if="stop" class="point">
+          <p>Total correct answer: {{this.point}}</p>
         </div>
         <div v-for="ques in exam.questionsList" :key="ques.id" class="question">
           <div v-if="ques.title"><i>{{ques.title}}</i></div>
@@ -24,6 +25,8 @@
               <input type="text" v-model="answer[ques.questionId]"/>
             </div>
           </div>
+          <div v-if="check[ques.questionId] && stop && ques.questionId" class="checkTrue"><i>The correct answer is: {{ques.correctAnswer}}</i></div>
+          <div v-if="!check[ques.questionId] && stop && ques.questionId" class="checkFalse"><i>The correct answer is: {{ques.correctAnswer}}</i></div>
         </div>
       </div>
 
@@ -36,7 +39,8 @@
       <p>{{Math.floor(this.timecount/60)}}:{{this.timecount%60}}</p>
     </div>
     <div class="submit-ans">
-      <button type="button" @click="getAns"><b>Submit</b></button>
+      <button class="button" v-if="!stop" type="button" @click="getPoint"><b>Submit</b></button>
+      <router-link class="button" v-if="stop" type="button" to="/exams"><b>Back</b></router-link>
     </div>
   </div>
 
@@ -44,12 +48,16 @@
 
 <script>
 import axios from "axios";
+import {toast} from "vue3-toastify";
 export default {
   data() {
     return {
       exam: null,
       timecount: 3600,
-      answer: new Array(41).fill(""),
+      answer: new Array(40).fill(""),
+      check: new Array(40).fill(false),
+      stop: false,
+      point: 0,
     }
   },
   methods: {
@@ -59,24 +67,75 @@ export default {
       this.exam = response.data;
     },
     countDownTimer () {
-      if (this.timecount > 0) {
+      if (this.timecount > 0 && !this.stop) {
         setTimeout(() => {
           this.timecount -= 1
           this.countDownTimer()
         }, 1000)
       }
-      if (this.timecount === 0) {
+      if (this.timecount === 0 && !this.stop) {
         this.getAns();
       }
     },
-    getAns() {
-      console.log(this.answer);
+    async getAns() {
+      // console.log(this.answer);\
+      this.stop = true;
+      this.getPoint();
+      let url = "http://localhost:8019/question/eval-exam";
+      await axios
+          .post(
+              url, {examId: this.exam.id, answers: this.answer,}, {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              }
+          )
+          .then((response) => {
+            console.log(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+            toast.error(error.response, { position: toast.POSITION.BOTTOM_RIGHT }),
+                {
+                  autoClose: 1000,
+                };
+            if (error.response) {
+              // The server responded with an error status code
+              console.log(error.response.data);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+            } else if (error.request) {
+              // The request was made but no response was received
+              console.log(error.request);
+            } else {
+              // Something happened in setting up the request that triggered an Error
+              console.log("Error", error.message);
+            }
+          });
+    },
+    getPoint() {
+      this.stop = true;
+      // console.log(this.exam)
+      for(let i = 0; i < 13; i++) {
+        if (this.exam.questionsList[i].correctAnswer != null) {
+          let data = JSON.stringify(this.exam.questionsList[i].correctAnswer);
+          data = data.substring(1, data.length - 1);
+          // console.log(data)
+          // console.log(this.answer[i + 1])
+          if (data === this.answer[i + 1]) {
+            this.point++;
+            this.check[i+1] = true;
+          }
+        }
+      }
+      console.log(this.point);
     }
 
   },
   beforeMount() {
   },
   created() {
+    this.stop = false;
     this.getExam();
     this.countDownTimer();
   }
@@ -148,23 +207,12 @@ export default {
 }
 
 .exam-header{
-  display: flex;
-  flex-direction: column;
-  max-width: 50%;
-  margin-left: 50px;
-  margin-right: 50px;
-
-}
-.exam-header p{
-  width: 660px;
   text-align: center;
   font-family: Inter;
   font-weight: bold;
   font-size: 24px;
-  margin-right: 50px;
-  margin-bottom: 0px;
-  text-align: center;
 }
+
 .question{
   display: flex;
   flex-direction: column;
@@ -251,7 +299,8 @@ export default {
 .submit-ans{
   margin-right: 5%;
 }
-.submit-ans button{
+
+.button{
   border-radius: 30px;
   color: black;
   display: flex;
@@ -267,5 +316,32 @@ export default {
   text-decoration: none;
   font-family: 'Inter';
 }
+.checkTrue{
+  margin-left: 5%;
+  margin-right: 5%;
+  color: #66BB69;
+}
+.checkFalse{
+  margin-left: 5%;
+  margin-right: 5%;
+  color: #E53835;
+}
+.point{
+  width: 34%;
+  height: 35px;
+  background: #4CAF4F;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 33%;
+}
+.point p{
+  margin-bottom: 0px;
+  text-align: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
 
+}
 </style>
