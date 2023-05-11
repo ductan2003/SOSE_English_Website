@@ -1,23 +1,30 @@
 package com.elearningweb.admin.controller;
 
 import com.elearningweb.admin.config.CustomUserDetails;
+import com.elearningweb.library.dto.CategoryDto;
+import com.elearningweb.library.dto.ExamDto;
 import com.elearningweb.library.dto.PostDto;
 import com.elearningweb.library.dto.UserDto;
 import com.elearningweb.library.model.*;
 import com.elearningweb.library.service.FileService;
 import com.elearningweb.library.service.PostService;
 import com.elearningweb.library.service.impl.CommentServiceImpl;
+import com.elearningweb.library.service.impl.FileServiceImpl;
 import com.elearningweb.library.service.impl.UserServiceImpl;
 import com.elearningweb.library.util.FileUploadUtils;
 import com.elearningweb.library.util.StreamUtils;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -55,20 +62,15 @@ public class TipsController {
         return postService.getPost(id);
     }
 
-    @GetMapping("/{username}")
-    public List<Post> getPostByUser(@PathVariable String username) {
-        return postService.findByUser(userService.getUser(username));
-    }
 
     @PostMapping("/publishTips")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<PostDto> publishPost(@RequestPart String title,
                                                @RequestPart String body,
-                                               @RequestPart String image,
+                                               @RequestPart MultipartFile image,
                                                @RequestPart String description) throws Exception {
-        PostDto postDto = new PostDto(title, body, image, description);
-        String creatorName = postDto.getCreator().getUsername();
-        PostDto publishPost = postService.insert(postDto, creatorName);
+        PostDto postDto = new PostDto(title, body, description);
+        PostDto publishPost = postService.insert(postDto, image);
         return new ResponseEntity<PostDto>(publishPost, HttpStatus.OK );
     }
 
@@ -109,8 +111,21 @@ public class TipsController {
     public boolean postComment(@RequestPart String text) {
         Comment comment = new Comment(text);
         Post post = postService.find(comment.getId());
-        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDto creatorDto = userService.getUser(userDetails.getUsername());
+//        CustomUserDetails userDetails = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            username = authentication.getName();
+        }
+        else {
+            username = authentication.toString();
+        }
+
+//        UserDto creatorDto = userService.getUser(userDetails.getUsername());
+
+        UserDto creatorDto = userService.getUser(username);
         User creator = this.modelMapper.map(creatorDto, User.class);
         if(post == null || creator == null) return false;
         commentService.saveComment(new Comment(comment.getText(), post, creator));

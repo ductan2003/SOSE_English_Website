@@ -1,5 +1,6 @@
 package com.elearningweb.library.service.impl;
 
+import com.elearningweb.library.dto.ExamDto;
 import com.elearningweb.library.dto.PostDto;
 import com.elearningweb.library.dto.UserDto;
 import com.elearningweb.library.model.Category;
@@ -11,7 +12,9 @@ import com.elearningweb.library.repository.UserRepository;
 import com.elearningweb.library.service.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -26,15 +29,16 @@ public class PostServiceImpl implements PostService {
     public ModelMapper modelMapper;
 
     @Autowired
-    public UserRepository userRepository;
+    public FileServiceImpl fileService;
+    @Value("${project.image}")
+    private String path;
 
     @Override
-    public PostDto insert(PostDto postDto, String creatorName) {
-        User user = userRepository.findByUserName(creatorName);
+    public PostDto insert(PostDto postDto, MultipartFile image) throws Exception {
         Post post = this.modelMapper.map(postDto, Post.class);
-        post.setImage("default.png");
+        String fileName = fileService.updateFile(path, image);
+        post.setImage(fileName);
         post.setDateCreated(new Date());
-        post.setCreator(user);
         Post newPost = postRepository.save(post);
         return this.modelMapper.map(newPost, PostDto.class);
     }
@@ -76,11 +80,6 @@ public class PostServiceImpl implements PostService {
     public PostDto getPostById (Long id) {
         Post post = postRepository.findAllById(id);
         return this.modelMapper.map(post, PostDto.class);
-    }
-
-    @Override
-    public List<Post> findByUser(UserDto userDto) {
-        return postRepository.findByCreator(userDto.getUsername());
     }
 
     @Override
