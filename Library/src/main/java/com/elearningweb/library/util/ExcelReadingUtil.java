@@ -57,8 +57,7 @@ public class ExcelReadingUtil {
 //            }
             workbook.close();
             return questionList;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
