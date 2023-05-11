@@ -12,5 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 public class LoginResponse {
     String username;
+    String fullName;
     List<String> roles;
 }

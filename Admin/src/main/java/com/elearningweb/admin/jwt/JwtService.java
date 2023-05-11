@@ -50,10 +50,10 @@ public class JwtService {
 
         String firstName = userRepository.findByUsername(username).getFirstName();
         String lastName = userRepository.findByUsername(username).getLastName();
-        String fullname = firstName + " " + lastName;
+        String fullName = firstName + " " + lastName;
 
         String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
 
-        return new LoginResponse(username, fullname, List.of(roles));
+        return new LoginResponse(username, fullName, List.of(roles));
     }
 }
