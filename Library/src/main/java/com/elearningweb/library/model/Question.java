@@ -17,9 +17,12 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    private String questionId;
     private String section;
-    private long questionId;
+    private String title;
+    @Column(length = 3000)
     private String question;
+    @Column(length = 5000)
     private String paragraph;
     private String correctAnswer;
 

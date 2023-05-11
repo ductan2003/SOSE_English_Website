@@ -21,6 +21,7 @@ public class Converter {
         QuestionDto result = new QuestionDto();
 
         result.setId(question.getId());
+        result.setTitle(question.getTitle());
         result.setQuestionId(question.getQuestionId());
         result.setSection(question.getSection());
         result.setParagraph(question.getParagraph());
@@ -88,6 +89,7 @@ public class Converter {
         Question result = new Question();
 
         result.setId(question.getId());
+        result.setTitle(question.getTitle());
         result.setQuestionId(question.getQuestionId());
         result.setSection(question.getSection());
         result.setParagraph(question.getParagraph());

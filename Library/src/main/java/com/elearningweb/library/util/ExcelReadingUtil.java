@@ -31,11 +31,12 @@ public class ExcelReadingUtil {
                 Row currentRow = iterator.next();
                 Question question = new Question();
 
-                question.setQuestionId(Long.parseLong(fmt.formatCellValue(currentRow.getCell(0))));
+                question.setQuestionId(fmt.formatCellValue(currentRow.getCell(0)));
                 question.setSection(fmt.formatCellValue(currentRow.getCell(1)));
                 question.setParagraph(fmt.formatCellValue(currentRow.getCell(2)));
-                question.setQuestion(fmt.formatCellValue(currentRow.getCell(3)));
-                question.setCorrectAnswer(fmt.formatCellValue(currentRow.getCell(4)));
+                question.setTitle(fmt.formatCellValue(currentRow.getCell(3)));
+                question.setQuestion(fmt.formatCellValue(currentRow.getCell(4)));
+                question.setCorrectAnswer(fmt.formatCellValue(currentRow.getCell(5)));
 
                 questionList.add(question);
             }

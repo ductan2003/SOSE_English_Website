@@ -13,7 +13,8 @@ public class QuestionDto {
     private long id;
 
     private String section;
-    private long questionId;
+    private String title;
+    private String questionId;
     private String question;
     private String paragraph;
     private String correctAnswer;

@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.elearningweb.library.dto.UserDto;
 import com.elearningweb.library.model.User;
 import com.elearningweb.library.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,13 @@ public class JwtService {
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT decodedJWT = verifier.verify(token);
         String username = decodedJWT.getSubject();
+
+        String firstName = userRepository.findByUsername(username).getFirstName();
+        String lastName = userRepository.findByUsername(username).getLastName();
+        String fullname = firstName + " " + lastName;
+
         String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
 
-        return new LoginResponse(username, List.of(roles));
+        return new LoginResponse(username, fullname, List.of(roles));
     }
 }
