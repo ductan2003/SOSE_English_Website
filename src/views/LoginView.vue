@@ -102,16 +102,11 @@ export default {
         .then((response) => {
           console.log(response.data);
           localStorage.setItem('token', response.data.token)
-          localStorage.setItem('username', response.data.username)
-          // axios.defaults.headers.common[ "Authorization"] = `Bearer ${response.data.token}`;
-          // this.auth = true;
           this.$router.push({ path: "/" });
-
-
         })
         .catch((error) => {
           console.log(error);
-          toast.error("Wrong user", { position: toast.POSITION.BOTTOM_RIGHT }),
+          toast.error(error.response, { position: toast.POSITION.BOTTOM_RIGHT }),
             {
               autoClose: 1000,
             };
@@ -130,7 +125,7 @@ export default {
         });
     },
     async getUser() {
-      const response = await axios.get("http://localhost:8019/account/" + localStorage.getItem("username"));
+      const response = await axios.get("http://localhost:8019/api/auth/profile");
       this.user = response.data;
       localStorage.setItem("user", JSON.stringify(response.data));
     }

@@ -6,7 +6,21 @@
       </router-link>
 
         <!-- Links -->
-        <div class="linkname">
+      <div v-if="admin" class="linkname">
+        <div class="linkdefault">
+          <a  href="/admin/summary" class="label1">Summary</a>
+        </div>
+
+        <div class="linkdefault">
+          <a href="/admin/examList" class="label1">Exam List</a>
+        </div>
+
+        <div class="linkdefault">
+          <a href="/admin/tipList" class="label1">Tip List</a>
+        </div>
+
+      </div>
+        <div v-if="!admin" class="linkname">
             <div class="linkdefault">
                 <a  href="/" class="label1">Home</a>
             </div>
@@ -33,9 +47,9 @@
             <router-link v-if="!user" class="login" to="/login">Login</router-link>
             <router-link v-if="!user" class="signup" type="button" to="/register">Sign up</router-link>
             <router-link v-if="user" class="signup" @click="logout()" to="/">Log out</router-link>
-            <p v-if="user"><i>Welcome, {{user.firstName}}</i></p>
+            <p v-if="user"><i>Welcome, {{user.username}}</i></p>
           <div v-if="user">
-            <router-link type="button" :to="{ name: 'profile', params: { id: this.user.firstName } }">
+            <router-link type="button" :to="{ name: 'profile', params: { id: this.user.username } }">
               <img src="@/assets/person3.jpg" alt="ava" />
             </router-link>
           </div>
@@ -51,14 +65,18 @@ export  default {
   data() {
     return {
       user: null,
+      admin: false,
     }
   },
 
   async created() {
-    if (localStorage.getItem("username")) {
-        const response = await axios.get("http://localhost:8019/account/" + localStorage.getItem("username"));
+    if (localStorage.getItem("token")) {
+    axios.defaults.headers.common[ "Authorization"] = `Bearer ` + localStorage.getItem("token");
+    const response = await axios.get("http://localhost:8019/api/auth/profile");
         this.user = response.data;
+      await this.getRole();
     }
+
     },
   methods: {
     logout() {
@@ -66,16 +84,25 @@ export  default {
       this.user = null;
     },
     async getUser() {
-      if (localStorage.getItem("username")) {
-        const response = await axios.get("http://localhost:8019/account/" + localStorage.getItem("username"));
+      if (localStorage.getItem("token")) {
+      axios.defaults.headers.common[ "Authorization"] = `Bearer ` + localStorage.getItem("token");
+      const response = await axios.get("http://localhost:8019/account/" + this.user.username);
+        console.log(response.data)
         this.user = response.data;
       }
     },
+    async getRole() {
+      if (this.user.roles[0] === "ROLE_ADMIN") {
+        this.admin = true;
+      } else this.admin = false;
+      console.log(this.admin);
+    }
 
   },
   async beforeMount() {
     // this.$forceUpdate();
     // await this.getUser();
+    // this.getRole();
   }
 
 }

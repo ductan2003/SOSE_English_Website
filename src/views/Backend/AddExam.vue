@@ -36,10 +36,6 @@
             <input @change="handleFileQues()" ref="fileQues" type="file" class="form" required/>
           </div>
 
-          <div class="form-group">
-            <label class="text-form">File Answer</label>
-            <input @change="handleFileAns()" ref="file" type="file" class="form" required />
-          </div>
 
           <div class="form-group">
             <label class="text-form">File Image</label>
@@ -76,7 +72,6 @@ export default {
       category: "",
       description: "",
       year: "",
-      fileAnswer: null,
       fileQuestion: null,
       fileImage: null,
     }
@@ -89,16 +84,12 @@ export default {
     handleFileQues(){
       this.fileQues = this.$refs.fileQues.files[0];
     },
-    handleFileAns() {
-      this.file = this.$refs.file.files[0];
-    },
     async AddExam() {
       await axios.post("http://localhost:8019/admin/exams/save", {
         title: this.title,
         category: this.category,
         description: this.description,
         year: this.year,
-        fileAnswer: this.file,
         fileQuestion: this.fileQues,
         fileImage: this.fileImg,
       },  {
