@@ -31,8 +31,6 @@
           </select>
         </div>
 
-<!--        <p v-if="typeSelected" style="color:black">{{typeSelected}}</p>-->
-<!--        <p v-if="yearSelected" style="color:black">{{yearSelected}}</p>-->
       </div>
 
       <div class="exam-list">

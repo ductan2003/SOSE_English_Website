@@ -5,6 +5,7 @@
     </div>
     <div class="buttonList">
       <router-link class="signup" type="button" to="/admin/addTip"> + Add new Post</router-link>
+      <router-link class="signup" type="button" to="/tips">View Frontend</router-link>
       <form class="search-bar">
         <input class="search-box" type="text" placeholder="Search by title" v-model="search">
         <button type="submit">
