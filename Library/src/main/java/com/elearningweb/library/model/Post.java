@@ -3,7 +3,9 @@ package com.elearningweb.library.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -19,18 +21,19 @@ public class Post {
     private Long id;
     private String title;
     private String body;
-    @ManyToOne
-    private User creator;
+
     private Date dateCreated;
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
     private String image;
     private String description;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "comment_id", referencedColumnName = "post_id")
+    List<Comment> comments = new ArrayList<>();
 
-    public Post(String title, String body, User creator, Date dateCreated, String image) {
+    public Post(String title, String body, Date dateCreated, String image) {
         this.title = title;
         this.body = body;
-        this.creator = creator;
         this.dateCreated = dateCreated;
         this.image = image;
     }

@@ -5,17 +5,17 @@ import com.elearningweb.library.dto.PostDto;
 import com.elearningweb.library.dto.UserDto;
 import com.elearningweb.library.model.Post;
 import com.elearningweb.library.model.User;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
 
 public interface PostService {
-    PostDto insert(PostDto postDto, String creatorName);
+    PostDto insert(PostDto postDto, MultipartFile image) throws Exception;
     PostDto updatePost(PostDto postDto, Long postId);
     boolean deletePost(Long postId);
     List<PostDto> searchByTitle (String title);
     List<Post> getAllPosts();
-    List<Post> findByUser(UserDto userDto);
     Post getPost(Long id);
     PostDto getPostById (Long id);
     Post find(Long id);

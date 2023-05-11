@@ -11,7 +11,9 @@ import com.elearningweb.library.repository.UserRepository;
 import com.elearningweb.library.service.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -28,13 +30,16 @@ public class PostServiceImpl implements PostService {
     @Autowired
     public UserRepository userRepository;
 
+    public FileServiceImpl fileService;
+    @Value("${project.image}")
+    private String path;
+
     @Override
-    public PostDto insert(PostDto postDto, String creatorName) {
-        User user = userRepository.findByUserName(creatorName);
+    public PostDto insert(PostDto postDto, MultipartFile image) throws Exception {
         Post post = this.modelMapper.map(postDto, Post.class);
-        post.setImage("default.png");
+        String fileName = fileService.updateFile(path, image);
+        post.setImage(fileName);
         post.setDateCreated(new Date());
-        post.setCreator(user);
         Post newPost = postRepository.save(post);
         return this.modelMapper.map(newPost, PostDto.class);
     }
@@ -61,10 +66,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostDto> searchByTitle (String title){
         List<Post> posts = postRepository.searchByTitle("%" + title + "%");
-        List<PostDto> postDtos = posts.stream().map((post) ->
+        return posts.stream().map((post) ->
                 this.modelMapper.map(post, PostDto.class)).
                 collect(Collectors.toList());
-        return postDtos;
     }
 
     @Override
@@ -76,11 +80,6 @@ public class PostServiceImpl implements PostService {
     public PostDto getPostById (Long id) {
         Post post = postRepository.findAllById(id);
         return this.modelMapper.map(post, PostDto.class);
-    }
-
-    @Override
-    public List<Post> findByUser(UserDto userDto) {
-        return postRepository.findByCreator(userDto.getUsername());
     }
 
     @Override

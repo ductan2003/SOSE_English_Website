@@ -15,24 +15,22 @@ public class PostDto {
     private Long id;
     private String title;
     private String body;
-    private User creator;
     private Date dateCreated;
     private String image;
     @Size(min = 3, max = 1000, message = "Invalid description!(3-1000 characters)")
     private String description;
 
-    public PostDto(String title, String body, User creator, Date dateCreated, String imag) {
-        this.title = title;
-        this.body = body;
-        this.creator = creator;
-        this.dateCreated = dateCreated;
-        this.image = image;
-    }
+    public PostDto(String title, String body, String description) {
+            this.title = title;
+            this.body = body;
+            this.description = description;
+        }
 
     public PostDto(String title, String body, String image, String description) {
-        this.title = title;
-        this.body = body;
-        this.image = image;
-        this.description = description;
+            this.title = title;
+            this.body = body;
+            this.image = image;
+            this.description = description;
+        }
     }
-}
+
