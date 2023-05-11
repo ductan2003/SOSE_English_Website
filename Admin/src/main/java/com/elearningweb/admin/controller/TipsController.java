@@ -69,7 +69,6 @@ public class TipsController {
                                                @RequestPart String body,
                                                @RequestPart MultipartFile image,
                                                @RequestPart String description) throws Exception {
-
         PostDto postDto = new PostDto(title, body, description);
         PostDto publishPost = postService.insert(postDto, image);
         return new ResponseEntity<PostDto>(publishPost, HttpStatus.OK );
@@ -78,10 +77,12 @@ public class TipsController {
     @PutMapping("/update/{id}")
     public ResponseEntity<PostDto> updatePost(@RequestPart String title,
                                               @RequestPart String body,
-                                              @RequestPart String image,
+                                              @RequestPart MultipartFile image,
                                               @RequestPart String description,
                                               @PathVariable Long id) throws Exception{
-        PostDto postDto = new PostDto(title, body, image, description);
+        PostDto postDto = new PostDto(id, title, body, description);
+        String fileName = fileService.updateFile(path, image);
+        postDto.setImage(fileName);
         PostDto updatePost = postService.updatePost(postDto, id);
         return new ResponseEntity<>(updatePost, HttpStatus.OK);
     }

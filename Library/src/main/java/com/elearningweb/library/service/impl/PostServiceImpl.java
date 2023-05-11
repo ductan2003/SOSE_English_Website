@@ -30,6 +30,7 @@ public class PostServiceImpl implements PostService {
     @Autowired
     public UserRepository userRepository;
 
+    @Autowired
     public FileServiceImpl fileService;
     @Value("${project.image}")
     private String path;
