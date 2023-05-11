@@ -1,16 +1,14 @@
 package com.elearningweb.admin.controller;
 
 import com.elearningweb.admin.config.CustomUserDetails;
-import com.elearningweb.library.dto.CategoryDto;
-import com.elearningweb.library.dto.ExamDto;
-import com.elearningweb.library.dto.PostDto;
-import com.elearningweb.library.dto.UserDto;
+import com.elearningweb.library.dto.*;
 import com.elearningweb.library.model.*;
 import com.elearningweb.library.service.FileService;
 import com.elearningweb.library.service.PostService;
 import com.elearningweb.library.service.impl.CommentServiceImpl;
 import com.elearningweb.library.service.impl.FileServiceImpl;
 import com.elearningweb.library.service.impl.UserServiceImpl;
+import com.elearningweb.library.util.ConstraintViolationExceptionHandler;
 import com.elearningweb.library.util.FileUploadUtils;
 import com.elearningweb.library.util.StreamUtils;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,6 +27,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.ConstraintViolationException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
@@ -52,18 +51,18 @@ public class TipsController {
     public ModelMapper modelMapper;
 
     //Post tips
-    @GetMapping("/all")
+    @GetMapping("/post/all")
     public List<Post> posts() {
         return postService.getAllPosts();
     }
 
-    @GetMapping("/{id}")
-    public Post getPostById(@PathVariable Long id) {
-        return postService.getPost(id);
+    @GetMapping("/post/{postId}")
+    public Post getPostById(@PathVariable Long postId) {
+        return postService.getPost(postId);
     }
 
 
-    @PostMapping("/publishTips")
+    @PostMapping("/post/publishTips")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<PostDto> publishPost(@RequestPart String title,
                                                @RequestPart String body,
@@ -74,34 +73,34 @@ public class TipsController {
         return new ResponseEntity<PostDto>(publishPost, HttpStatus.OK );
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/post/update/{postId}")
     public ResponseEntity<PostDto> updatePost(@RequestPart String title,
                                               @RequestPart String body,
                                               @RequestPart MultipartFile image,
                                               @RequestPart String description,
-                                              @PathVariable Long id) throws Exception{
-        PostDto postDto = new PostDto(id, title, body, description);
+                                              @PathVariable Long postId) throws Exception{
+        PostDto postDto = new PostDto(postId, title, body, description);
         String fileName = fileService.updateFile(path, image);
         postDto.setImage(fileName);
-        PostDto updatePost = postService.updatePost(postDto, id);
+        PostDto updatePost = postService.updatePost(postDto, postId);
         return new ResponseEntity<>(updatePost, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public boolean deletePost(@PathVariable Long id) {
-        return postService.deletePost(id);
+    @DeleteMapping("/post/delete/{postId}")
+    public boolean deletePost(@PathVariable Long postId) {
+        return postService.deletePost(postId);
     }
 
-    @GetMapping("/search/{title}")
+    @GetMapping("/post/search/{title}")
     public ResponseEntity<List<PostDto>> searchByTitle(@PathVariable("title") String title) {
         List<PostDto> postDtos = postService.searchByTitle(title);
         return new ResponseEntity<List<PostDto>>(postDtos, HttpStatus.OK);
     }
 
     //Comment
-    @DeleteMapping("/comment/{id}")
-    public boolean deleteComment(@PathVariable Long id) {
-        return commentService.deleteComment(id);
+    @DeleteMapping("/comments/{commentId}")
+    public boolean deleteComment(@PathVariable Long commentId) {
+        return commentService.deleteComment(commentId);
     }
 
     @GetMapping("/comments/{postId}")
@@ -109,30 +108,18 @@ public class TipsController {
         return commentService.getComments(postId);
     }
 
-    @PostMapping("/postComment")
-    public boolean postComment(@RequestPart String text) {
-        Comment comment = new Comment(text);
-        Post post = postService.find(comment.getId());
-
-//        CustomUserDetails userDetails = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            username = authentication.getName();
-        }
-        else {
-            username = authentication.toString();
+    @PostMapping("/comments/postComment")
+//    Test PostMan thì set content-type = application/json
+    public ResponseEntity<Response> postComment(@RequestPart String text, @RequestPart Long postId) {
+        try {
+            postService.createComment(postId, text);
+        } catch (ConstraintViolationException e)  {
+            return ResponseEntity.ok().body(new Response(false, ConstraintViolationExceptionHandler.getMessage(e)));
+        } catch (Exception e) {
+            return ResponseEntity.ok().body(new Response(false, e.getMessage()));
         }
 
-//        UserDto creatorDto = userService.getUser(userDetails.getUsername());
-
-        UserDto creatorDto = userService.getUser(username);
-        User creator = this.modelMapper.map(creatorDto, User.class);
-        if(post == null || creator == null) return false;
-        commentService.saveComment(new Comment(comment.getText(), post, creator));
-        return true;
+        return ResponseEntity.ok().body(new Response(true, "Success", null));
     }
 
     //Image upload

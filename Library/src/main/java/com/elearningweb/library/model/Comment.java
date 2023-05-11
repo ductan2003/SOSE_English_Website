@@ -17,13 +17,10 @@ public class Comment {
     private String text;
     @ManyToOne
     private Post post;
-    @ManyToOne
-    private User creator;
 
-    public Comment(String text, Post post, User creator) {
+    public Comment(String text, Post post) {
         this.text = text;
         this.post = post;
-        this.creator = creator;
     }
 
     public Comment(String text) {
