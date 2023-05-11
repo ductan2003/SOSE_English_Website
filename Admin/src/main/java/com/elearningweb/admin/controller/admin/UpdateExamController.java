@@ -117,7 +117,6 @@ public class UpdateExamController {
 
         return examService.save(examDto);
     }
-
     @DeleteMapping(value = "/exams/delete/id={id}")
     public void deleteExam(@PathVariable("id") long id) {
         examService.delete(id);
