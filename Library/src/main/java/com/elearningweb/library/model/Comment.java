@@ -20,6 +20,7 @@ public class Comment {
     @Column(name = "post_id")
     private Long post_id;
     private String creatorName;
+    private String creatorImage;
 
     public Comment(String text, Long post_id) {
         this.text = text;
@@ -30,6 +31,13 @@ public class Comment {
         this.text = text;
         this.post_id = post_id;
         this.creatorName = creatorName;
+    }
+
+    public Comment(String text, Long post_id, String creatorName, String creatorImage) {
+        this.text = text;
+        this.post_id = post_id;
+        this.creatorName = creatorName;
+        this.creatorImage = creatorImage;
     }
 
     public Comment(String text) {

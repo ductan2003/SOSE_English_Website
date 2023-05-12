@@ -102,7 +102,8 @@ public class PostServiceImpl implements PostService {
     @Override
     public CommentDto createComment(Long postId, String text, String creatorName){
         Post post = postRepository.findAllById(postId);
-        Comment comment = new Comment(text, postId, creatorName);
+        String creatorImage = userRepository.findByUserName(creatorName).getProfileImage();
+        Comment comment = new Comment(text, postId, creatorName, creatorImage);
         if (post != null) {
             post.addComment(comment);
         }
