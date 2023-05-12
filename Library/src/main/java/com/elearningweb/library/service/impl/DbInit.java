@@ -153,7 +153,7 @@ public class DbInit implements InitializingBean {
                                 "\n" +
                                 "In conclusion, while we cannot deny the benefits of advertisements, the drawbacks they brought are truly more concerning in the long run.",
                         "Advertising is becoming more and more common in everyday life. Is it a positive or negative development?"),
-                "static/fileImage/2.jpg");
+                "2.jpg");
 
         postService.savePost(new PostDto("Actual tests in May 11th, 2023 Writing Task 1 (paper-based): Barchart",
                         "You should spend about 20 minutes on this task.\n" +
@@ -169,7 +169,7 @@ public class DbInit implements InitializingBean {
                                 "\n" +
                                 "(150 words)",
                         "The chart below compare the number of people per household* in the UK in 1981 and 2001."),
-                "static/fileImage/3.jpg");
+                "3.jpg");
 
         postService.savePost(new PostDto("Actual tests in April 22nd, 2023 Writing Task 1 (paper-based): Line Graph",
                         "The line graph shows the information average number of visitors entering a museum in summer and winter in 2003.\n" +
@@ -178,7 +178,7 @@ public class DbInit implements InitializingBean {
                                 "You should spend about 20 minutes on this task.\n" +
                                 "Looking at the comparison between the two seasons, it is worth noting that the number of visitors in the summer season was around 3-4 times higher than in the winter season. This difference is evident throughout the entire year, with the number of visitors reaching its peak only during the summer season.",
                         "The line graph shows the information average number of visitors entering a museum in summer and winter in 2003."),
-                "static/fileImage/4.jpg");
+                "4.jpg");
 
         postService.savePost(new PostDto("How to Do MCQ Type of Questions in ILETS Listening?",
                         "Did you notice a spelling error in this article title? Yes, you are right! It should be written as IELTS Listening, not ILETS Listening. The reason why this spelling error is highlighted in the title is to draw your attention towards the word “IELTS” which is commonly misspelled as ILETS.\n" +
@@ -186,19 +186,19 @@ public class DbInit implements InitializingBean {
                                 "In the IELTS Listening module, the most difficult question is said to be MCQ (Multiple Choice Question) i.e. question along with some options to choose from. In some questions, only one option is correct while in some of the other questions, more than one options are correct.\n" +
                                  "In the above question, “two things” and “tour cost” are the major keywords that you can concentrate at. From the options, “accommodation” and “picnic” are two “one word” options to easily focus at, however, in the other three options, you can put more emphasis on words such as “fishing”, “tennis” and “meal” though you can not completely ignore the other words also in the options.",
                         " Listening Tips46,96705/10/2018\n"),
-                "static/fileImage/5.jpg");
+                "5.jpg");
 
         postService.savePost(new PostDto("How to Do Matching Heading Type of Questions in IELTS Listening?",
                         "One of the tricky questions apart from multiple choice questions in IELTS listening are the matching heading type of questions. As it can be determined by the term itself, matching heading involves matching a list of questions to another list of options. In these questions, you may find one-to-one or one-to-many type of questions. One-to-one matching heading questions mean that if question no. 1 matches with option no. C, then C cannot be the answer for any other question. However, one-to-many type of questions mean that if question no. 1 matches with option no. C, then C can also be the answer to another question. Here comes the difficulty in solving such questions. Hence, one-to-many questions are comparatively difficult than one-to-one questions.",
                         "Apart from all, you can make sure to keep your attention on understanding the audio conversation in IELTS listening."),
-                "static/fileImage/1.jpg");
+                "1.jpg");
 
         postService.savePost(new PostDto("How to Do Completion Type of Questions in IELTS Listening?",
                         "In the completion type of questions in IELTS listening, you are given short statements which are kind of short notes on the basis of audio conversation you are going to listen to and the blanks are some important information in the audio. One of the most effective tips that work out very well for such questions is to underline words that are near the blanks because you are most likely to hear those words in the audio as well, in the same order as you find in the question. Hence, you are thus able to identify your answers from the audio easily. For example,\n" +
                                 "\n" +
                                 "In the above question, you can see that the underlined words are closer to the blank and hence you should always keep these words in mind while listening to audio conversation. Apart from this, you can also highlight other words which can help you to understand the statements and focus",
                         "In the IELTS listening exam, you can find completion type of questions in the last section i.e. Section 4. "),
-                "static/fileImage/7.jpg");
+                "7.jpg");
 
         postService.savePost(new PostDto("How to Crack Section 3 of IELTS Listening?",
                 "Let us now discuss in detail how to crack Section 3 of IELTS listening test:\n" +
@@ -208,7 +208,7 @@ public class DbInit implements InitializingBean {
                         "could reach out to maximum customers\n" +
                         "In the above type of question where it is comparatively difficult to concentrate, you can underline keywords as highlighted above. Now, let us find some important points to be noted for solving IELTS Listening Section 3.",
                 "IELTS Listening module consists of 4 sections viz."),
-                "static/fileImage/8.jpg");
+                "8.jpg");
 
         postService.savePost(new PostDto("378 High Frequency Words in IELTS Listening",
                         "1. Shelf\n" +
@@ -245,7 +245,7 @@ public class DbInit implements InitializingBean {
                                 "26. Put on reserve ",
                         "Knowing what kind of vocabulary to expect in IELTS listening can greatly improve your performance in the actual exam. " +
                                 "Come and see if you know the meaning of all 378 high frequency words."),
-                "static/fileImage/9.png");
+                "9.png");
 
         postService.savePost(new PostDto("How to Do Flow Chart Type of Questions in IELTS Listening?",
                         "Audio Information Always Flows in Sequence\n" +
@@ -254,12 +254,12 @@ public class DbInit implements InitializingBean {
                                 "\n" +
                                 "Underline Keywords in the Sentences\n",
                         "You may come across flow chart type of questions in IELTS listening exam, probably in Section 2. "),
-                "static/fileImage/10.jpg");
+                "10.jpg");
 
         postService.savePost(new PostDto("Three things you must get right in IELTS Listening",
                         "Imagine that you are listening for the answer to Question 3, and you suddenly hear the answer to Question 6. This means you have been focusing so hard on one question that you have missed not only that one, but two more!\n" +
                                 "\n" + "The key to doing well in the Listening test is to make it a two-stage process. First listen and make notes, then transfer your answers to the answer paper. In the Listening test, you need to be very precise when answering the questions. For example, let’s say the question paper asks you to complete the phrase ‘in the…’ and the answer is ‘morning’. When you write the information on the answer sheet, only ‘morning’ will be marked correct. If you write ‘the morning’ or ‘in the morning’ you will not be given a point (despite the fact that you know the answer). This rule also applies to spelling.",
                         "Most people find the Listening test more stressful than the Reading test. "),
-                "static/fileImage/11.jpg");
+                "11.jpg");
     }
 }
