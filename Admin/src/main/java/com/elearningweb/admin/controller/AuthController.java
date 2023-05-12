@@ -79,7 +79,7 @@ public class AuthController {
                                           @RequestPart String username,
                                           @RequestPart String password,
                                           @RequestPart String confirmPassword) {
-        UserDto userDto = new UserDto(firstName, lastName, username, password, confirmPassword, "defaultProfileImage.png");
+        UserDto userDto = new UserDto(firstName, lastName, username, password, confirmPassword);
 //         add check for username exists in a DB
         if (userRepository.findByUsername(username) != null) {
             return new ResponseEntity<>("Username is already taken!", HttpStatus.BAD_REQUEST);
