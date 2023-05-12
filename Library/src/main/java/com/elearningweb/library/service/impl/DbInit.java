@@ -1,9 +1,13 @@
 package com.elearningweb.library.service.impl;
 
+import com.elearningweb.library.model.Post;
 import com.elearningweb.library.model.Role;
 import com.elearningweb.library.model.User;
+import com.elearningweb.library.repository.PostRepository;
 import com.elearningweb.library.repository.RoleRepository;
 import com.elearningweb.library.repository.UserRepository;
+import com.elearningweb.library.service.FileService;
+import com.elearningweb.library.service.PostService;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.InitializingBean;
@@ -24,6 +28,8 @@ public class DbInit implements InitializingBean {
     BCryptPasswordEncoder passwordEncoder;
     @Autowired
     FileServiceImpl fileService;
+    @Autowired
+    PostRepository postRepository;
 
     List<Role> roles = new ArrayList<>();
 
@@ -45,6 +51,7 @@ public class DbInit implements InitializingBean {
             admin.setRoles(roles);
             userRepository.save(admin);
         }
+        postRepository.save(new Post("aa", "aaa", "aaa", "C:\\Study\\se\\static\\fileImage\\2.jpg"));
         fileService.init();
     }
 }

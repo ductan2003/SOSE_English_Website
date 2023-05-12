@@ -1,5 +1,7 @@
 package com.elearningweb.library.dto;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Lob;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,18 +14,18 @@ import java.util.Date;
 public class PostDto {
     private Long id;
     private String title;
-    @Size(min = 3, max = Integer.MAX_VALUE)
+    @Column(length = 5000)
     private String body;
     private Date dateCreated;
     private String image;
     @Size(min = 3, max = 1000, message = "Invalid description!(3-1000 characters)")
     private String description;
-
     public PostDto(String title, String body, String description) {
             this.title = title;
             this.body = body;
             this.description = description;
         }
+
 
     public PostDto(Long id, String title, String body, String description) {
         this.id = id;

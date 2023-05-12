@@ -21,6 +21,7 @@ public class Post {
     @Column(name = "post_id")
     private Long id;
     private String title;
+    @Column(length = 5000)
     private String body;
 
     private Date dateCreated;
@@ -32,11 +33,19 @@ public class Post {
     @JoinColumn(name = "comment_id", referencedColumnName = "post_id")
     List<Comment> comments = new ArrayList<>();
 
+
     public Post(String title, String body, Date dateCreated, String image) {
         this.title = title;
         this.body = body;
         this.dateCreated = dateCreated;
         this.image = image;
+    }
+
+    public Post(String title, String body,  String description, String image) {
+        this.title = title;
+        this.body = body;
+        this.image = image;
+        this.description = description;
     }
 
     public void addComment(Comment comment){

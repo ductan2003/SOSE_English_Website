@@ -68,6 +68,7 @@ public class TipsController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<PostDto> publishPost(@RequestPart String title,
                                                @RequestPart String body,
+//                                               @RequestPart byte[] body,
                                                @RequestPart MultipartFile image,
                                                @RequestPart String description) throws Exception {
         PostDto postDto = new PostDto(title, body, description);
