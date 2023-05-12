@@ -14,7 +14,7 @@
       <p>{{tip.body}}</p>
     </div>
     <div class="comment">
-      <div class="newComment">
+      <div v-if="user" class="newComment">
         <img src="@/assets/person3.jpg" alt="ava" class="avatar"/>
         <div class="answerbox">
           <input type="text" v-model="newComment" placeholder="Comment Here"/>
@@ -29,7 +29,7 @@
         <div class="oldCommentBox">
 <!--          <p>A   Open your eyes in sea water and it is difficult to see much more than a murky, bleary green colour. Sounds, too, are garbled and difficult to comprehend. Without specialised equipment humans would be lost in these deep sea habitats, so how do fish make it seem so easy? Much of this is due to a biological phenomenon known as electroreception – the ability to perceive and act upon electrical stimuli as part of the overall senses. This ability is only found in aquatic or amphibious species because water is an efficient conductor of electricity.-->
 <!--          </p>-->
-          <div class="userName">Username</div>
+          <div class="userName">{{this.user.fullName}}</div>
           <p>{{cmt.text}}</p>
         </div>
       </div>
@@ -74,9 +74,9 @@ export default {
         console.log(response.data);
         this.getTip();
         this.newComment = "";
-        toast.success("Saved successfully", { position: toast.POSITION.BOTTOM_RIGHT }), {
-          autoClose: 1000,
-        }
+        // toast.success("Saved successfully", { position: toast.POSITION.BOTTOM_RIGHT }), {
+        //   autoClose: 1000,
+        // }
       }).catch((error) => {
         console.log(error);
         toast.error("Saved failed", { position: toast.POSITION.BOTTOM_RIGHT }), {
@@ -114,6 +114,7 @@ export default {
       axios.defaults.headers.common[ "Authorization"] = `Bearer ` + localStorage.getItem("token");
       const response = await axios.get("http://localhost:8019/api/auth/profile");
       this.user = response.data;
+      console.log(this.user)
     }
   },
 

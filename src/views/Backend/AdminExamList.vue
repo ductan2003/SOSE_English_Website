@@ -71,7 +71,7 @@ export default {
           .get("http://localhost:8019/user/exams/all")
           .then((response) => {
             console.log(response.data);
-            this.exams = response.data;
+            this.exams = response.data.listPost;
           })
           .catch((error) => {
             console.log(error);

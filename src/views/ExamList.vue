@@ -1,5 +1,10 @@
 <template>
-  <div class="container">
+  <div v-if="!auth">
+    <div class="heading-page">
+      <p class="heading-page-content">Please login to view this page</p>
+    </div>
+  </div>
+  <div v-if="auth" class="container">
     <div class="heading-page">
       <p class="heading-page-content">IELTS Mock Tests</p>
     </div>
@@ -51,6 +56,7 @@ export default {
       exams: [],
       typeSelected: null,
       yearSelected: null,
+      auth: false
     };
   },
   methods: {
@@ -59,15 +65,13 @@ export default {
           .get(url)
           .then((response) => {
             console.log(response.data);
-            this.exams = response.data;
+            this.exams = response.data.listPost;
           })
           .catch((error) => {
             console.log(error);
           });
     },
     getExams() {
-      console.log("type", this.typeSelected);
-      console.log("year", this.yearSelected);
       if (!this.yearSelected && this.typeSelected) {
         let url = "http://localhost:8019/user/exams/" + this.typeSelected;
         this.getList(url);
@@ -88,6 +92,10 @@ export default {
   },
   beforeMount() {
     this.getExams();
+    console.log(this.exams)
+    if (localStorage.getItem("token")) {
+      this.auth = true;
+    }
   },
 }
 
