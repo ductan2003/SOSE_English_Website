@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     async getTip() {
-      let url = "http://localhost:8019/tips/" + parseInt(this.$route.params.id);
+      let url = "http://localhost:8019/tips/post/" + parseInt(this.$route.params.id);
       const response = await axios.get(url);
       this.tip = response.data;
     },
