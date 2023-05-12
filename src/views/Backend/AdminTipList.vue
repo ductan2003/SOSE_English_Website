@@ -90,11 +90,11 @@ export default {
       console.log(this.search)
       if (this.search && this.search !== "") {
         //With search
-        let url = "http://localhost:8019/tips/search/" + this.search;
+        let url = "http://localhost:8019/tips/post/search/" + this.search;
         this.getList(url);
       } else {
         //Normal
-        let url = "http://localhost:8019/tips/all";
+        let url = "http://localhost:8019/tips/post/all";
         this.getList(url);
       }
       // let url = "http://localhost:8019/tips/all";
@@ -102,7 +102,7 @@ export default {
     },
 
     deleteTip(id){
-      let url = "http://localhost:8019/tips/delete/" + id;
+      let url = "http://localhost:8019/tips/post/delete/" + id;
       axios.delete(url).then((response) => {
         console.log(response.data);
         this.getTips();

@@ -107,7 +107,7 @@ export default {
     },
     getTip() {
       //get url by id
-      let url = "http://localhost:8019/tips/" + parseInt(this.$route.params.id);
+      let url = "http://localhost:8019/tips/post/" + parseInt(this.$route.params.id);
       axios
           .get(url)
           .then((response) => {
