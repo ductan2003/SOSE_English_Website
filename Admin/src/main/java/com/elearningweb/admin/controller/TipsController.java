@@ -113,6 +113,7 @@ public class TipsController {
 
 
     @PostMapping(value ="/comments/postComment")
+    @ResponseStatus(HttpStatus.CREATED)
 //    Test PostMan thì set content-type = application/json
     public ResponseEntity<CommentDto> postComment(@RequestPart String text, @RequestPart String postId, @RequestPart String creatorName) {
         CommentDto commentDto = postService.createComment((long) Integer.parseInt(postId), text, creatorName);
