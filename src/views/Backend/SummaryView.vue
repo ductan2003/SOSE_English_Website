@@ -75,29 +75,44 @@
         axios
             .get(url)
             .then((response) => {
-              console.log(response.data);
-              return response.data;
+              // console.log(response.data);
+              return response.data.total;
             })
             .catch((error) => {
               console.log(error);
             });
       },
       getTotalExams(){
-        let url = "";
-        this.totalExams = this.getList(url);
+        let url = "http://localhost:8019/admin/exams/all";
+        axios.get(url).then((response) => {
+          this.totalExams = response.data.total;
+        })
       },
       getTotalUsers(){
-        let url = "";
-        this.totalUsers = this.getList(url);
+        let url = "http://localhost:8019/account/all";
+        axios.get(url).then((response) => {
+          this.totalUsers = response.data.total;
+        })
+        // console.log(this.totalUsers);
       },
       getTotalTips(){
-        let url = "";
-        this.totalTips = this.getList(url);
+        let url = "http://localhost:8019/tips/post/all";
+        axios.get(url).then((response) => {
+          this.totalTips = response.data.total;
+        })
       },
       getTotalComment(){
         let url = "";
-        this.comments = this.getList(url);
+        axios.get(url).then((response) => {
+          this.totalComments = response.data.total;
+        })
       },
+    },
+    beforeMount() {
+      this.getTotalTips();
+      this.getTotalUsers();
+      this.getTotalExams();
+      this.getTotalComment();
     }
   }
 </script>
