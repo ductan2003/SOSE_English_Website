@@ -53,7 +53,7 @@ public class AccountController {
         LOGGER.info("User {} has Been Updated", username);
         return new ResponseEntity<>(updateUser, HttpStatus.OK);
     }
-    //    @PutMapping("/changePassword/userId={userId}")
+//        @PutMapping("/changePassword/userId={userId}")
 //    public ResponseEntity<Response> changePassword(@RequestPart String password,
 //                                                  @RequestPart String newPassword,
 //                                                  @RequestPart String confirmPassword,

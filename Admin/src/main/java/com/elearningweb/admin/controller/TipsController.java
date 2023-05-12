@@ -16,6 +16,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -104,11 +105,12 @@ public class TipsController {
     }
 
     @GetMapping("/comments/{postId}")
-    public Optional<Comment> getComments (@PathVariable Long postId) {
-        return commentService.getComments(postId);
+    public ResponseEntity<List<CommentDto>> getComments (@PathVariable Long postId) {
+        return ResponseEntity.ok(postService.getAllComments(postId));
     }
 
-    @PostMapping("/comments/postComment")
+
+    @PostMapping(value ="/comments/postComment")
 //    Test PostMan thì set content-type = application/json
     public ResponseEntity<Response> postComment(@RequestPart String text, @RequestPart Long postId) {
         try {
@@ -120,7 +122,27 @@ public class TipsController {
         }
 
         return ResponseEntity.ok().body(new Response(true, "Success", null));
+//        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(new Response(true, "Success", null));
     }
+//    @GetMapping("/getUser")
+//    public ResponseEntity<UserDto> getCurrentUser(){
+//        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        if (auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken))
+//        {
+//            if(auth.getDetails() !=null)
+//                System.out.println(auth.getDetails().getClass());
+//            if( auth.getDetails() instanceof UserDetails)
+//            {
+//                System.out.println("UserDetails");
+//            }
+//            else
+//            {
+//                System.out.println("!UserDetails");
+//            }
+//        }
+//        UserDto userDto = (UserDto) auth.getDetails();
+//        return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
+//    }
 
     //Image upload
     @PostMapping("/file/upload/{id}")

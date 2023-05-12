@@ -1,5 +1,6 @@
 package com.elearningweb.library.service;
 
+import com.elearningweb.library.dto.CommentDto;
 import com.elearningweb.library.dto.ExamDto;
 import com.elearningweb.library.dto.PostDto;
 import com.elearningweb.library.dto.UserDto;
@@ -20,4 +21,5 @@ public interface PostService {
     PostDto getPostById (Long id);
     Post find(Long id);
     void createComment(Long postId, String text);
+    List<CommentDto> getAllComments(Long postId);
 }

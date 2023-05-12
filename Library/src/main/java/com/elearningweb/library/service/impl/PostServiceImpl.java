@@ -1,5 +1,6 @@
 package com.elearningweb.library.service.impl;
 
+import com.elearningweb.library.dto.CommentDto;
 import com.elearningweb.library.dto.PostDto;
 import com.elearningweb.library.dto.UserDto;
 import com.elearningweb.library.model.Category;
@@ -17,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,6 +38,8 @@ public class PostServiceImpl implements PostService {
     public FileServiceImpl fileService;
     @Value("${project.image}")
     private String path;
+    @Autowired
+    private CommentMapper commentMapper;
 
     @Override
     public PostDto insert(PostDto postDto, MultipartFile image) throws Exception {
@@ -105,4 +109,12 @@ public class PostServiceImpl implements PostService {
         PostDto postDto = this.modelMapper.map(post, PostDto.class);
         this.updatePost(postDto, postId);
     }
+
+    public List<CommentDto> getAllComments(Long postId){
+
+        return postRepository.findById(postId).stream()
+                .map(video -> commentMapper.mapToDtoList(video.getComments()))
+                .findAny().orElse(Collections.emptyList());
+    }
+
 }
