@@ -53,7 +53,7 @@ export default {
   data() {
     return {
       exam: null,
-      timecount: 3600,
+      timecount: 5,
       answer: new Array(40).fill(""),
       check: new Array(40).fill(false),
       stop: false,
@@ -74,7 +74,7 @@ export default {
         }, 1000)
       }
       if (this.timecount === 0 && !this.stop) {
-        this.getAns();
+        this.getPoint();
       }
     },
     async getAns() {

@@ -30,7 +30,7 @@ export default {
         .get(url)
         .then((response) => {
           console.log(response.data);
-          this.tips = response.data;
+          this.tips = response.data.posts;
         })
         .catch((error) => {
           console.log(error);

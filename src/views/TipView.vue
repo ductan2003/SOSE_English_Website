@@ -41,13 +41,16 @@
 
 <script>
 import axios from "axios";
+import {toast} from "vue3-toastify";
+
 
 export default {
   data() {
     return {
       tip: null,
       newComment: "",
-      comments: null
+      comments: null,
+      user: null
     }
   },
   methods: {
@@ -55,26 +58,64 @@ export default {
       let url = "http://localhost:8019/tips/post/" + parseInt(this.$route.params.id);
       const response = await axios.get(url);
       this.tip = response.data;
-      this.comments = this.tip.comments;
+      this.comments = this.tip.comments.slice().reverse();
     },
     async postComment() {
-      let url = "http://localhost:8019/tips//comments/postComment";
-      await axios.post(url, {
-        text: this.newComment,
-        postId: parseInt(this.$route.params.id),
-      }, {
-        Header: {
-          "Content-Type": "multipart/form-data",
-        }
-      }).then((response => {
+      await axios.post("http://localhost:8019/tips/comments/postComment", {
+          text: this.newComment,
+          postId: this.$route.params.id,
+          creatorName: this.user.username
+          },  {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            }
+          }
+      ).then((response) => {
         console.log(response.data);
-      }));
-    }
+        this.getTip();
+        this.newComment = "";
+        toast.success("Saved successfully", { position: toast.POSITION.BOTTOM_RIGHT }), {
+          autoClose: 1000,
+        }
+      }).catch((error) => {
+        console.log(error);
+        toast.error("Saved failed", { position: toast.POSITION.BOTTOM_RIGHT }), {
+          autoClose: 1000,
+        }
+        if (error.response) {
+          // The server responded with an error status code
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+        }
+      });
+    },
+    async getUser() {
+      if (localStorage.getItem("token")) {
+        axios.defaults.headers.common[ "Authorization"] = `Bearer ` + localStorage.getItem("token");
+        const response = await axios.get("http://localhost:8019/account/" + this.user.username);
+        console.log(response.data)
+        this.user = response.data;
+      }
+    },
 
   },
   beforeMount() {
     this.getTip();
-  }
+  },
+  async created() {
+    if (localStorage.getItem("token")) {
+      axios.defaults.headers.common[ "Authorization"] = `Bearer ` + localStorage.getItem("token");
+      const response = await axios.get("http://localhost:8019/api/auth/profile");
+      this.user = response.data;
+    }
+  },
 
 }
 </script>
@@ -186,6 +227,7 @@ export default {
   text-align: left;
   font-family: Inter;
   margin: 1% 3% 2%;
+  margin-top: 0%;
 }
 .userName{
   text-align: left;
