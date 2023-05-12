@@ -98,7 +98,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public void createComment(Long postId, String text){
         Post post = postRepository.findAllById(postId);
-        Comment comment = new Comment(text, post);
+        Comment comment = new Comment(text, postId);
         if (post != null) {
             post.addComment(comment);
         }

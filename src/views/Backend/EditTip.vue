@@ -68,7 +68,7 @@ export default {
       this.image = this.$refs.fileImg.files[0];
     },
     async EditTip() {
-      let url = "http://localhost:8019/tips/update/" + parseInt(this.$route.params.id);
+      let url = "http://localhost:8019/tips/post/update/" + parseInt(this.$route.params.id);
       await axios.put(url, {
             title: this.title,
             body: this.body,
