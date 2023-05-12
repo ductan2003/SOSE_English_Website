@@ -11,6 +11,7 @@ import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
     UserDto getUser(String username);
+    User getUserByUsername(String username);
     List<UserDto> getAllUsers();
     UserDto save(UserDto userDto);
     void deleteById(long id);
