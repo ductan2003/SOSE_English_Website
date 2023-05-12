@@ -68,9 +68,9 @@ export default {
       this.image = this.$refs.fileImg.files[0];
     },
     async AddTip() {
-      console.log(this.$data)
+      // console.log(this.$data)
       //insert url here
-      let url = "http://localhost:8019/tips/publishTips";
+      let url = "http://localhost:8019/tips/post/publishTips";
       await axios.post(url, {
             title: this.title,
             body: this.body,

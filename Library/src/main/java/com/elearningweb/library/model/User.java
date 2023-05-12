@@ -1,6 +1,9 @@
 package com.elearningweb.library.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
@@ -48,3 +51,4 @@ public class User{
         this.roles = roles;
     }
 }
+

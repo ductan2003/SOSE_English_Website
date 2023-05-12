@@ -30,18 +30,18 @@ public class UserDto {
     private String resetPasswordToken;
     private String profileImage;
 
-    public UserDto(String firstName, String lastName, String username, String password, String confirmPasswor) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.password = password;
-        this.confirmPassword = confirmPassword;
-    }
+    public UserDto(String firstName, String lastName, String username, String password, String confirmPassword) {            this.firstName = firstName;
+            this.lastName = lastName;
+            this.username = username;
+            this.password = password;
+            this.confirmPassword = confirmPassword;
+        }
 
     public UserDto(String firstName, String lastName, String username, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.password = password;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.username = username;
+            this.password = password;
+        }
     }
-}
+

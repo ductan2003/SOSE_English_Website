@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.slf4j.Logger;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -30,8 +31,10 @@ public class AccountController {
     private  Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
 
     @GetMapping("/all")
-    public List<UserDto> getUserList() {
-        return userService.getAllUsers();
+    public ResponseEntity<?> getUserList() {
+        List<UserDto> users = userService.getAllUsers();
+        Map<Object, Object> map = Map.of("total", users.size(), "userList", users);
+        return ResponseEntity.ok(map);
     }
 
     @GetMapping("/{username}")
