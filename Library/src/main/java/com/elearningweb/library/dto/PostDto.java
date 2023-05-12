@@ -12,6 +12,7 @@ import java.util.Date;
 public class PostDto {
     private Long id;
     private String title;
+    @Size(min = 3, max = Integer.MAX_VALUE)
     private String body;
     private Date dateCreated;
     private String image;
