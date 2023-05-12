@@ -113,6 +113,9 @@ export default {
           .then((response) => {
             console.log(response.data);
             this.tip = response.data;
+            this.title = this.tip.title;
+            this.description = this.tip.description;
+            this.body = this.tip.body;
           })
           .catch((error) => {
             console.log(error);

@@ -1,11 +1,13 @@
 <template>
   <div class="container">
     <div class="tips-image">
-      <img src="@/assets/tips/Tips-image.png" alt="pic" />
+<!--      <img src="@/assets/tips/Tips-image.png" alt="pic" />-->
+      <img :src='"http://localhost:8019/admin/exams/file/" + tip.image'   alt="pic" class="imageabc"/>
     </div>
+
     <div class="tips-content">
       <div class="tips-title">
-        <router-link class="title-header" :to="{ name: 'tip', params: { id: tip.title } }">{{ tip.title }} </router-link>
+        <router-link class="title-header" :to="{ name: 'tip', params: { id: tip.id } }">{{ tip.title }} </router-link>
       </div>
       <div class="description">
         <p class="tip-description">{{ tip.title }}</p>
@@ -25,9 +27,9 @@ export default {
 .container {
   display: flex;
   flex-direction: row-reverse;
-  align-items: center;
+  align-items: flex-start;
   position: relative;
-  padding-bottom: 60px;
+  /*padding-bottom: 60px;*/
   display: flex;
   flex-direction: row;
   padding-left: 15%;
@@ -78,5 +80,10 @@ export default {
   align-items: center;
 
   color: #717171;
+}
+.imageabc{
+  max-width: 145px;
+  max-height: 145px;
+  border-radius: 15%;
 }
 </style>
