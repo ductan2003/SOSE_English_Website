@@ -19,6 +19,7 @@ public class Question {
 
     private String questionId;
     private String section;
+    @Column(length = 5000)
     private String title;
     @Column(length = 3000)
     private String question;
