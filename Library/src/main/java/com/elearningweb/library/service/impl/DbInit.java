@@ -97,37 +97,37 @@ public class DbInit implements InitializingBean {
         //CREATE TEST EXAMS
         examService.save(new ExamDto(
                 "READING TEST 1",
-                "A+ CNPM",
+                "Manage your time effectively to ensure that you can answer all questions within the allotted time.",
                 "2023",
-                "C:\\Users\\fpt\\se\\static\\fileQuestion\\test1.xlsx",
+                "static/fileQuestion/test1.xlsx",
                 "48c73d1f-ba97-4ee4-8539-6642440273eb.jpg",
                 new CategoryDto(null, "Reading")));
         examService.save(new ExamDto(
                 "READING TEST 2",
-                "B+ CNPM",
+                "For short-answer questions, show all your work and provide clear and concise answers.",
                 "2022",
-                "C:\\Users\\fpt\\se\\static\\fileQuestion\\test2.xlsx",
+                "static/fileQuestion/test2.xlsx",
                 "48c73d1f-ba97-4ee4-8539-6642440273eb.jpg",
                 new CategoryDto(null, "Reading")));
         examService.save(new ExamDto(
                 "READING TEST 3",
-                "A+ CNPM",
+                "Read all instructions and questions carefully before beginning.",
                 "2022",
-                "C:\\Users\\fpt\\se\\static\\fileQuestion\\test3.xlsx",
+                "static/fileQuestion/test3.xlsx",
                 "48c73d1f-ba97-4ee4-8539-6642440273eb.jpg",
                 new CategoryDto(null, "Reading")));
         examService.save(new ExamDto(
                 "READING TEST 4",
-                "C+ CNPM",
+                "Turn in your exam and answer sheet to the invigilator before leaving the exam room.",
                 "2023",
-                "C:\\Users\\fpt\\se\\static\\fileQuestion\\test4.xlsx",
+                "static/fileQuestion/test4.xlsx",
                 "48c73d1f-ba97-4ee4-8539-6642440273eb.jpg",
                 new CategoryDto(null, "Reading")));
         examService.save(new ExamDto(
                 "READING TEST 5",
-                "D+ CNPM",
+                "Short-answer questions: points awarded based on the correctness, clarity, and completeness of the answers provided.",
                 "2023",
-                "C:\\Users\\fpt\\se\\static\\fileQuestion\\test5.xlsx",
+                "static/fileQuestion/test5.xlsx",
                 "48c73d1f-ba97-4ee4-8539-6642440273eb.jpg",
                 new CategoryDto(null, "Reading")));
     }
