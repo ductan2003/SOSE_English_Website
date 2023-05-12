@@ -15,12 +15,13 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String text;
-    @ManyToOne
-    private Post post;
+//    @ManyToOne
+    @Column(name = "post_id")
+    private Long post_id;
 
-    public Comment(String text, Post post) {
+    public Comment(String text, Long post_id) {
         this.text = text;
-        this.post = post;
+        this.post_id = post_id;
     }
 
     public Comment(String text) {

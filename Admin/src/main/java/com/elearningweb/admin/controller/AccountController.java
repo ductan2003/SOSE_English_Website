@@ -53,4 +53,15 @@ public class AccountController {
         LOGGER.info("User {} has Been Updated", username);
         return new ResponseEntity<>(updateUser, HttpStatus.OK);
     }
+    //    @PutMapping("/changePassword/userId={userId}")
+//    public ResponseEntity<Response> changePassword(@RequestPart String password,
+//                                                  @RequestPart String newPassword,
+//                                                  @RequestPart String confirmPassword,
+//                                                  @PathVariable("userId") Long userId) {
+//        User user = userService.getUserById(userId).get();
+//        if(user == null) return ResponseEntity.ok().body(new Response(false, "Username not found!"));
+//        String userPassword = user.getPassword();
+//        if(!userPassword.equals(password) || !newPassword.equals(confirmPassword)) return ResponseEntity.ok().body(new Response(false, "Invalid password!"));
+//
+//    }
 }
