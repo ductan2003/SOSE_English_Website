@@ -26,8 +26,8 @@
       </div>
       <div v-for="cmt in this.comments" :key="cmt.id" class="oldComment">
 <!--        get ava user-->
-        <img v-if="this.avatar" :src='"http://localhost:8019/admin/exams/file/" + cmt.creatorImage' alt="ava">
-        <img v-if="!this.avatar" src="@/assets/person3.jpg" alt="ava" />
+        <img v-if="cmt.creatorImage" :src='"http://localhost:8019/admin/exams/file/" + cmt.creatorImage' alt="ava">
+        <img v-if="!cmt.creatorImage" src="@/assets/person3.jpg" alt="ava" />
         <div class="oldCommentBox">
 <!--          <p>A   Open your eyes in sea water and it is difficult to see much more than a murky, bleary green colour. Sounds, too, are garbled and difficult to comprehend. Without specialised equipment humans would be lost in these deep sea habitats, so how do fish make it seem so easy? Much of this is due to a biological phenomenon known as electroreception – the ability to perceive and act upon electrical stimuli as part of the overall senses. This ability is only found in aquatic or amphibious species because water is an efficient conductor of electricity.-->
 <!--          </p>-->
@@ -214,8 +214,8 @@ export default {
   justify-content: center;
 }
 .oldComment img{
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   border-radius: 100%;
   margin-top: 1%;
 }
@@ -245,8 +245,8 @@ export default {
   font-weight: bold;
 }
 .oldCmtAva {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   border-radius: 100%;
   margin-top: 1%;
 
