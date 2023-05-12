@@ -68,6 +68,7 @@ public class Converter {
         userDto.setLastName(user.getLastName());
         userDto.setUsername(user.getUsername());
         userDto.setPassword(user.getPassword());
+        userDto.setProfileImage(user.getProfileImage());
         return userDto;
     }
 

@@ -1,5 +1,6 @@
 package com.elearningweb.admin.controller;
 
+import com.elearningweb.library.dto.PostDto;
 import com.elearningweb.library.dto.UserDto;
 import com.elearningweb.library.model.Response;
 import com.elearningweb.library.model.User;
@@ -51,7 +52,7 @@ public class AccountController {
         String password = user.getPassword();
         UserDto updateUser = userService.updateUser(user, username, firstName, lastName, password);
         LOGGER.info("User {} has been updated", username);
-        return ResponseEntity.ok().body(new Response(true, "Update user succesfully!"));
+        return ResponseEntity.ok().body(new Response(true, "Update user successfully!"));
     }
     @PutMapping("/changePassword/{username}")
     public ResponseEntity<Response> changePassword(@RequestPart String password,
@@ -64,7 +65,7 @@ public class AccountController {
         if(!userPassword.equals(password) || !newPassword.equals(confirmPassword)) return ResponseEntity.ok().body(new Response(false, "Invalid password!"));
         UserDto updateUser = userService.changePassword(user, newPassword);
         LOGGER.info("User {} has been updated", username);
-        return ResponseEntity.ok().body(new Response(true, "Change password succesfully!"));
+        return ResponseEntity.ok().body(new Response(true, "Change password successfully!"));
     }
 
     @PutMapping("/updateProfileImage/{username}")
@@ -75,6 +76,6 @@ public class AccountController {
         String fileName = fileService.updateFile(path, image);
         UserDto updateUser = userService.updateProfileImage(user, fileName);
         LOGGER.info("Profile image user {} has been updated", username);
-        return ResponseEntity.ok().body(new Response(true, "Change profile image succesfully!"));
+        return ResponseEntity.ok().body(new Response(true, "Change profile image successfully!"));
     }
 }
