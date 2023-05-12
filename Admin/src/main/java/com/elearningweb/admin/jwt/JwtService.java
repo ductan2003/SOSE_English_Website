@@ -28,7 +28,7 @@ public class JwtService {
         Algorithm algorithm = Algorithm.HMAC256(secretKey.getBytes());
         return JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 50*60*1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 60*60*1000))
                 .withClaim("roles", authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
     }
@@ -37,7 +37,7 @@ public class JwtService {
         Algorithm algorithm = Algorithm.HMAC256(secretKey.getBytes());
         return JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 50*60*1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 60*60*1000))
                 .sign(algorithm);
     }
 
