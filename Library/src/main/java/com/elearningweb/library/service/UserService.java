@@ -16,7 +16,7 @@ public interface UserService extends UserDetailsService {
     void deleteById(long id);
     boolean checkUserName(String username);
     UserDto updateUser(User user, String username, String firstName, String lastName, String fileName, String password);
-    Optional<User> getUserById(Long userId);
+    User getUserById(long userId);
 
     UserDto changePassword(User user, String newPassword);
 }

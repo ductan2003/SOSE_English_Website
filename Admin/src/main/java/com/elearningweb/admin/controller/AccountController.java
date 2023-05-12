@@ -47,7 +47,7 @@ public class AccountController {
                                               @RequestPart String lastName,
                                               @RequestPart MultipartFile image,
                                               @PathVariable("userId") Long userId) throws Exception{
-        User user = userService.getUserById(userId).get();
+        User user = userService.getUserById(userId);
         if(user == null) return ResponseEntity.ok().body(new Response(false, "Username not found!"));
         String password = user.getPassword();
         String username = user.getUsername();
@@ -61,7 +61,7 @@ public class AccountController {
                                                   @RequestPart String newPassword,
                                                   @RequestPart String confirmPassword,
                                                   @PathVariable("userId") Long userId) {
-        User user = userService.getUserById(userId).get();
+        User user = userService.getUserById(userId);
         if(user == null) return ResponseEntity.ok().body(new Response(false, "Username not found!"));
         String userPassword = user.getPassword();
         if(!userPassword.equals(password) || !newPassword.equals(confirmPassword)) return ResponseEntity.ok().body(new Response(false, "Invalid password!"));
