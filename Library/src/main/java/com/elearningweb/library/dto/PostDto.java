@@ -1,7 +1,5 @@
 package com.elearningweb.library.dto;
 
-import com.elearningweb.library.model.Category;
-import com.elearningweb.library.model.User;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;

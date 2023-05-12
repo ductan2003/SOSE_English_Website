@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -53,8 +54,11 @@ public class TipsController {
 
     //Post tips
     @GetMapping("/post/all")
-    public List<Post> posts() {
-        return postService.getAllPosts();
+    public ResponseEntity<?> posts() {
+        List<Post> list = postService.getAllPosts();
+
+        Map<Object, Object> map = Map.of("total", list.size(), "posts", list);
+        return ResponseEntity.ok(map);
     }
 
     @GetMapping("/post/{postId}")
@@ -93,9 +97,10 @@ public class TipsController {
     }
 
     @GetMapping("/post/search/{title}")
-    public ResponseEntity<List<PostDto>> searchByTitle(@PathVariable("title") String title) {
-        List<PostDto> postDtos = postService.searchByTitle(title);
-        return new ResponseEntity<List<PostDto>>(postDtos, HttpStatus.OK);
+    public ResponseEntity<?> searchByTitle(@PathVariable("title") String title) {
+        List<PostDto> list = postService.searchByTitle(title);
+        Map<Object, Object> map = Map.of("total", list.size(), "posts", list);
+        return ResponseEntity.ok(map);
     }
 
     //Comment
