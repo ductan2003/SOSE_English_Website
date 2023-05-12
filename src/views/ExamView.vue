@@ -53,7 +53,7 @@ export default {
   data() {
     return {
       exam: null,
-      timecount: 5,
+      timecount: 3600,
       answer: new Array(40).fill(""),
       check: new Array(40).fill(false),
       stop: false,

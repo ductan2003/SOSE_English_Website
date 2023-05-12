@@ -65,7 +65,7 @@ export default {
           .get(url)
           .then((response) => {
             console.log(response.data);
-            this.exams = response.data;
+            this.exams = response.data.listPost;
           })
           .catch((error) => {
             console.log(error);
