@@ -53,9 +53,9 @@ export default {
   data() {
     return {
       exam: null,
-      timecount: 3600,
-      answer: new Array(40).fill(""),
-      check: new Array(40).fill(false),
+      timecount: 1800,
+      answer: new Array(15).fill(""),
+      check: new Array(15).fill(false),
       stop: false,
       point: 0,
     }
@@ -116,7 +116,7 @@ export default {
     getPoint() {
       this.stop = true;
       // console.log(this.exam)
-      for(let i = 0; i < 13; i++) {
+      for(let i = 0; i < 15; i++) {
         if (this.exam.questionsList[i].correctAnswer != null) {
           let data = JSON.stringify(this.exam.questionsList[i].correctAnswer);
           data = data.substring(1, data.length - 1);
