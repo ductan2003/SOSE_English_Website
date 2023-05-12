@@ -10,6 +10,7 @@ import java.util.Optional;
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter @Getter
+@Builder
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
