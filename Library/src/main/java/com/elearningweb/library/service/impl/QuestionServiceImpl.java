@@ -1,10 +1,12 @@
 package com.elearningweb.library.service.impl;
 
 import com.elearningweb.library.converter.Converter;
+import com.elearningweb.library.dto.ExamDto;
 import com.elearningweb.library.dto.QuestionDto;
 import com.elearningweb.library.repository.QuestionRepository;
 import com.elearningweb.library.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
@@ -37,17 +39,19 @@ public class QuestionServiceImpl implements QuestionService {
         return converter.questionToDto(questionRepository.findById(id));
     }
     @Override
-    public Map<Object, Object> evalQuiz(List<String> answers, long examId) {
-
-        List<QuestionDto> questions = examService.findById(examId).getQuestionsList();
+    public Map<Object, Object> evalQuiz(List<String> answers, long id) {
+        ExamDto examDto = examService.findById(id);
+        List<QuestionDto> questions = examDto.getQuestionsList();
 
         int correctAnswers = 0;
         int total = questions.size();
         double bandScore;
         Iterator<String> iterator = answers.iterator();
         for (QuestionDto q : questions) {
-            String answer = iterator.next();
-            if (answer.trim().equals(q.getCorrectAnswer().trim())) {
+            if(!iterator.hasNext()) break;
+            String answer = iterator.next().trim();
+            String correctAnswer = q.getCorrectAnswer().trim();
+            if (answer.equals(correctAnswer)) {
                 correctAnswers++;
             }
         }
@@ -78,11 +82,11 @@ public class QuestionServiceImpl implements QuestionService {
             bandScore = 8.0;
         } else if (correctAnswers == 39) {
             bandScore = 8.5;
-        } else {
+        } else if(correctAnswers == 40){
             bandScore = 9.0;
+        } else {
+            bandScore = 0.0;
         }
-
-
         return Map.of("marks", correctAnswers, "total", total, "bandScore", bandScore);
     }
 }

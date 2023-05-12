@@ -12,5 +12,5 @@ public interface QuestionService {
 
     QuestionDto findById(long id);
 
-    Map<Object, Object> evalQuiz(List<String> answers, long examId);
+    Map<Object, Object> evalQuiz(List<String> answers, long id);
 }
