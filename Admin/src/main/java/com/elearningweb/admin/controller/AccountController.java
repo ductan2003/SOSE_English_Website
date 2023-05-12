@@ -45,19 +45,17 @@ public class AccountController {
     @PutMapping("/update/userId={userId}")
     public ResponseEntity<Response> updateUser(@RequestPart String firstName,
                                               @RequestPart String lastName,
-                                              @RequestPart MultipartFile image,
-                                              @PathVariable("userId") Long userId) throws Exception{
+                                              @PathVariable("userId") Long userId){
         User user = userService.getUserById(userId);
         if(user == null) return ResponseEntity.ok().body(new Response(false, "Username not found!"));
         String password = user.getPassword();
         String username = user.getUsername();
-        String fileName = fileService.updateFile(path, image);
-        UserDto updateUser = userService.updateUser(user, username, firstName, lastName, fileName, password);
+        UserDto updateUser = userService.updateUser(user, username, firstName, lastName, password);
         LOGGER.info("User {} has been updated", username);
         return ResponseEntity.ok().body(new Response(true, "Update user succesfully!"));
     }
-        @PutMapping("/changePassword/userId={userId}")
-        public ResponseEntity<Response> changePassword(@RequestPart String password,
+    @PutMapping("/changePassword/userId={userId}")
+    public ResponseEntity<Response> changePassword(@RequestPart String password,
                                                   @RequestPart String newPassword,
                                                   @RequestPart String confirmPassword,
                                                   @PathVariable("userId") Long userId) {
@@ -70,4 +68,14 @@ public class AccountController {
         return ResponseEntity.ok().body(new Response(true, "Change password succesfully!"));
     }
 
+    @PutMapping("/updateProfileImage/userId={userId}")
+    public ResponseEntity<Response> updateProfileImage(@RequestPart MultipartFile image,
+                                                   @PathVariable("userId") Long userId) throws Exception {
+        User user = userService.getUserById(userId);
+        if(user == null) return ResponseEntity.ok().body(new Response(false, "Username not found!"));
+        String fileName = fileService.updateFile(path, image);
+        UserDto updateUser = userService.updateProfileImage(user, fileName);
+        LOGGER.info("Profile image user {} has been updated", user.getUsername());
+        return ResponseEntity.ok().body(new Response(true, "Change profile image succesfully!"));
+    }
 }

@@ -15,9 +15,11 @@ public interface UserService extends UserDetailsService {
     UserDto save(UserDto userDto);
     void deleteById(long id);
     boolean checkUserName(String username);
-    UserDto updateUser(User user, String username, String firstName, String lastName, String fileName, String password);
+    UserDto updateUser(User user, String username, String firstName, String lastName, String password);
     User getUserById(long userId);
 
     UserDto changePassword(User user, String newPassword);
+
+    UserDto updateProfileImage(User user, String image);
 }
 

@@ -81,11 +81,11 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public UserDto updateUser(User user, String username, String firstName, String lastName, String fileName, String password) {
+    public UserDto updateUser(User user, String username, String firstName, String lastName, String password) {
         user.setUsername(username);
         user.setLastName(lastName);
         user.setFirstName(firstName);
-        user.setProfileImage(fileName);
+//        user.setProfileImage(fileName);
         user.setPassword(password);
         User updateUser = userRepository.save(user);
         return this.modelMapper.map(updateUser, UserDto.class);
@@ -94,6 +94,13 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserDto changePassword(User user, String newPassword){
         user.setPassword(newPassword);
+        User updateUser = userRepository.save(user);
+        return this.modelMapper.map(updateUser, UserDto.class);
+    }
+
+    @Override
+    public  UserDto updateProfileImage(User user, String image) {
+        user.setProfileImage(image);
         User updateUser = userRepository.save(user);
         return this.modelMapper.map(updateUser, UserDto.class);
     }
