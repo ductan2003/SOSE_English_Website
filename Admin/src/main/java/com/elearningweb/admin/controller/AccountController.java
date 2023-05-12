@@ -43,29 +43,31 @@ public class AccountController {
     }
 
     @PutMapping("/update/userId={userId}")
-    public ResponseEntity<UserDto> updateUser(@RequestPart String firstName,
+    public ResponseEntity<Response> updateUser(@RequestPart String firstName,
                                               @RequestPart String lastName,
                                               @RequestPart MultipartFile image,
                                               @PathVariable("userId") Long userId) throws Exception{
         User user = userService.getUserById(userId).get();
-        if(user == null) new ResponseEntity<>("Username not found!", HttpStatus.BAD_REQUEST);
+        if(user == null) return ResponseEntity.ok().body(new Response(false, "Username not found!"));
         String password = user.getPassword();
         String username = user.getUsername();
         String fileName = fileService.updateFile(path, image);
         UserDto updateUser = userService.updateUser(user, username, firstName, lastName, fileName, password);
-        LOGGER.info("User {} has Been Updated", username);
-        return new ResponseEntity<>(updateUser, HttpStatus.OK);
+        LOGGER.info("User {} has been updated", username);
+        return ResponseEntity.ok().body(new Response(true, "Update user succesfully!"));
     }
-//        @PutMapping("/changePassword/userId={userId}")
-//    public ResponseEntity<Response> changePassword(@RequestPart String password,
-//                                                  @RequestPart String newPassword,
-//                                                  @RequestPart String confirmPassword,
-//                                                  @PathVariable("userId") Long userId) {
-//        User user = userService.getUserById(userId).get();
-//        if(user == null) return ResponseEntity.ok().body(new Response(false, "Username not found!"));
-//        String userPassword = user.getPassword();
-//        if(!userPassword.equals(password) || !newPassword.equals(confirmPassword)) return ResponseEntity.ok().body(new Response(false, "Invalid password!"));
-//
-//    }
+        @PutMapping("/changePassword/userId={userId}")
+        public ResponseEntity<Response> changePassword(@RequestPart String password,
+                                                  @RequestPart String newPassword,
+                                                  @RequestPart String confirmPassword,
+                                                  @PathVariable("userId") Long userId) {
+        User user = userService.getUserById(userId).get();
+        if(user == null) return ResponseEntity.ok().body(new Response(false, "Username not found!"));
+        String userPassword = user.getPassword();
+        if(!userPassword.equals(password) || !newPassword.equals(confirmPassword)) return ResponseEntity.ok().body(new Response(false, "Invalid password!"));
+        UserDto updateUser = userService.changePassword(user, newPassword);
+        LOGGER.info("User {} has been updated", user.getUsername());
+        return ResponseEntity.ok().body(new Response(true, "Change password succesfully!"));
+    }
 
 }

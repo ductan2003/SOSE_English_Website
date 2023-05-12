@@ -92,6 +92,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public UserDto changePassword(User user, String newPassword){
+        user.setPassword(newPassword);
+        User updateUser = userRepository.save(user);
+        return this.modelMapper.map(updateUser, UserDto.class);
+    }
+
+    @Override
     public Optional<User> getUserById(Long userId){
         return userRepository.findById(userId);
     }

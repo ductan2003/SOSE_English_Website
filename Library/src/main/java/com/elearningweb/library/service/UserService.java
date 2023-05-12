@@ -17,5 +17,7 @@ public interface UserService extends UserDetailsService {
     boolean checkUserName(String username);
     UserDto updateUser(User user, String username, String firstName, String lastName, String fileName, String password);
     Optional<User> getUserById(Long userId);
+
+    UserDto changePassword(User user, String newPassword);
 }
 
