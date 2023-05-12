@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
+    private Long id;
     @Size(min = 3, max = 10, message = "Invalid first name!(3-10 characters)")
     private String firstName;
 
@@ -27,12 +28,21 @@ public class UserDto {
     private String confirmPassword;
     @Nullable
     private String resetPasswordToken;
+    private String profileImage;
 
-    public UserDto(String firstName, String lastName, String username, String password, String confirmPassword) {
+    public UserDto(String firstName, String lastName, String username, String password, String confirmPassword, String profileImage) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
         this.confirmPassword = confirmPassword;
+        this.profileImage = profileImage;
+    }
+
+    public UserDto(String firstName, String lastName, String username, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
     }
 }

@@ -1,9 +1,7 @@
 package com.elearningweb.library.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Table(name = "users")
+@Getter @Setter
 public class User{
     @Id
     @Column(name = "user_id")
@@ -36,6 +35,10 @@ public class User{
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private List<Role> roles;
+
+    @Lob
+    @Column(columnDefinition = "MEDIUMBLOB")
+    private String profileImage;
 
     public User(String firstName, String lastName, String username, String password, List<Role> roles) {
         this.firstName = firstName;
