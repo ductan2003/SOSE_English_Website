@@ -106,7 +106,7 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          toast.error(error.response, { position: toast.POSITION.BOTTOM_RIGHT }),
+          toast.error("Wrong user", { position: toast.POSITION.BOTTOM_RIGHT }),
             {
               autoClose: 1000,
             };
