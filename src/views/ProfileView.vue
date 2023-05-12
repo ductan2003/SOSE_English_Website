@@ -2,7 +2,7 @@
 
   <div class="container">
     <div class="heading-page">
-      <p class="heading-page-content">Welcome, {{$route.params.id}}</p>
+      <p class="heading-page-content">Welcome, {{this.firstName}}</p>
     </div>
 
     <div class="body">
@@ -64,10 +64,12 @@
 
 <script>
 import axios from "axios";
+axios.defaults.headers.common[ "Authorization"] = `Bearer ` + localStorage.getItem("token");
 
 export default {
   data() {
     return {
+      user: null,
       fileImg: null,
       firstName: "",
       lastName: "",
@@ -88,8 +90,17 @@ export default {
     saveUserInfo() {
 
     },
+    async getUser() {
+      if (localStorage.getItem("token")) {
+        axios.defaults.headers.common[ "Authorization"] = `Bearer ` + localStorage.getItem("token");
+        const response = await axios.get("http://localhost:8019/api/auth/profile");
+        this.user = response.data;
+        console.log(this.user);
+      }
+    },
     async getUserInfo() {
-      const response = await axios.get("http://localhost:8019/account/" + localStorage.getItem("username"));
+      await this.getUser();
+      const response = await axios.get("http://localhost:8019/account/" + this.user.username);
       this.firstName = response.data.firstName;
       this.lastName = response.data.lastName;
     },
@@ -101,7 +112,7 @@ export default {
     }
   },
   beforeMount() {
-    this.getUserInfo()
+    this.getUserInfo();
   }
 
 }

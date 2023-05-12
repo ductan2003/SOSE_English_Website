@@ -26,6 +26,13 @@ public class PostDto {
             this.description = description;
         }
 
+    public PostDto(Long id, String title, String body, String description) {
+        this.id = id;
+        this.title = title;
+        this.body = body;
+        this.description = description;
+    }
+
     public PostDto(String title, String body, String image, String description) {
             this.title = title;
             this.body = body;

@@ -5,9 +5,10 @@
     </div>
     <div class="buttonList">
       <router-link class="signup" type="button" to="/admin/addTip"> + Add new Post</router-link>
+      <router-link class="signup" type="button" to="/tips">View Frontend</router-link>
       <form class="search-bar">
         <input class="search-box" type="text" placeholder="Search by title" v-model="search">
-        <button type="submit">
+        <button type="button" v-on:click="getTips">
           <img src="@/assets/button/search.png" />
         </button>
       </form>
@@ -19,6 +20,7 @@
         <th scope="col">Id</th>
         <th scope="col">Title</th>
         <th scope="col">Body</th>
+        <th scope="col">Description</th>
         <th scope="col">Update</th>
         <th scope="col">Delete</th>
       </tr>
@@ -27,9 +29,10 @@
       <tr>
         <th class="counterCell"></th>
         <td>{{tip.title}}</td>
-        <td>{{tip.category.name}}</td>
+        <td>{{tip.body}}</td>
+        <td>{{tip.description}}</td>
         <td>
-          <router-link type="button" :to="{ name: 'editExam', params: { id: tip.id } }">
+          <router-link type="button" :to="{ name: 'editTip', params: { id: tip.id } }">
             <img src="@/assets/button/edit.png" alt="update" />
           </router-link>
         </td>
@@ -84,20 +87,23 @@ export default {
           });
     },
     getTips() {
-      if (this.search && this.search != "") {
+      console.log(this.search)
+      if (this.search && this.search !== "") {
         //With search
-        let url = "http://localhost:8019/admin/tips/search/" + this.search;
+        let url = "http://localhost:8019/tips/post/search/" + this.search;
         this.getList(url);
       } else {
         //Normal
-        let url = "http://localhost:8019/tips/all";
+        let url = "http://localhost:8019/tips/post/all";
         this.getList(url);
       }
+      // let url = "http://localhost:8019/tips/all";
+      // this.getList(url);
     },
 
     deleteTip(id){
-      let url = "http://localhost:8019/tips/delete/" + id;
-      axios.put(url).then((response) => {
+      let url = "http://localhost:8019/tips/post/delete/" + id;
+      axios.delete(url).then((response) => {
         console.log(response.data);
         this.getTips();
         toast.success("Deleted successfully", { position: toast.POSITION.BOTTOM_RIGHT }), {

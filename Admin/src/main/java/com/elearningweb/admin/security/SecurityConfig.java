@@ -45,9 +45,10 @@ public class SecurityConfig {
                         authorize
                                 .requestMatchers(HttpMethod.OPTIONS,"/admin/exams/*").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers(HttpMethod.OPTIONS,"/account/*").hasAnyAuthority("ROLE_ADMIN")
-                                .requestMatchers(HttpMethod.OPTIONS,"/tips/*").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.OPTIONS,"/tips/post/*").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.OPTIONS,"/tips/comments/*").permitAll()
+                                .requestMatchers(HttpMethod.OPTIONS,"/tips/file/*").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/user/exams/*").hasAnyAuthority("ROLE_USER")
-                                .requestMatchers(HttpMethod.GET, "/tips/*").permitAll()
                                 .requestMatchers("/api/auth/*").permitAll()
                                 .anyRequest().permitAll()
                                 .and()

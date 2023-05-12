@@ -3,6 +3,7 @@ package com.elearningweb.library.service.impl;
 import com.elearningweb.library.dto.PostDto;
 import com.elearningweb.library.dto.UserDto;
 import com.elearningweb.library.model.Category;
+import com.elearningweb.library.model.Comment;
 import com.elearningweb.library.model.Post;
 import com.elearningweb.library.model.User;
 import com.elearningweb.library.repository.CategoryRepository;
@@ -12,6 +13,7 @@ import com.elearningweb.library.service.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,6 +32,7 @@ public class PostServiceImpl implements PostService {
     @Autowired
     public UserRepository userRepository;
 
+    @Autowired
     public FileServiceImpl fileService;
     @Value("${project.image}")
     private String path;
@@ -90,5 +93,16 @@ public class PostServiceImpl implements PostService {
     @Override
     public Post find(Long id) {
         return postRepository.findAllById(id);
+    }
+
+    @Override
+    public void createComment(Long postId, String text){
+        Post post = postRepository.findAllById(postId);
+        Comment comment = new Comment(text, post);
+        if (post != null) {
+            post.addComment(comment);
+        }
+        PostDto postDto = this.modelMapper.map(post, PostDto.class);
+        this.updatePost(postDto, postId);
     }
 }

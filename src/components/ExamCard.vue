@@ -7,7 +7,7 @@
 
     <div class="text">
       <div class="card-header">
-        <router-link class="card-title" :to="{ name: 'exam', params: { id: exam.title } }">{{ exam.title }} </router-link>
+        <router-link class="card-title" :to="{ name: 'exam', params: { id: exam.id } }">{{ exam.title }} </router-link>
         <p class="card-description">Category: {{exam.category.name}}</p>
         <p class="card-description">Year: {{exam.year}}</p>
         <p class="card-description">{{exam.description}}</p>

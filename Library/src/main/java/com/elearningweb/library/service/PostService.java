@@ -19,4 +19,5 @@ public interface PostService {
     Post getPost(Long id);
     PostDto getPostById (Long id);
     Post find(Long id);
+    void createComment(Long postId, String text);
 }

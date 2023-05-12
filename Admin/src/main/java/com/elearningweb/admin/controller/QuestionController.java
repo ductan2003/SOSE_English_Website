@@ -28,7 +28,7 @@ public class QuestionController {
 
     @GetMapping("/exam-id{exam-id}/{id}")
     public QuestionDto findByIdAndExam_Id(@PathVariable("id") long id,
-                                          @PathVariable("exam-id") long examId) {
+                                          @PathVariable("examId") long examId) {
         return questionService.findByIdAndExam_Id(id, examId);
     }
 

@@ -8,6 +8,10 @@
         <!-- Links -->
       <div v-if="admin" class="linkname">
         <div class="linkdefault">
+          <a  href="/" class="label1">Home</a>
+        </div>
+
+        <div class="linkdefault">
           <a  href="/admin/summary" class="label1">Summary</a>
         </div>
 
@@ -18,6 +22,7 @@
         <div class="linkdefault">
           <a href="/admin/tipList" class="label1">Tip List</a>
         </div>
+<!--      </div>-->
 
       </div>
         <div v-if="!admin" class="linkname">
@@ -47,7 +52,6 @@
             <router-link v-if="!user" class="login" to="/login">Login</router-link>
             <router-link v-if="!user" class="signup" type="button" to="/register">Sign up</router-link>
             <router-link v-if="user" class="signup" @click="logout()" to="/">Log out</router-link>
-            <p v-if="user"><i>Welcome, {{user.username}}</i></p>
           <div v-if="user">
             <router-link type="button" :to="{ name: 'profile', params: { id: this.user.username } }">
               <img src="@/assets/person3.jpg" alt="ava" />
@@ -66,6 +70,7 @@ export  default {
     return {
       user: null,
       admin: false,
+      firstName: "",
     }
   },
 
@@ -76,12 +81,12 @@ export  default {
         this.user = response.data;
       await this.getRole();
     }
-
     },
   methods: {
     logout() {
       localStorage.clear();
       this.user = null;
+      this.admin = false;
     },
     async getUser() {
       if (localStorage.getItem("token")) {
@@ -91,17 +96,22 @@ export  default {
         this.user = response.data;
       }
     },
+    async getUserInfo() {
+      await this.getUser();
+      const response = await axios.get("http://localhost:8019/account/" + this.user.username);
+      this.firstName = response.data.firstName;
+    },
     async getRole() {
       if (this.user.roles[0] === "ROLE_ADMIN") {
         this.admin = true;
       } else this.admin = false;
-      console.log(this.admin);
+      // console.log(this.admin);
     }
 
   },
   async beforeMount() {
     // this.$forceUpdate();
-    // await this.getUser();
+    // await this.getUserInfo();
     // this.getRole();
   }
 
@@ -235,6 +245,5 @@ export  default {
     flex-grow: 0;
     text-decoration: none;
     font-family: 'Inter';
-
 }
 </style>
