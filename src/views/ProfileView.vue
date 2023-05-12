@@ -7,11 +7,11 @@
 
     <div class="body">
       <div class="avatar">
-        <img src="@/assets/person3.jpg" alt="ava">
-<!--        <img src={{this.fileImg}} alt="ava">-->
+        <img v-if="!this.avatar" src="@/assets/person3.jpg" alt="ava">
+        <img v-if="this.avatar" :src='"http://localhost:8019/admin/exams/file/" + this.avatar' alt="ava">
         <div class="button">
-          <input @change="handleFileImg()" ref="fileImg" type="file" name="file" id="file" />
-          <button @click="handleButtonClick" type="submit">Change your avatar</button>
+         <input @change="handleFileImg()" ref="fileImg" type="file" name="file" id="file" />
+         <button type="submit" v-on:click="handleButtonClick">Change your avatar</button>
         </div>
       </div>
 
@@ -64,6 +64,7 @@
 
 <script>
 import axios from "axios";
+import {toast} from "vue3-toastify";
 axios.defaults.headers.common[ "Authorization"] = `Bearer ` + localStorage.getItem("token");
 
 export default {
@@ -77,15 +78,19 @@ export default {
       newPassword: "",
       confirmPassword: "",
       auth: false,
+      avatar: null,
     }
   },
   methods: {
     handleFileImg(){
-      this.fileImg = this.$refs.fileImg.files[0];
-      console.log(this.fileImg);
+      this.avatar = this.$refs.fileImg.files[0];
+      // this.avatar = this.fileImg;
+      // console.log(this.fileImg);
+      this.changeAvatar();
     },
     handleButtonClick(){
       this.$refs.fileImg.click();
+      // this.changeAvatar();
     },
     saveUserInfo() {
 
@@ -103,15 +108,53 @@ export default {
       const response = await axios.get("http://localhost:8019/account/" + this.user.username);
       this.firstName = response.data.firstName;
       this.lastName = response.data.lastName;
+      this.avatar = response.data.profileImage;
+      console.log(this.avatar)
     },
     changePass() {
       this.auth = true;
     },
     undoChangePass() {
       this.auth = false;
+    },
+    async changeAvatar(){
+      console.log(this.avatar)
+      await axios.put("http://localhost:8019/account/updateProfileImage/" + this.user.username,{
+            image: this.avatar
+          },  {
+            headers: {
+              'Content-Type': 'multipart/form-data; boundary=${data._boundary}'
+            }
+          }
+      ).then((response) => {
+        console.log(response.data);
+        // toast.success("Saved successfully", { position: toast.POSITION.BOTTOM_RIGHT }), {
+        //   autoClose: 1000,
+        // }
+        // this.$router.push({ path: "/profile/" + this.user.username });
+        window. location. reload();
+        // this.getUserInfo();
+      }).catch((error) => {
+        console.log(error);
+        toast.error("Saved failed", { position: toast.POSITION.BOTTOM_RIGHT }), {
+          autoClose: 1000,
+        }
+        if (error.response) {
+          // The server responded with an error status code
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+        }
+      });
     }
   },
-  beforeMount() {
+  created() {
     this.getUserInfo();
   }
 
@@ -170,11 +213,10 @@ export default {
   color: #000000;
   border: none;
 
-  width: fit-content;
+  width: 150px;
   height: 30px;
   justify-content: center;
   background: #D9D9D9;
-  /*color: white;*/
 }
 input[type="file"] {
   display: none;
@@ -269,4 +311,5 @@ input[type="file"] {
   gap: 10px;
   align-items: center;
 }
+
 </style>

@@ -25,4 +25,13 @@ public class ExamDto {
 
     private CategoryDto category;
     private List<QuestionDto> questionsList = new ArrayList<>();
+
+    public ExamDto(String title, String description, String year, String fileQuestion, String fileImage, CategoryDto category) {
+        this.title = title;
+        this.description = description;
+        this.year = year;
+        this.fileQuestion = fileQuestion;
+        this.fileImage = fileImage;
+        this.category = category;
+    }
 }

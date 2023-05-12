@@ -22,7 +22,7 @@
         <th scope="col">Title</th>
         <th scope="col">Category</th>
         <th scope="col">Year</th>
-        <th scope="col">Description</th>
+<!--        <th scope="col">Description</th>-->
         <th scope="col">Update</th>
         <th scope="col">Delete</th>
       </tr>
@@ -33,7 +33,7 @@
         <td>{{exam.title}}</td>
         <td>{{exam.category.name}}</td>
         <td>{{exam.year}}</td>
-        <td>{{exam.description}}</td>
+<!--        <td>{{exam.description}}</td>-->
         <td>
           <router-link type="button" :to="{ name: 'editExam', params: { id: exam.id } }">
             <img src="@/assets/button/edit.png" alt="update" />

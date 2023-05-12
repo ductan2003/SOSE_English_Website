@@ -13,6 +13,7 @@ import java.util.List;
 
 public interface PostService {
     PostDto insert(PostDto postDto, MultipartFile image) throws Exception;
+    void savePost(PostDto postDto, String image);
     PostDto updatePost(PostDto postDto, Long postId);
     boolean deletePost(Long postId);
     List<PostDto> searchByTitle (String title);

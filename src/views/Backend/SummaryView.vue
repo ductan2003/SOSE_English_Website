@@ -41,17 +41,17 @@
         </div>
       </div>
       <!--Total comment-->
-      <div class="item">
-        <div class="item-header">
-          <div class="item-icon">
-            <img src="@/assets/home/icon2.png" alt="icon" />
-          </div>
-          <div class="item-textheader">Comments</div>
-        </div>
-        <div class="item-content">
-          <div class="item-textcontent">{{comments}}</div>
-        </div>
-      </div>
+<!--      <div class="item">-->
+<!--        <div class="item-header">-->
+<!--          <div class="item-icon">-->
+<!--            <img src="@/assets/home/icon2.png" alt="icon" />-->
+<!--          </div>-->
+<!--          <div class="item-textheader">Comments</div>-->
+<!--        </div>-->
+<!--        <div class="item-content">-->
+<!--          <div class="item-textcontent">{{comments}}</div>-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
 
   </div>
@@ -112,7 +112,7 @@
       this.getTotalTips();
       this.getTotalUsers();
       this.getTotalExams();
-      this.getTotalComment();
+      // this.getTotalComment();
     }
   }
 </script>

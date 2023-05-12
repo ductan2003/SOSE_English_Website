@@ -35,10 +35,10 @@
             <input @change="handleFileQues()" ref="fileQues" type="file" class="form" />
           </div>
 
-          <div class="form-group">
-            <label class="text-form">FileAns</label>
-            <input @change="handleFileAns()" ref="file" type="file" class="form" />
-          </div>
+<!--          <div class="form-group">-->
+<!--            <label class="text-form">FileAns</label>-->
+<!--            <input @change="handleFileAns()" ref="file" type="file" class="form" />-->
+<!--          </div>-->
 
           <div class="form-group">
             <label class="text-form">File Image</label>
@@ -75,7 +75,7 @@ export default {
       exam: [],
       title: "",
       category: "",
-      fileAnswer: null,
+      // fileAnswer: null,
       fileQuestion: null,
       fileImg: null,
       description: "",
@@ -98,7 +98,7 @@ export default {
       await axios.put("http://localhost:8019/admin/exams/update/id=" + parseInt(this.$route.params.id),{
             title: this.title,
             category: this.category,
-            fileAnswer: this.file,
+            // fileAnswer: this.file,
             fileImage: this.fileImg,
             fileQuestion: this.fileQues,
             description: this.description,

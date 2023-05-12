@@ -3,10 +3,7 @@ package com.elearningweb.library.service.impl;
 import com.elearningweb.library.dto.CommentDto;
 import com.elearningweb.library.dto.PostDto;
 import com.elearningweb.library.dto.UserDto;
-import com.elearningweb.library.model.Category;
-import com.elearningweb.library.model.Comment;
-import com.elearningweb.library.model.Post;
-import com.elearningweb.library.model.User;
+import com.elearningweb.library.model.*;
 import com.elearningweb.library.repository.CategoryRepository;
 import com.elearningweb.library.repository.PostRepository;
 import com.elearningweb.library.repository.UserRepository;
@@ -49,6 +46,15 @@ public class PostServiceImpl implements PostService {
         post.setDateCreated(new Date());
         Post newPost = postRepository.save(post);
         return this.modelMapper.map(newPost, PostDto.class);
+    }
+
+    @Override
+    public void savePost(PostDto postDto, String image) {
+        Post post = this.modelMapper.map(postDto, Post.class);
+        post.setImage(image);
+        post.setDateCreated(new Date());
+        postRepository.save(post);
+        Post newPost = postRepository.save(post);
     }
 
 

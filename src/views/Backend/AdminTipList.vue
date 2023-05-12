@@ -40,7 +40,6 @@
           <button v-on:click="deleteTip(tip.id)" class="deleteButton">
             <img src="@/assets/button/trash.png" alt="update" />
           </button>
-
         </td>
       </tr>
       </tbody>
