@@ -10,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
@@ -29,8 +31,11 @@ public class UpdateExamController {
 
     //1.Get all exams
     @GetMapping("/exams/all")
-    public List<ExamDto> listExams() {
-        return examService.findAllExams();
+    public ResponseEntity<?> listExams() {
+
+        List<ExamDto> list = examService.findAllExams();
+        Map<Object, Object> map = Map.of("total", list.size(), "listPost", list);
+        return ResponseEntity.ok(map);
     }
     //2.Get exam by id
     @GetMapping("/exams/id={id}")
@@ -39,19 +44,25 @@ public class UpdateExamController {
     }
     //3.Get all by category
     @GetMapping("/exams/{category}")
-    public List<ExamDto> listExamsByCategory(@PathVariable("category") String category) {
-        return examService.findAllExamsByCategory(category);
+    public ResponseEntity<?> listExamsByCategory(@PathVariable("category") String category) {
+        List<ExamDto> list = examService.findAllExamsByCategory(category);
+        Map<Object, Object> map = Map.of("total", list.size(), "listPost", list);
+        return ResponseEntity.ok(map);
     }
     //4. Get all by year
     @GetMapping("/exams/year={year}")
-    public List<ExamDto> getExamByYear(@PathVariable("year") String year) {
-        return examService.findAllByYear(year);
+    public ResponseEntity<?> getExamByYear(@PathVariable("year") String year) {
+        List<ExamDto> list = examService.findAllByYear(year);
+        Map<Object, Object> map = Map.of("total", list.size(), "listPost", list);
+        return ResponseEntity.ok(map);
     }
     //5. Get all by year and category
     @GetMapping("/exams/year={year}/{category}")
-    public List<ExamDto> getExamByYearAndCategory(@PathVariable("year") String year,
-                                                  @PathVariable("category") String category) {
-        return examService.findAllByYearAndCategory(year, category);
+    public ResponseEntity<?> getExamByYearAndCategory(@PathVariable("year") String year,
+                                                      @PathVariable("category") String category) {
+        List<ExamDto> list = examService.findAllByYearAndCategory(year, category);
+        Map<Object, Object> map = Map.of("total", list.size(), "listPost", list);
+        return ResponseEntity.ok(map);
     }
     //6. Get all by category and id
     @GetMapping("exams/{category}/id={id}")
