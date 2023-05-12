@@ -37,4 +37,8 @@ public class Post {
         this.dateCreated = dateCreated;
         this.image = image;
     }
+
+    public void addComment(Comment comment){
+        this.comments.add(comment);
+    }
 }
