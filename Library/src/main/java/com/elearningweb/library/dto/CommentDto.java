@@ -11,10 +11,17 @@ import lombok.*;
 public class CommentDto {
     private Long id;
     private String text;
-    private Post post;
+    private Long post_id;
+    private String creatorName;
 
-    public CommentDto(String text, Post post) {
+    public CommentDto(String text, Long post_id) {
         this.text = text;
-        this.post = post;
+        this.post_id = post_id;
+    }
+
+    public CommentDto(String text, Long post_id, String creatorName) {
+        this.text = text;
+        this.post_id = post_id;
+        this.creatorName = creatorName;
     }
 }

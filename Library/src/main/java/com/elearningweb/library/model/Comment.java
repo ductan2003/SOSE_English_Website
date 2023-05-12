@@ -19,10 +19,17 @@ public class Comment {
 //    @ManyToOne
     @Column(name = "post_id")
     private Long post_id;
+    private String creatorName;
 
     public Comment(String text, Long post_id) {
         this.text = text;
         this.post_id = post_id;
+    }
+
+    public Comment(String text, Long post_id, String creatorName) {
+        this.text = text;
+        this.post_id = post_id;
+        this.creatorName = creatorName;
     }
 
     public Comment(String text) {

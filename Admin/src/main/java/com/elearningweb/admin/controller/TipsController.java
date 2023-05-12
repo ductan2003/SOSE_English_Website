@@ -20,17 +20,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import java.lang.ClassCastException;
 
 import javax.validation.ConstraintViolationException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -112,21 +109,13 @@ public class TipsController {
 
     @PostMapping(value ="/comments/postComment")
 //    Test PostMan thì set content-type = application/json
-    public ResponseEntity<Response> postComment(@RequestPart String text, @RequestPart Long postId) {
-        try {
-            postService.createComment(postId, text);
-        } catch (ConstraintViolationException e)  {
-            return ResponseEntity.ok().body(new Response(false, ConstraintViolationExceptionHandler.getMessage(e)));
-        } catch (Exception e) {
-            return ResponseEntity.ok().body(new Response(false, e.getMessage()));
-        }
-
-        return ResponseEntity.ok().body(new Response(true, "Success", null));
-//        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(new Response(true, "Success", null));
+    public ResponseEntity<CommentDto> postComment(@RequestPart String text, @RequestPart Long postId, @RequestPart String creatorName) {
+        CommentDto commentDto = postService.createComment(postId, text, creatorName);
+        return new ResponseEntity<CommentDto>(commentDto, HttpStatus.OK);
     }
 //    @GetMapping("/getUser")
 //    public ResponseEntity<UserDto> getCurrentUser(){
-//        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //        if (auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken))
 //        {
 //            if(auth.getDetails() !=null)

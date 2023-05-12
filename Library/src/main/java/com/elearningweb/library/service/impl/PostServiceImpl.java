@@ -100,18 +100,19 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void createComment(Long postId, String text){
+    public CommentDto createComment(Long postId, String text, String creatorName){
         Post post = postRepository.findAllById(postId);
-        Comment comment = new Comment(text, postId);
+        Comment comment = new Comment(text, postId, creatorName);
         if (post != null) {
             post.addComment(comment);
         }
         PostDto postDto = this.modelMapper.map(post, PostDto.class);
         this.updatePost(postDto, postId);
+        CommentDto commentDto = this.modelMapper.map(comment, CommentDto.class);
+        return commentDto;
     }
 
     public List<CommentDto> getAllComments(Long postId){
-
         return postRepository.findById(postId).stream()
                 .map(video -> commentMapper.mapToDtoList(video.getComments()))
                 .findAny().orElse(Collections.emptyList());
