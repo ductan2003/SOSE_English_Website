@@ -54,7 +54,8 @@
             <router-link v-if="user" class="signup" @click="logout()" to="/">Log out</router-link>
           <div v-if="user">
             <router-link type="button" :to="{ name: 'profile', params: { id: this.user.username } }">
-              <img src="@/assets/person3.jpg" alt="ava" />
+              <img v-if="!this.avatar" src="@/assets/person3.jpg" alt="ava" />
+              <img v-if="this.avatar" :src='"http://localhost:8019/admin/exams/file/" + this.avatar' alt="ava">
             </router-link>
           </div>
         </div>
@@ -71,15 +72,18 @@ export  default {
       user: null,
       admin: false,
       firstName: "",
+      avatar: null
     }
   },
 
   async created() {
     if (localStorage.getItem("token")) {
-    axios.defaults.headers.common[ "Authorization"] = `Bearer ` + localStorage.getItem("token");
-    const response = await axios.get("http://localhost:8019/api/auth/profile");
-        this.user = response.data;
+      axios.defaults.headers.common[ "Authorization"] = `Bearer ` + localStorage.getItem("token");
+      const response = await axios.get("http://localhost:8019/api/auth/profile");
+      this.user = response.data;
       await this.getRole();
+      const res = await axios.get("http://localhost:8019/account/" + this.user.username);
+      this.avatar = res.data.profileImage;
     }
     },
   methods: {
