@@ -10,10 +10,12 @@ import com.elearningweb.library.model.Question;
 import com.elearningweb.library.model.User;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/*
+CONVERT ENTITY TO DATA TRANSFER OBJECT (DTO) FOR BETTER JPA PERFORMANCE
+ */
 @Component
 public class Converter {
     //Convert to DTO
@@ -78,14 +80,6 @@ public class Converter {
 
     //Convert to Entity
 
-    public User userToEntity(UserDto userDto) {
-        User user = new User();
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setUsername(userDto.getUsername());
-        user.setPassword(userDto.getPassword());
-        return user;
-    }
     public Question questionToEntity(QuestionDto question) {
         Question result = new Question();
 
@@ -97,8 +91,5 @@ public class Converter {
         result.setQuestion(question.getQuestion());
         result.setCorrectAnswer(question.getCorrectAnswer());
         return result;
-    }
-    public List<Question> listQuestionToEntity(List<QuestionDto> list) {
-        return list.stream().map(this::questionToEntity).collect(Collectors.toList());
     }
 }

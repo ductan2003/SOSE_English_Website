@@ -1,6 +1,7 @@
 package com.elearningweb.library.util;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-
+@Component
 public class FileUploadUtils {
     public static String saveFile(String fileName, MultipartFile multipartFile) throws IOException {
         Path uploadPath = Paths.get("Files-Upload");

@@ -2,7 +2,6 @@ package com.elearningweb.library.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,21 +31,6 @@ public class Post {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "comment_id", referencedColumnName = "post_id")
     List<Comment> comments = new ArrayList<>();
-
-
-    public Post(String title, String body, Date dateCreated, String image) {
-        this.title = title;
-        this.body = body;
-        this.dateCreated = dateCreated;
-        this.image = image;
-    }
-
-    public Post(String title, String body,  String description, String image) {
-        this.title = title;
-        this.body = body;
-        this.image = image;
-        this.description = description;
-    }
 
     public void addComment(Comment comment){
         this.comments.add(comment);

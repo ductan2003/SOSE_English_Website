@@ -1,6 +1,5 @@
 package com.elearningweb.admin.controller;
 
-import com.elearningweb.library.dto.PostDto;
 import com.elearningweb.library.dto.UserDto;
 import com.elearningweb.library.model.Response;
 import com.elearningweb.library.model.User;
@@ -9,7 +8,6 @@ import com.elearningweb.library.service.UserService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +16,9 @@ import org.slf4j.Logger;
 import java.util.List;
 import java.util.Map;
 
-
+/*
+CRUD FOR USER
+ */
 @RestController
 @RequestMapping("/account")
 public class AccountController {
@@ -28,8 +28,7 @@ public class AccountController {
     FileService fileService;
     @Value("${project.image}")
     private String path;
-    private Response response;
-    private  Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
 
     @GetMapping("/all")
     public ResponseEntity<?> getUserList() {

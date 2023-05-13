@@ -58,7 +58,7 @@ public class ExamServiceImpl implements ExamService {
         //UPDATE IF EXAM EXISTS
         else {
             Iterator<Question> iterator = questionList.iterator();
-            for(Question question: exam.getQuestionsList()) {
+            for (Question question : exam.getQuestionsList()) {
                 question.setCorrectAnswer(iterator.next().getCorrectAnswer());
                 question.setExam(exam);
             }
@@ -111,6 +111,7 @@ public class ExamServiceImpl implements ExamService {
     public List<ExamDto> findAllByYearAndCategory(String year, String category) {
         return converter.listExamToDto(examRepository.findAllByYearAndCategory_Name(year, category));
     }
+
     @Override
     public ExamDto findByYearAndCategoryAndId(String year, String category, long id) {
         return converter.examToDto(examRepository.findByYearAndCategory_NameAndId(year, category, id));

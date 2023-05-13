@@ -12,7 +12,7 @@ public class EmailServiceImpl implements EmailService {
     private JavaMailSender javaMailSender;
 
     @Override
-    public String sendPasswordResetEmail(String recipient, String token) {
+    public void sendPasswordResetEmail(String recipient, String token) {
         try {
             javax.mail.internet.MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
@@ -48,9 +48,8 @@ public class EmailServiceImpl implements EmailService {
                     "</html>";
             mimeMessageHelper.setText(text, true);
             javaMailSender.send(mimeMessage);
-            return "Mail Sent Successfully...";
         } catch (Exception e) {
-            return "Error while Sending Mail" + e.getMessage();
+            e.getMessage();
         }
     }
 }

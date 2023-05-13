@@ -23,7 +23,9 @@ import javax.mail.MessagingException;
 import java.lang.String;
 import java.util.*;
 
-
+/*
+CONTROLLER FOR SIGNIN AND SIGNUP
+ */
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {

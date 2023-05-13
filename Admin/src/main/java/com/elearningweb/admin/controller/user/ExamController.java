@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+/*
+FOR USER ONLY
+ */
 @RestController
 @RequestMapping("/user")
 public class ExamController {

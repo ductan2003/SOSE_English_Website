@@ -1,7 +1,5 @@
 package com.elearningweb.library.dto;
 
-import com.elearningweb.library.model.Post;
-import com.elearningweb.library.model.User;
 import lombok.*;
 
 @Getter
@@ -16,15 +14,4 @@ public class CommentDto {
     private String creatorName;
     private String creatorImage;
 
-
-    public CommentDto(String text, Long post_id) {
-        this.text = text;
-        this.post_id = post_id;
-    }
-
-    public CommentDto(String text, Long post_id, String creatorName) {
-        this.text = text;
-        this.post_id = post_id;
-        this.creatorName = creatorName;
-    }
 }

@@ -8,11 +8,6 @@ import java.util.List;
 
 @Service
 public class CommentMapper {
-    public Comment mapFromDto(CommentDto commentDto){
-        return Comment.builder()
-                .text(commentDto.getText())
-                .build();
-    }
 
     public List<CommentDto> mapToDtoList(List<Comment> comments){
         return comments.stream()

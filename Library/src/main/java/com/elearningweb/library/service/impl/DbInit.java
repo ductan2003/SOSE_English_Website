@@ -1,7 +1,6 @@
 package com.elearningweb.library.service.impl;
 
 import com.elearningweb.library.dto.PostDto;
-import com.elearningweb.library.model.Post;
 import com.elearningweb.library.dto.CategoryDto;
 import com.elearningweb.library.dto.ExamDto;
 import com.elearningweb.library.model.Role;
@@ -9,10 +8,7 @@ import com.elearningweb.library.model.User;
 import com.elearningweb.library.repository.PostRepository;
 import com.elearningweb.library.repository.RoleRepository;
 import com.elearningweb.library.repository.UserRepository;
-import com.elearningweb.library.service.PostService;
 import com.elearningweb.library.util.ExcelReadingUtil;
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,6 +17,8 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+//DATABASE INIT
+//RUN ONCE THEN COMMENT
 @Component
 public class DbInit implements InitializingBean {
     @Autowired
@@ -129,7 +127,7 @@ public class DbInit implements InitializingBean {
                 "2023",
                 "static/fileQuestion/test4.xlsx",
                 "48c73d1f-ba97-4ee4-8539-6642440273eb.jpg",
-                new CategoryDto(null, "Reading")));
+                new CategoryDto(null, "Reading1")));
         examService.save(new ExamDto(
                 "READING TEST 5",
                 "Short-answer questions: points awarded based on the correctness, clarity, and completeness of the answers provided.",
@@ -184,7 +182,7 @@ public class DbInit implements InitializingBean {
                         "Did you notice a spelling error in this article title? Yes, you are right! It should be written as IELTS Listening, not ILETS Listening. The reason why this spelling error is highlighted in the title is to draw your attention towards the word “IELTS” which is commonly misspelled as ILETS.\n" +
                                 "Keeping the spelling aside now, let us come to point for the purpose behind writing this article, to discuss how MCQs type of questions can be solved.\n" +
                                 "In the IELTS Listening module, the most difficult question is said to be MCQ (Multiple Choice Question) i.e. question along with some options to choose from. In some questions, only one option is correct while in some of the other questions, more than one options are correct.\n" +
-                                 "In the above question, “two things” and “tour cost” are the major keywords that you can concentrate at. From the options, “accommodation” and “picnic” are two “one word” options to easily focus at, however, in the other three options, you can put more emphasis on words such as “fishing”, “tennis” and “meal” though you can not completely ignore the other words also in the options.",
+                                "In the above question, “two things” and “tour cost” are the major keywords that you can concentrate at. From the options, “accommodation” and “picnic” are two “one word” options to easily focus at, however, in the other three options, you can put more emphasis on words such as “fishing”, “tennis” and “meal” though you can not completely ignore the other words also in the options.",
                         " Listening Tips46,96705/10/2018\n"),
                 "5.jpg");
 
@@ -201,13 +199,13 @@ public class DbInit implements InitializingBean {
                 "7.jpg");
 
         postService.savePost(new PostDto("How to Crack Section 3 of IELTS Listening?",
-                "Let us now discuss in detail how to crack Section 3 of IELTS listening test:\n" +
-                        "In IELTS Listening Section 3, you can commonly find any of the questions such as table completion, MCQs (Multiple Choice Questions), matching headings, flow chart or diagram. However, form filling and sentence completion are not usually seen in this section.\n" +
-                        "recruited hundred more employees\n" +
-                        "was the highly skilled professional\n" +
-                        "could reach out to maximum customers\n" +
-                        "In the above type of question where it is comparatively difficult to concentrate, you can underline keywords as highlighted above. Now, let us find some important points to be noted for solving IELTS Listening Section 3.",
-                "IELTS Listening module consists of 4 sections viz."),
+                        "Let us now discuss in detail how to crack Section 3 of IELTS listening test:\n" +
+                                "In IELTS Listening Section 3, you can commonly find any of the questions such as table completion, MCQs (Multiple Choice Questions), matching headings, flow chart or diagram. However, form filling and sentence completion are not usually seen in this section.\n" +
+                                "recruited hundred more employees\n" +
+                                "was the highly skilled professional\n" +
+                                "could reach out to maximum customers\n" +
+                                "In the above type of question where it is comparatively difficult to concentrate, you can underline keywords as highlighted above. Now, let us find some important points to be noted for solving IELTS Listening Section 3.",
+                        "IELTS Listening module consists of 4 sections viz."),
                 "8.jpg");
 
         postService.savePost(new PostDto("378 High Frequency Words in IELTS Listening",

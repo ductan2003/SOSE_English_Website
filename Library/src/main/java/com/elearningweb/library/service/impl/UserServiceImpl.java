@@ -27,7 +27,7 @@ import java.util.Set;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -52,10 +52,6 @@ public class UserServiceImpl implements UserService{
         return userDto;
     }
 
-    @Override
-    public void deleteById(long id) {
-        userRepository.deleteById(id);
-    }
 
     @Override
     public UserDto getUser(String username) {
@@ -74,7 +70,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User getUserByUsername(String username){
+    public User getUserByUsername(String username) {
         return userRepository.findByUserName(username);
     }
 
@@ -90,30 +86,25 @@ public class UserServiceImpl implements UserService{
         user.setUsername(username);
         user.setLastName(lastName);
         user.setFirstName(firstName);
-//        user.setProfileImage(fileName);
         user.setPassword(password);
         User updateUser = userRepository.save(user);
         return this.modelMapper.map(updateUser, UserDto.class);
     }
 
     @Override
-    public UserDto changePassword(User user, String newPassword){
+    public UserDto changePassword(User user, String newPassword) {
         user.setPassword(newPassword);
         User updateUser = userRepository.save(user);
         return this.modelMapper.map(updateUser, UserDto.class);
     }
 
     @Override
-    public  UserDto updateProfileImage(User user, String image) {
+    public UserDto updateProfileImage(User user, String image) {
         user.setProfileImage(image);
         User updateUser = userRepository.save(user);
         return this.modelMapper.map(updateUser, UserDto.class);
     }
 
-    @Override
-    public User getUserById(long userId){
-        return userRepository.findById(userId);
-    }
 
 }
 

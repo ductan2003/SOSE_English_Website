@@ -59,7 +59,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public void save(MultipartFile file, Path filePath) {
         try {
-            if(filePath.equals(fileQuestionPath)) {
+            if (filePath.equals(fileQuestionPath)) {
                 path = CURRENT_FOLDER.resolve(staticPath)
                         .resolve(filePath)
                         .resolve(Objects.requireNonNull(file.getOriginalFilename()));

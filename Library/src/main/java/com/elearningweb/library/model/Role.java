@@ -1,9 +1,7 @@
 package com.elearningweb.library.model;
 
-import com.elearningweb.library.repository.RoleRepository;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.boot.CommandLineRunner;
 
 import java.util.List;
 

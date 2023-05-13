@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/*
+CUSTOM RESPONSE
+ */
 @NoArgsConstructor @AllArgsConstructor
 @Getter @Setter
 public class Response {

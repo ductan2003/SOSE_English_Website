@@ -54,7 +54,6 @@ public class PostServiceImpl implements PostService {
         post.setImage(image);
         post.setDateCreated(new Date());
         postRepository.save(post);
-        Post newPost = postRepository.save(post);
     }
 
 
@@ -116,8 +115,7 @@ public class PostServiceImpl implements PostService {
         }
         PostDto postDto = this.modelMapper.map(post, PostDto.class);
         this.updatePost(postDto, postId);
-        CommentDto commentDto = this.modelMapper.map(comment, CommentDto.class);
-        return commentDto;
+        return this.modelMapper.map(comment, CommentDto.class);
     }
 
     public List<CommentDto> getAllComments(Long postId){

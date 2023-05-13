@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -23,6 +21,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
 
     @Autowired
     private EmailServiceImpl emailService;
+
     @Override
     public void createPasswordResetTokenForUser(User user, String token) {
         PasswordResetToken resetToken = new PasswordResetToken();
@@ -39,7 +38,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     @Override
     public void sendPasswordResetEmail(String username) throws MessagingException {
         User user = userRepository.findByUserName(username);
-        if(user == null || user.getUsername() == null) {
+        if (user == null || user.getUsername() == null) {
             return;
         }
         String token = UUID.randomUUID().toString();
@@ -50,11 +49,11 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     @Override
     public void changePassword(String token, String newPassword, String usernameRequest) throws MessagingException {
         PasswordResetToken resetToken = passwordResetTokenRespository.findByToken(token);
-        if(resetToken == null) {
+        if (resetToken == null) {
             throw new MessagingException("Invalid or expired token!");
         }
         User user = resetToken.getUser();
-        if(user == null || !user.getUsername().equals(usernameRequest)) {
+        if (user == null || !user.getUsername().equals(usernameRequest)) {
             throw new MessagingException("User not found or invalid username!");
         }
         user.setPassword(newPassword);

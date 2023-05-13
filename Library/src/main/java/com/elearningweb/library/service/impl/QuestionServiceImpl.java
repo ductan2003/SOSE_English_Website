@@ -22,6 +22,7 @@ public class QuestionServiceImpl implements QuestionService {
     ExamServiceImpl examService;
     @Autowired
     Converter converter;
+
     @Override
     public List<QuestionDto> findAllByExam_Id(long exam_id) {
         return questionRepository.findAllByExam_Id(exam_id)
@@ -38,6 +39,7 @@ public class QuestionServiceImpl implements QuestionService {
     public QuestionDto findById(long id) {
         return converter.questionToDto(questionRepository.findById(id));
     }
+
     @Override
     public Map<Object, Object> evalQuiz(List<String> answers, long id) {
         ExamDto examDto = examService.findById(id);
@@ -48,8 +50,8 @@ public class QuestionServiceImpl implements QuestionService {
         double bandScore;
         Iterator<String> iterator = answers.iterator();
         for (QuestionDto q : questions) {
-            if(!iterator.hasNext()) break;
-            String answer = iterator.next().trim();
+            if (!iterator.hasNext()) break;
+            String answer = iterator.next().trim().toUpperCase();
             String correctAnswer = q.getCorrectAnswer().trim();
             if (answer.equals(correctAnswer)) {
                 correctAnswers++;
@@ -82,7 +84,7 @@ public class QuestionServiceImpl implements QuestionService {
             bandScore = 8.0;
         } else if (correctAnswers == 39) {
             bandScore = 8.5;
-        } else if(correctAnswers == 40){
+        } else if (correctAnswers == 40) {
             bandScore = 9.0;
         } else {
             bandScore = 0.0;

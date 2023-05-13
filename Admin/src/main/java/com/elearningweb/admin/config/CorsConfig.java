@@ -10,14 +10,12 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
 public class CorsConfig {
-
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
     @Value("${allowed.origin}")
     private String allowedOrigin;
-
     @Bean
     public WebMvcConfigurer getCorsConfiguration(){
         return new WebMvcConfigurer() {
@@ -30,5 +28,4 @@ public class CorsConfig {
             }
         };
     }
-
 }

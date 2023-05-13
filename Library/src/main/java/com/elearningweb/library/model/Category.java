@@ -2,8 +2,6 @@ package com.elearningweb.library.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +23,7 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private List<Exam> exams = new ArrayList<>();
 
-    public Category(String name){
+    public Category(String name) {
         this.name = name;
     }
 }

@@ -84,7 +84,7 @@ export default {
       let url = "http://localhost:8019/question/eval-exam";
       await axios
           .post(
-              url, {examId: this.exam.id, answers: this.answer,}, {
+              url, {examId: this.exam.id, answers: this.answer}, {
                 headers: {
                   "Content-Type": "multipart/form-data",
                 },
@@ -119,10 +119,10 @@ export default {
       for(let i = 0; i < 15; i++) {
         if (this.exam.questionsList[i].correctAnswer != null) {
           let data = JSON.stringify(this.exam.questionsList[i].correctAnswer);
-          data = data.substring(1, data.length - 1);
+          data = data.substring(1, data.length - 1).toUpperCase();
           // console.log(data)
           // console.log(this.answer[i + 1])
-          if (data === this.answer[i + 1]) {
+          if (data === this.answer[i + 1].toUpperCase()) {
             this.point++;
             this.check[i+1] = true;
           }
