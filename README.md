@@ -1,4 +1,4 @@
-# web_se
+# web_se: SOSE
 
 ## Giới thiệu sản phẩm
 * Project này là một sản phẩm phục vụ cho môn học **Công nghệ phần mềm** mang tên "SOSE" - một trang web tự học tiếng anh.
